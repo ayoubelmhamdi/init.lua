@@ -8,11 +8,11 @@ return {
       { 'hrsh7th/nvim-cmp' },
     },
     config = function()
-      local on_attach = require('ayoub.lsp').on_attach
-      local handlers = require('ayoub.lsp').handlers
-      local capabilities = require('ayoub.lsp').capabilities
-      local toggleLsp = require('ayoub.lsp').toggleLsp
-      local mylspconfig = require('ayoub.lsp').mylspconfig
+      local on_attach = require('ayoub.lsp-options').on_attach
+      local handlers = require('ayoub.lsp-options').handlers
+      local capabilities = require('ayoub.lsp-options').capabilities
+      local toggleLsp = require('ayoub.lsp-options').toggleLsp
+      local mylspconfig = require('ayoub.lsp-options').mylspconfig
 
       local lspconfig = require 'lspconfig'
       -- lspconfig.grammarly.setup {
@@ -167,12 +167,12 @@ return {
       'nvim-telescope/telescope.nvim',
     },
     config = function()
-      local on_attach = require('ayoub.lsp').on_attach
-      local handlers = require('ayoub.lsp').handlers
-      local capabilities = require('ayoub.lsp').capabilities
+      local on_attach = require('ayoub.lsp-options').on_attach
+      local handlers = require('ayoub.lsp-options').handlers
+      local capabilities = require('ayoub.lsp-options').capabilities
 
-      require('ayoub.lsp').toggleLsp()
-      require('ayoub.lsp').mylspconfig()
+      require('ayoub.lsp-options').toggleLsp()
+      require('ayoub.lsp-options').mylspconfig()
 
       require('flutter-tools').setup {
         decorations = {
