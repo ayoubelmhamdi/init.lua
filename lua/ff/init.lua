@@ -1,5 +1,5 @@
 local ts = require('nvim-treesitter.parsers')
-local bufnr_output = 14
+local bufnr_output = 8
 local M = {}
 
 function M.get_def_position()
@@ -51,7 +51,7 @@ M.put_text = function(text)
       table.insert(lines, s)
     end
   else
-    lines = { 'error' }
+    lines = { 'empty' }
   end
   vim.api.nvim_buf_set_lines(bufnr_output, -1, -1, false, lines)
 end
@@ -61,7 +61,8 @@ M.test = function()
   M.put_text_init()
   M.main()
 end
-
+----------------------------------------------------------------
+----------------------------------------------------------------
 function M.main()
   local line,col = M.get_def_position()
   if not line or not col then
@@ -69,11 +70,21 @@ function M.main()
   end
 
   --2 M.get_node_at_position(17, 1)
-  local cursor = { line -1, col  }
+  local cursor = { line, col  }
   local node = M.get_node_at_pos(cursor)
   local text = M.node_toString(node)
+  --local text = M.node_type(node)
   M.put_text(text)
 end
+----------------------------------------------------------------
+
+function M.node_type(node)
+	if node then
+    return node:type()
+	end
+end
+
+
 function M.node_toString(node)
 	if node then
 		-- return vim.treesitter.query.get_node_text(node_of_function, 0, {})[1]
@@ -83,7 +94,7 @@ end
 function M.get_node_at_pos(cursor)
   local parsers = require 'nvim-treesitter.parsers'
   local ts_utils = require 'nvim-treesitter.ts_utils'
-  local cursor_range = { cursor[1] - 1, cursor[2] }
+  local cursor_range = { cursor[1] , cursor[2] }
 
   local buf = vim.api.nvim_win_get_buf(0)
   local root_lang_tree = parsers.get_parser(buf)
@@ -97,8 +108,9 @@ function M.get_node_at_pos(cursor)
     return
   end
 
-  return root:named_descendant_for_range(
-    cursor_range[1], cursor_range[2], cursor_range[1], cursor_range[2])
+  M.put_text('root_des:\n' .. vim.inspect(root ))
+
+  return root:named_descendant_for_range( cursor_range[1], cursor_range[2], cursor_range[1], cursor_range[2])
 end
 
 return M
