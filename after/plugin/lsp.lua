@@ -1,9 +1,19 @@
 local lsp = require 'lsp-zero'
 
+require('mason').setup {
+  ui = {
+    icons = {
+      package_installed = '✓',
+      package_pending = '➜',
+      package_uninstalled = '✗',
+    },
+  },
+}
+
 lsp.ensure_installed {
   'sumneko_lua',
   'rust_analyzer',
-  'ltex-ls',
+  'ltex',
 }
 
 lsp.set_preferences {
@@ -43,6 +53,8 @@ end)
 
 -- xbps: dartls clangd, rust_analyzer
 lsp.setup_servers { 'dartls', 'rust_analyzer', 'clangd', force = true }
+
+lsp.setup_servers { 'ltex' }
 
 -- Mason: sumneko_lua
 
