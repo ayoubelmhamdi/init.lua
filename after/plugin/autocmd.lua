@@ -21,6 +21,15 @@ vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
   end,
 })
 
+-- vim.api.nvim_create_autocmd({ 'CursorHold' }, {
+--   pattern = { '*.rs' },
+--   callback = function()
+--     vim.cmd[[silent! lua require("gg")]]
+--     package.loaded.gg = nil
+--     require 'gg'
+--   end,
+-- })
+
 vim.api.nvim_create_autocmd('BufWrite', {
   pattern = { '*.c' },
   callback = function()
