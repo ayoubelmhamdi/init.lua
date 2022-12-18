@@ -52,7 +52,7 @@ end)
 --
 
 -- xbps: dartls clangd, rust_analyzer
-lsp.setup_servers { 'dartls', 'rust_analyzer', 'clangd', force = true }
+lsp.setup_servers { 'dartls', 'rust_analyzer', 'clangd', 'bashls', force = true }
 
 lsp.setup_servers { 'ltex' }
 
