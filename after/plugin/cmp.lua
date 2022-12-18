@@ -85,15 +85,15 @@ cmp.setup {
   sources = cmp.config.sources {
     { name = 'path', option = { trailing_slash = true }, priority = 10 },
     { name = 'nvim_lsp_signature_help', priority = 89 },
-    { name = 'nvim_lsp', priority = 88 },
-    { name = 'nvim_lua', priority = 87 },
+    { name = 'nvim_lsp', priority = 98 },
+    { name = 'nvim_lua', priority = 97 },
 
     -- { name = 'cmp_tabnine', priority = 99 },
 
     { name = 'cmp_matlab', priority = 95 },
-    { name = 'luasnip', priority = 90 },
-    { name = 'treesitter', priority = 80 },
-    { name = 'rg', priority = 70 },
+    { name = 'luasnip', priority = 70 },
+    -- { name = 'treesitter', priority = 80 },
+    { name = 'rg', priority = 50 },
     -- { name = 'spell' }, { name = 'spell', keyword_length = 2 },
     -- {
     --   name = 'look',
@@ -150,8 +150,8 @@ cmp.setup {
       end,
     },
     ['<tab>'] = cmp.config.disable,
-    ['<down>'] = cmp.config.disable,
-    ['<up>'] = cmp.config.disable,
+    -- ['<down>'] = cmp.config.disable,
+    -- ['<up>'] = cmp.config.disable,
   },
   snippet = {
     expand = function(args)
