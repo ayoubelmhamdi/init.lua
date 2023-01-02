@@ -21,7 +21,7 @@ return require('packer').startup(function(use)
   use { 'nvim-lua/plenary.nvim' }
 
   use {
-    'VonHeikemen/lsp-zero.nvim',
+    'glepnir/lspsaga.nvim',
     requires = {
       -- Theme
       { 'lukas-reineke/indent-blankline.nvim' },
@@ -83,7 +83,8 @@ return require('packer').startup(function(use)
       -- Test
       { 'folke/zen-mode.nvim' },
       { 'github/copilot.vim' },
-      { 'https://github.com/yazgoo/vmux' },
+      { 'yazgoo/vmux' },
+      { 'nyngwang/suave.lua' },
       -- Localy
       { '/data/projects/lua/gg.nvim' },
     },

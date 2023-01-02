@@ -63,6 +63,11 @@ null_ls.setup {
     -- formatting.markdownlint,
     -- diagnostics.markdownlint,
     formatting.mdformat,
+    -- python
+    diagnostics.flake8,
+    formatting.black,
+    formatting.isort,
+    formatting.reorder_python_imports,
   },
   on_attach = on_attach,
 }
