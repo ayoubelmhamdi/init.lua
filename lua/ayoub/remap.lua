@@ -166,7 +166,3 @@ vim.keymap.set("n", "<leader>sh", "<cmd>TSHighlightCapturesUnderCursor<CR>", { s
 vim.keymap.set("n", "q", ":bd<cr>", { silent = true })
 
 vim.keymap.set("n", "gt", 'viW"dy:tabnew <c-r>d<cr>', { silent = true })
-
---vim.cmd [[
---]]
---

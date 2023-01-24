@@ -64,7 +64,7 @@ null_ls.setup {
     -- diagnostics.markdownlint,
     formatting.mdformat,
     -- python
-    diagnostics.flake8,
+    -- diagnostics.flake8,
     formatting.black,
     formatting.isort,
     formatting.reorder_python_imports,

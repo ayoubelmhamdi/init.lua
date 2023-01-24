@@ -1,9 +1,9 @@
 local keymap = vim.keymap.set
 local saga = require 'lspsaga'
 
-saga.init_lsp_saga {
-  border_style = 'rounded',
-}
+-- saga.init_lsp_saga {
+--   border_style = 'rounded',
+-- }
 
 keymap({ 'n', 'v' }, ',ca', '<cmd>Lspsaga code_action<CR>', { silent = true })
 keymap('n', '<space>rn', '<cmd>Lspsaga rename<CR>', { silent = true })

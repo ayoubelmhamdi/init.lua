@@ -1,5 +1,6 @@
 require("ayoub.set")
 require("ayoub.remap")
+require("ayoub.lazy")
 
 local augroup = vim.api.nvim_create_augroup
 local AyoubGroup = augroup('Ayoub', {})

@@ -10,5 +10,3 @@ end, {})
 vim.keymap.set('n', '<space>e', function()
   require('gg').view_function()
 end, {})
-
-require('Comment').setup {}
