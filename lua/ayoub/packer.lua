@@ -33,7 +33,7 @@ return require('packer').startup(function(use)
       { 'williamboman/mason.nvim' },
       { 'williamboman/mason-lspconfig.nvim' },
       { 'akinsho/flutter-tools.nvim' },
-      --{'barreiroleo/ltex-extra.nvim'},
+      { 'barreiroleo/ltex-extra.nvim' },
       -- Dap
       { 'mfussenegger/nvim-dap' },
       { 'rcarriga/nvim-dap-ui' },

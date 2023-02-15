@@ -1,0 +1,67 @@
+return {}
+--   'akinsho/flutter-tools.nvim',
+--   lazy = true,
+--   ft = 'dart',
+--   dependencies = {
+--     'nvim-telescope/telescope.nvim',
+--   },
+--   config = function()
+--     -- require('flutter-tools').setup()
+-- -- Configure Flutter lsp through flutter-tools.nvim
+--  require('flutter-tools').setup {
+--    decorations = {
+--      statusline = {
+--        app_version = true,
+--        device = true,
+--      },
+--    },
+--    -- flutter_lookup_cmd = "dirname $(which flutter)",
+--    widget_guides = {
+--      enabled = true,
+--    },
+--    lsp = {
+--      on_attach = on_attach,
+--      capabilities = capabilities,
+--      handlers = handlers,
+--      settings = {
+--        showTodos = true,
+--        completeFunctionCalls = true,
+--      },
+--    },
+--  }
+--     require('telescope').load_extension 'flutter'
+--   end,
+-- return {
+--   'akinsho/flutter-tools.nvim',
+--   lazy = true,
+--   ft = 'dart',
+--   dependencies = {
+--     'nvim-telescope/telescope.nvim',
+--   },
+--   config = function()
+--     -- require('flutter-tools').setup()
+--     -- Configure Flutter lsp through flutter-tools.nvim
+--     require('flutter-tools').setup {
+--       decorations = {
+--         statusline = {
+--           app_version = true,
+--           device = true,
+--         },
+--       },
+--       -- flutter_lookup_cmd = "dirname $(which flutter)",
+--       widget_guides = {
+--         enabled = true,
+--       },
+--       lsp = {
+--         -- on_attach = on_attach,
+--         -- capabilities = capabilities,
+--         -- handlers = handlers,
+--         settings = {
+--           showTodos = true,
+--           completeFunctionCalls = true,
+--         },
+--       },
+--     }
+--     require('telescope').load_extension 'flutter'
+--   end,
+-- }
