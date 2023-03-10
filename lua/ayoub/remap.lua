@@ -66,9 +66,10 @@ vim.keymap.set("v", "P", "Pgvy", { silent = true })
 
 vim.keymap.set("n", ",or", ":OverseerRun<cr>", { silent = true })
 vim.keymap.set("n", ",ol", ":OverseerLoadBundle<cr>", { silent = true })
-vim.keymap.set("n", ",ot", ":OverseerTaskAction<cr>", { silent = true })
+-- vim.keymap.set("n", ",ot", ":OverseerTaskAction<cr>", { silent = true })
 vim.keymap.set("n", ",oq", ":OverseerQuickAction<cr>", { silent = true })
 vim.keymap.set("n", ",ov", ":OverseerQuickAction open vsplit<cr>", { silent = true })
+vim.keymap.set("n", ",ow", ":OverseerQuickAction watch<cr>", { silent = true })
 
 vim.keymap.set("n", "q:", ":q", { silent = true })
 
