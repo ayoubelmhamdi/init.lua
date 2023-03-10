@@ -1,3 +1,3 @@
 require('overseer').setup {
-  templates = { 'builtin', 'user.cpp_build' },
+  -- templates = { 'builtin', 'user.cpp_build' },
 }
