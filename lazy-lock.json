@@ -11,6 +11,7 @@
   "cmp-rg": { "branch": "master", "commit": "1cad8eb315643d0df13c37401c03d7986f891011" },
   "cmp_luasnip": { "branch": "master", "commit": "18095520391186d634a0045dacaa346291096566" },
   "copilot.vim": { "branch": "release", "commit": "9e869d29e62e36b7eb6fb238a4ca6a6237e7d78b" },
+  "distant.nvim": { "branch": "master", "commit": "887fc16bdae59bd1865e0776b427ca521987f7fe" },
   "flutter-tools.nvim": { "branch": "main", "commit": "d67caa7dd17eccb89bfda1c0657d0723e339ef60" },
   "friendly-snippets": { "branch": "main", "commit": "6fa50a94ba5378bb73013a6e163376d8e69bd8a5" },
   "gruvbox.nvim": { "branch": "main", "commit": "73f009df5ed929a853244c413bb52c1d02c117ce" },
