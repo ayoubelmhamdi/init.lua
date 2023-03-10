@@ -1,5 +1,11 @@
 local M = {}
 
+M.capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
+
 M.handlers = {
 
   ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -46,12 +52,6 @@ M.on_attach = function(client, bufnr)
     vim.lsp.buf.format { async = true }
   end, bufopts)
 end
-
-M.capabilities = require('cmp_nvim_lsp').default_capabilities()
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
--- capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
 
 vim.g.isLspStart = true
 M.toggleLsp = function()
