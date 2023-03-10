@@ -13,7 +13,10 @@ return {
     -- Snippets
     { 'L3MON4D3/LuaSnip' },
     { 'rafamadriz/friendly-snippets' },
+    --TODO test if After
+    { 'neovim/nvim-lspconfig' },
   },
+  priority = 1,
   config = function()
     --if true then return end
     vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
