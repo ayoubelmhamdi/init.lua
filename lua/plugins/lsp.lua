@@ -22,12 +22,11 @@ return {
       --   init_options = { clientId = 'client_BaDkMgx4X19X9UxxYRCXZo' },
       -- }
 
-
-     lspconfig.pyright.setup{
+      lspconfig.pyright.setup {
         handlers = handlers,
         capabilities = capabilities,
         on_attach = on_attach,
-     }
+      }
       -- clangd server setup
       local clangd_capabilities = capabilities
       clangd_capabilities.offsetEncoding = 'utf-8'

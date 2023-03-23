@@ -39,7 +39,6 @@ M.signature_help = function()
   vim.lsp.buf.signature_help()
 end
 
-
 M.toggleLsp = function()
   if vim.g.isLspStart then
     vim.cmd 'LspStop'

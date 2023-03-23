@@ -2,7 +2,6 @@ vim.o.hidden = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 
-
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
@@ -17,19 +16,18 @@ vim.opt.wrap = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = "/tmp/nvim/undodir"
+vim.opt.undodir = '/tmp/nvim/undodir'
 vim.opt.undofile = true
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
-vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
+vim.opt.signcolumn = 'yes'
+vim.opt.isfname:append '@-@'
 vim.opt.updatetime = 50
-vim.opt.colorcolumn = "80"
-vim.g.mapleader = " "
-
+vim.opt.colorcolumn = '80'
+vim.g.mapleader = ' '
 
 vim.cmd [[
 

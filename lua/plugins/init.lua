@@ -19,7 +19,7 @@ return {
   -- Test
   { 'folke/zen-mode.nvim' },
   { 'github/copilot.vim' },
-  { 'yazgoo/vmux' },
+  -- { 'yazgoo/vmux' },
   { 'nyngwang/suave.lua' },
   -- Localy
   -- { '/data/projects/lua/gg.nvim' },

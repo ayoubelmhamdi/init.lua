@@ -42,7 +42,10 @@ return {
   --     -- vim.g.gruvbox_flat_style = 'dark'
   --   end,
   -- },
-  {"ellisonleao/gruvbox.nvim", config = function ()
+  {
+    'ellisonleao/gruvbox.nvim',
+    config = function()
       vim.cmd.colorscheme 'gruvbox'
-  end}
+    end,
+  },
 }
