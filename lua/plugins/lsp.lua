@@ -22,10 +22,21 @@ return {
       --   init_options = { clientId = 'client_BaDkMgx4X19X9UxxYRCXZo' },
       -- }
 
-      lspconfig.pyright.setup {
+      -- lspconfig.pyright.setup {
+      --   handlers = handlers,
+      --   capabilities = capabilities,
+      --   on_attach = on_attach,
+      -- }
+      lspconfig.ruff_lsp.setup {
         handlers = handlers,
         capabilities = capabilities,
         on_attach = on_attach,
+        init_options = {
+          settings = {
+            -- Any extra CLI arguments for `ruff` go here.
+            args = {},
+          },
+        },
       }
       -- clangd server setup
       local clangd_capabilities = capabilities
@@ -114,8 +125,9 @@ return {
       local on_attach = require('ayoub.lsp').on_attach
       local handlers = require('ayoub.lsp').handlers
       local capabilities = require('ayoub.lsp').capabilities
-      local toggleLsp = require('ayoub.lsp').toggleLsp
-      local mylspconfig = require('ayoub.lsp').mylspconfig
+
+      require('ayoub.lsp').toggleLsp()
+      require('ayoub.lsp').mylspconfig()
 
       require('flutter-tools').setup {
         decorations = {

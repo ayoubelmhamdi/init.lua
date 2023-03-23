@@ -7,7 +7,6 @@ M.capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
 
 M.handlers = {
-
   ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
     update_in_insert = false,
@@ -23,6 +22,8 @@ M.on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
+  vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, bufopts)
+  vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, bufopts)
   vim.keymap.set('n', '<space>tl', M.toggleLsp, bufopts)
   vim.keymap.set('n', ',lR', require('telescope.builtin').lsp_definitions, bufopts)
   vim.keymap.set('n', ',lr', require('telescope.builtin').lsp_references, bufopts)
@@ -80,30 +81,30 @@ M.mylspconfig = function()
     {
       name = 'DiagnosticSignError',
       text = '',
-      texthl = DiagnosticError,
+      texthl = 'DiagnosticError',
       linehl = {},
-      numhl = DiagnosticLineNrError,
+      numhl = 'DiagnosticLineNrError',
     },
     {
       name = 'DiagnosticSignWarn',
       text = 'כֿ',
-      texthl = DiagnosticWarn,
+      texthl = 'DiagnosticWarn',
       linehl = {},
-      numhl = DiagnosticLineNrWarn,
+      numhl = 'DiagnosticLineNrWarn',
     },
     {
       name = 'DiagnosticSignHint',
       text = '',
-      texthl = DiagnosticInfo,
+      texthl = 'DiagnosticInfo',
       linehl = {},
-      numhl = DiagnosticLineNrInfo,
+      numhl = 'DiagnosticLineNrInfo',
     },
     {
       name = 'DiagnosticSignInfo',
       text = '',
-      texthl = DiagnosticHint,
+      texthl = 'DiagnosticHint',
       linehl = {},
-      numhl = DiagnosticLineNrHint,
+      numhl = 'DiagnosticLineNrHint',
     },
   }
   for _, sign in ipairs(signs) do
@@ -118,13 +119,5 @@ M.mylspconfig = function()
     severity_sort = false,
     float = true,
   }
-  -- if true then return end
-
-  local opts = { noremap = true, silent = true }
-  vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-  vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
-  -- -- overwrite by lspsaga
-  -- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-  -- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 end
 return M
