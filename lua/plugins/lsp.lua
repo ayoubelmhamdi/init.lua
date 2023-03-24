@@ -27,6 +27,14 @@ return {
       --   capabilities = capabilities,
       --   on_attach = on_attach,
       -- }
+
+      lspconfig.sourcery.setup {
+        init_options = {
+          token = 'user_zapqdUoO_oNXWlV0JSVBENoiQu4hGRIBETEmnEfU5tmFOpMjOSr60LrJKig',
+          extension_version = 'vim.lsp',
+          editor_version = 'vim',
+        },
+      }
       lspconfig.ruff_lsp.setup {
         handlers = handlers,
         capabilities = capabilities,
