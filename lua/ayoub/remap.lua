@@ -45,7 +45,7 @@ vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz')
 vim.keymap.set('n', '<leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>')
 vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
 
-vim.keymap.set('n', '<space><space>', ':NvimTreeToggle<CR>', { silent = true })
+vim.keymap.set('n', '<space><space>', ':w<cr>:silent !python -m jupyter_ascending.requests.sync --filename %&:<cr>', { silent = true })
 vim.keymap.set('n', '<c-w>o', ':Zoom<cr>', { silent = true })
 
 vim.keymap.set('n', 'x', '"_x', { silent = true })
