@@ -22,11 +22,11 @@ return {
       --   init_options = { clientId = 'client_BaDkMgx4X19X9UxxYRCXZo' },
       -- }
 
-      -- lspconfig.pyright.setup {
-      --   handlers = handlers,
-      --   capabilities = capabilities,
-      --   on_attach = on_attach,
-      -- }
+      lspconfig.pyright.setup {
+        handlers = handlers,
+        capabilities = capabilities,
+        on_attach = on_attach,
+      }
 
       lspconfig.sourcery.setup {
         init_options = {
@@ -38,7 +38,10 @@ return {
       lspconfig.ruff_lsp.setup {
         handlers = handlers,
         capabilities = capabilities,
-        on_attach = on_attach,
+        on_attach = function(client, bufnr)
+          on_attach(client, bufnr)
+          client.server_capabilities.hoverProvider = false
+        end,
         init_options = {
           settings = {
             -- Any extra CLI arguments for `ruff` go here.
