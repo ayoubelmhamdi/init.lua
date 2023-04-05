@@ -1,30 +1,42 @@
 return {
   -- Theme
   {
-    'lukas-reineke/indent-blankline.nvim',
+    'echasnovski/mini.indentscope',
+    version = false,
     config = function()
-      vim.cmd [[
-        hi Indent1 guifg=#3A2A1A guibg=NONE
-        hi Indent2 guifg=#3A2A1A guibg=NONE
-        hi Indent3 guifg=#3A2A1A guibg=NONE
-        hi Indent4 guifg=#3A2A1A guibg=NONE
-        hi Indent5 guifg=#3A2A1A guibg=NONE
-        hi Indent6 guifg=#3A2A1A guibg=NONE
-    ]]
-
-      require('indent_blankline').setup {
-        show_end_of_line = true,
-        char_highlight_list = {
-          'Indent1',
-          'Indent2',
-          'Indent3',
-          'Indent4',
-          'Indent5',
-          'Indent6',
-        },
+      require('mini.indentscope').setup {
+        symbol = '',
       }
     end,
   },
+  -- {
+  --   'lukas-reineke/indent-blankline.nvim',
+  --   config = function()
+  --     vim.opt.list = true
+  --     vim.opt.listchars:append "space:⋅"
+  --     vim.cmd [[
+  --       hi Indent1 guifg=#101010 guibg=NONE gui=nocombine
+  --       hi Indent2 guifg=#101010 guibg=NONE gui=nocombine
+  --       hi Indent3 guifg=#101010 guibg=NONE gui=nocombine
+  --       hi Indent4 guifg=#101010 guibg=NONE gui=nocombine
+  --       hi Indent5 guifg=#101010 guibg=NONE gui=nocombine
+  --       hi Indent6 guifg=#101010 guibg=NONE gui=nocombine
+  --   ]]
+  --
+  --     require('indent_blankline').setup {
+  --       -- show_end_of_line = true,
+  --       space_char_blankline = " ",
+  --       char_highlight_list = {
+  --         'Indent1',
+  --         'Indent2',
+  --         'Indent3',
+  --         'Indent4',
+  --         'Indent5',
+  --         'Indent6',
+  --       },
+  --     }
+  --   end,
+  -- },
   -- {
   --   'rose-pine/neovim',
   --   name = 'rose-pine',
