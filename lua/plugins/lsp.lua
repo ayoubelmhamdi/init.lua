@@ -49,6 +49,13 @@ return {
           },
         },
       }
+
+      lspconfig.typst_lsp.setup {
+        handlers = handlers,
+        capabilities = capabilities,
+        on_attach = on_attach,
+      }
+
       -- clangd server setup
       local clangd_capabilities = capabilities
       clangd_capabilities.offsetEncoding = 'utf-8'
