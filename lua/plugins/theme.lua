@@ -1,14 +1,50 @@
 return {
-  -- Theme
   {
     'echasnovski/mini.indentscope',
     version = false,
     config = function()
       require('mini.indentscope').setup {
         symbol = '',
+        draw = {
+          delay = 10,
+        },
       }
     end,
   },
+  {
+    'olimorris/onedarkpro.nvim',
+    priority = 1000, -- Ensure it loads first
+    config = function()
+      require('onedarkpro').setup {
+        -- options = {
+        --   transparency = true,
+        -- },
+        styles = {
+          types = 'NONE',
+          methods = 'bold',
+          numbers = 'bold',
+          strings = 'bold,italic',
+          comments = 'bold,italic',
+          keywords = 'bold,italic',
+          constants = 'NONE',
+          functions = 'bold,italic',
+          operators = 'NONE',
+          variables = 'NONE',
+          parameters = 'NONE',
+          conditionals = 'italic',
+          virtual_text = 'NONE',
+        },
+      }
+      vim.cmd 'colorscheme onedark'
+    end,
+  },
+  -- {
+  --   'olivercederborg/poimandres.nvim',
+  --   config = function()
+  --     require('poimandres').setup {}
+  --     vim.cmd 'colorscheme poimandres'
+  --   end,
+  -- },
   -- {
   --   'lukas-reineke/indent-blankline.nvim',
   --   config = function()
@@ -38,26 +74,9 @@ return {
   --   end,
   -- },
   -- {
-  --   'rose-pine/neovim',
-  --   name = 'rose-pine',
+  --   'ellisonleao/gruvbox.nvim',
   --   config = function()
-  --     vim.cmd.colorscheme 'rose-pine'
-  --
-  --     vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
-  --     vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+  --     vim.cmd.colorscheme 'gruvbox'
   --   end,
   -- },
-  -- {
-  --   'eddyekofo94/gruvbox-flat.nvim',
-  --   config = function()
-  --     vim.cmd.colorscheme 'gruvbox-flat'
-  --     -- vim.g.gruvbox_flat_style = 'dark'
-  --   end,
-  -- },
-  {
-    'ellisonleao/gruvbox.nvim',
-    config = function()
-      vim.cmd.colorscheme 'gruvbox'
-    end,
-  },
 }
