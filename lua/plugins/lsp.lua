@@ -74,15 +74,18 @@ return {
       local lang = os.getenv 'PROJECT_LANG' or 'en'
       lspconfig.ltex.setup {
         handlers = handlers,
-        -- capabilities = capabilities,
+        capabilities = capabilities,
+        filetypes = { 'text', 'plaintex', 'tex', 'bib', 'markdown', 'typst' },
         on_attach = function(client, bufnr)
           -- your other on_attach functions.
           on_attach(client, bufnr)
           require('ltex_extra').setup {
             -- load_langs = { 'fr' }, -- table <string> : languages for witch dictionaries will be loaded
-            init_check = true, -- boolean : whether to load dictionaries on startup
-            path = nil, -- string : path to store dictionaries. Relative path uses current working directory
-            log_level = 'none', -- string : "none", "trace", "debug", "info", "warn", "error", "fatal"
+            -- init_check = false, -- boolean : whether to load dictionaries on startup
+            -- path = nil, -- string : path to store dictionaries. Relative path uses current working directory
+            -- path = vim.fn.stdpath 'data' .. '/ltex_extra',
+            -- path = 'ltex_extra',
+            -- log_level = 'none', -- string : "none", "trace", "debug", "info", "warn", "error", "fatal"
           }
         end,
         settings = {
@@ -95,12 +98,28 @@ return {
               motherTongue = 'en',
             },
             trace = { server = 'verbose' },
-            dictionary = {},
+            dictionary = {
+              ['en'] = { ':~/.config/nvim/spell/en.utf-8.add' },
+            },
             disabledRules = {
-              -- ['en'] = { 'MORFOLOGIK_RULE_EN' },
-              -- ['en-GB'] = { 'MORFOLOGIK_RULE_EN_GB' },
-              -- ['en-US'] = { 'MORFOLOGIK_RULE_EN_US' },
-              -- ['it'] = { 'MORFOLOGIK_RULE_IT_IT' },
+            -- ["en-US"] = { vim.fn.stdpath 'data' .. "/lldisable.txt"},
+            -- ["en"] = { vim.fn.stdpath 'data' .. "/ll-en-disable.txt"},
+              ['en'] = {
+                'PASSIVE_VOICE',
+                'THREE_NN',
+                'MULTIPLICATION_SIGN',
+                -- 'WHITESPACE_RULE',
+                -- 'DASH_RULE',
+                -- 'EN_QUOTES',
+                -- 'NON_STANDARD_COMMA',
+                -- 'PUNCTUATION_PARAGRAPH_END',
+                -- 'EN_UNPAIRED_BRACKETS',
+                -- 'WORD_CONTAINS_UNDERSCORE',
+                -- 'COMMA_PARENTHESIS_WHITESPACE',
+              },
+              ['fr'] = {
+                'WHITESPACE_RULE____',
+              },
             },
             hiddenFalsePositives = {},
             -- languageToolHttpServerUri = 'http://localhost:8081/v2',
