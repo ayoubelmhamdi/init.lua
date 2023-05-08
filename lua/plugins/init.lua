@@ -1,4 +1,5 @@
 return {
+--}
   { 'nvim-lua/plenary.nvim' },
 
   -- Git
@@ -10,12 +11,14 @@ return {
     'numToStr/Comment.nvim',
     config = function()
       require('Comment').setup {}
+
+      local ft = require('Comment.ft')
+      ft({'typst'}, ft.get('c'))
     end,
   },
   { 'static-nvim/mkdir' },
   { 'fedepujol/move.nvim' },
   { 'oberblastmeister/zoom.nvim' },
-  { 'stevearc/overseer.nvim' },
   -- Test
   { 'folke/zen-mode.nvim' },
   { 'github/copilot.vim' },
