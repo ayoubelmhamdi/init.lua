@@ -12,7 +12,7 @@ return {
   --
   config = function()
     require('nvim-treesitter.configs').setup {
-      ensure_installed = { 'help', 'javascript', 'typescript', 'c', 'lua', 'rust' },
+      ensure_installed = { 'javascript', 'typescript', 'c', 'lua', 'rust' },
       sync_install = false,
       auto_install = false,
       highlight = {
@@ -26,6 +26,15 @@ return {
           end
         end,
       },
+    }
+    local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+    parser_config.typst = {
+      install_info = {
+        url = '/data/github/tree-sitter-typst',
+        files = { 'src/parser.c' , 'src/scanner.cc'},
+        branch = 'main',
+      },
+      filetype = 'typst', -- if filetype does not agrees with parser name
     }
   end,
 }
