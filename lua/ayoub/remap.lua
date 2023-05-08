@@ -1,5 +1,5 @@
 vim.g.mapleader = ' '
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
+-- vim.keymap.set('n', '<space><space>', vim.cmd.Ex)
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
@@ -17,22 +17,13 @@ vim.keymap.set('n', '<leader>svwm', function()
   require('vim-with-me').StopVimWithMe()
 end)
 
--- greatest remap ever
-vim.keymap.set('x', '<leader>p', '"_dP')
-
--- next greatest remap ever : asbjornHaland
-vim.keymap.set('n', '<leader>y', '"+y')
-vim.keymap.set('v', '<leader>y', '"+y')
-vim.keymap.set('n', '<leader>Y', '"+Y')
-
-vim.keymap.set('n', '<leader>d', '"_d')
-vim.keymap.set('v', '<leader>d', '"_d')
+vim.keymap.set('v', ',y', '"dy')
+vim.keymap.set('n', ',p', '"dp')
 
 -- This is going to get me cancelled
 vim.keymap.set('i', '<C-c>', '<Esc>')
 
 vim.keymap.set('n', 'Q', '<nop>')
-vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
 vim.keymap.set('n', '<leader>f', function()
   vim.lsp.buf.format()
 end)
@@ -45,7 +36,12 @@ vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz')
 vim.keymap.set('n', '<leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>')
 vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
 
-vim.keymap.set('n', '<space><space>', ':w<cr>:silent !python -m jupyter_ascending.requests.sync --filename %&:<cr>', { silent = true })
+-- vim.keymap.set(
+--   'n',
+--   '<space><space>',
+--   ':w<cr>:silent !python -m jupyter_ascending.requests.sync --filename %&:<cr>',
+--   { silent = true }
+-- )
 vim.keymap.set('n', '<c-w>o', ':Zoom<cr>', { silent = true })
 
 vim.keymap.set('n', 'x', '"_x', { silent = true })
@@ -83,11 +79,6 @@ vim.keymap.set(
   '<cmd>lua require("telescope.builtin").find_files({ find_command = { "fd","-tf","-tl"}})<cr>',
   { silent = true }
 )
-
-vim.keymap.set('n', '<Space>fh', ' <cmd>:lua require("harpoon.ui").toggle_quick_menu()<cr>', { silent = true })
-vim.keymap.set('n', '<Space>fa', ' <cmd>:lua require("harpoon.mark").add_file()<cr>', { silent = true })
-vim.keymap.set('n', '<Space>fn', ' <cmd>:lua require("harpoon.ui").nav_next()<cr>', { silent = true })
-vim.keymap.set('n', '<Space>fp', ' <cmd>:lua require("harpoon.ui").nav_prev()<cr>', { silent = true })
 
 vim.keymap.set('n', '<Space>f.', ':lua require("tsp.cwd-tsp").search_dotfiles()<cr> ', { silent = true })
 vim.keymap.set('n', '<Space>f-', ':lua require("tsp.cwd-tsp").search_nvim()<cr> ', { silent = true })
