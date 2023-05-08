@@ -1,17 +1,26 @@
 return {
   'glepnir/lspsaga.nvim',
-  event = 'BufRead',
+  event = 'LspAttach',
   dependencies = {
     { 'nvim-tree/nvim-web-devicons' },
-    --Please make sure you install markdown and markdown_inline parser
     { 'nvim-treesitter/nvim-treesitter' },
   },
-
   config = function()
-    require('lspsaga').setup {}
+    require('lspsaga').setup {
+      symbol_in_winbar = {
+        enable = false,
+      },
+
+      lightbulb = {
+        enable = true,
+        enable_in_insert = false,
+        sign = true,
+        sign_priority = 40,
+        virtual_text = true,
+      },
+    }
 
     local keymap = vim.keymap.set
-    local saga = require 'lspsaga'
 
     -- saga.init_lsp_saga {
     --   border_style = 'rounded',
@@ -19,7 +28,7 @@ return {
 
     keymap({ 'n', 'v' }, ',ca', '<cmd>Lspsaga code_action<CR>', { silent = true })
     keymap('n', '<space>rn', '<cmd>Lspsaga rename<CR>', { silent = true })
-    keymap('n', 'gd', '<cmd>Lspsaga peek_definition<CR>', { silent = true })
+    -- keymap('n', 'gd', '<cmd>Lspsaga peek_definition<CR>', { silent = true })
 
     keymap('n', '[d', '<cmd>Lspsaga diagnostic_jump_prev<CR>', { silent = true })
     keymap('n', ']d', '<cmd>Lspsaga diagnostic_jump_next<CR>', { silent = true })
@@ -30,7 +39,7 @@ return {
     keymap('t', '<A-d>', [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
 
     -- Show line diagnostics
-    keymap('n', '<space>cd', '<cmd>Lspsaga show_line_diagnostics<CR>', { silent = true })
+    -- keymap('n', '<space>cd', '<cmd>Lspsaga show_line_diagnostics<CR>', { silent = true })
 
     keymap('n', 'gh', '<cmd>Lspsaga lsp_finder<CR>', { silent = true })
 
