@@ -1,3 +1,5 @@
+vim.o.laststatus = 0
+
 vim.o.hidden = true
 vim.o.splitbelow = true
 vim.o.splitright = true
