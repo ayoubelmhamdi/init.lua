@@ -102,9 +102,13 @@ return {
               ['en'] = { ':~/.config/nvim/spell/en.utf-8.add' },
             },
             disabledRules = {
-            -- ["en-US"] = { vim.fn.stdpath 'data' .. "/lldisable.txt"},
-            -- ["en"] = { vim.fn.stdpath 'data' .. "/ll-en-disable.txt"},
+              -- ["en-US"] = { vim.fn.stdpath 'data' .. "/lldisable.txt"},
+              -- ["en"] = { vim.fn.stdpath 'data' .. "/ll-en-disable.txt"},
               ['en'] = {
+                'COMMA_PARENTHESIS_WHITESPACE',
+                'ELLIPSIS',
+                'EN_QUOTES',
+                'DASH_RULE',
                 'PASSIVE_VOICE',
                 'THREE_NN',
                 'MULTIPLICATION_SIGN',
@@ -121,7 +125,11 @@ return {
                 'WHITESPACE_RULE____',
               },
             },
-            hiddenFalsePositives = {},
+            hiddenFalsePositives = {
+              ['en'] = {
+                'COMMA_PARENTHESIS_WHITESPACE',
+              },
+            },
             -- languageToolHttpServerUri = 'http://localhost:8081/v2',
           },
         },
