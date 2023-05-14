@@ -1,6 +1,10 @@
 vim.g.mapleader = ' '
 -- vim.keymap.set('n', '<space><space>', vim.cmd.Ex)
 
+vim.keymap.set('n', ',ao', '<cmd>lua require("ayoub.chat").ask("GPT3")<CR>')
+vim.keymap.set('n', ',am', '<cmd>lua require("ayoub.chat").ask("Bing")<CR>')
+vim.keymap.set('n', ',ag', '<cmd>lua require("ayoub.chat").ask("Bard")<CR>')
+
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
@@ -9,13 +13,6 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
-
-vim.keymap.set('n', '<leader>vwm', function()
-  require('vim-with-me').StartVimWithMe()
-end)
-vim.keymap.set('n', '<leader>svwm', function()
-  require('vim-with-me').StopVimWithMe()
-end)
 
 vim.keymap.set('v', ',y', '"dy')
 vim.keymap.set('n', ',p', '"dp')
