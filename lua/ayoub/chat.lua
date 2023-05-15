@@ -18,30 +18,32 @@ function M.ask(engine, all_lines)
   })
 end
 
-M.main = function(engine, mode)
+M.nvim_get_selected_text = function()
+  local from_pos, to_pos = vim.fn.getpos "'<", vim.fn.getpos "'>"
+  local from, to = { line = from_pos[2], col = from_pos[3] }, { line = to_pos[2], col = to_pos[3] }
+  -- Tweak for linewise Visual selection
+  if vim.fn.visualmode() == 'V' then
+    from.col, to.col = 1, vim.fn.col { to.line, '$' } - 1
+  end
+
+  local lines = vim.api.nvim_buf_get_text(0, from.line - 1, from.col - 1, to.line - 1, to.col, {})
+  return lines or {}
+end
+
+M.main = function(engine)
   if not engine then
     vim.api.nvim_buf_set_lines(0, -1, -1, false, { '# ---no-engine----' })
     return
   end
 
-  NORMAL_MODE = mode
-
   local all_lines = {}
-  if NORMAL_MODE then
+  if vim.fn.visualmode() ~= 'V' or vim.fn.visualmode() ~= 'V' then
     all_lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
   else
     all_lines = M.nvim_get_selected_text()
   end
-  M.ask(engine, all_lines)
-end
 
-M.nvim_get_selected_text = function()
-  local bufnr = vim.api.nvim_get_current_buf()
-  -- get start/end of visual selection
-  local start_row, start_col = unpack(vim.api.nvim_buf_get_mark(bufnr, '<'))
-  local end_row, end_col = unpack(vim.api.nvim_buf_get_mark(bufnr, '>'))
-  local text = vim.api.nvim_buf_get_text(bufnr, start_row - 1, start_col, end_row - 1, end_col + 1, {})
-  return text or {}
+  M.ask(engine, all_lines)
 end
 
 return M
