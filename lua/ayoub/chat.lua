@@ -19,7 +19,7 @@ end
 function M.ask(bufnr, engine, all_lines)
 
   local command = {}
-  if engine == "new-bing" then
+  if engine == "Bing" then
     local tmpname= M.mktemp()
     M.writetofile(tmpname, all_lines)
     command = { engine, tmpname }
