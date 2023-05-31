@@ -49,26 +49,26 @@ return {
         -- All
         completion.spell,
         completion.luasnip,
-        -- Rust
+        -- ## Rust
         formatting.rustfmt,
-        -- Lua
+        -- ## Lua
         formatting.stylua,
-        -- Bash
+        -- ## Bash
         diagnostics.shellcheck,
         code_actions.shellcheck,
         formatting.shellharden,
-        -- C
+        -- ## C
         -- formatting.uncrustify,
         formatting.clang_format,
         diagnostics.cppcheck,
-        -- Matlab
+        -- ## Matlab
         -- diagnostics.mh_lint,
-        -- md
-        formatting.markdown_toc,
+        -- ## md
+        -- formatting.markdown_toc,
         -- formatting.markdownlint,
         -- diagnostics.markdownlint,
-        formatting.mdformat,
-        -- python
+        -- formatting.mdformat,
+        -- ## python
         -- diagnostics.flake8,
         formatting.black,
         formatting.isort,
