@@ -1,16 +1,39 @@
 local M = {}
 
-function M.ask(engine, all_lines)
-  local text = table.concat(all_lines, '\n')
 
-  local command = { engine, '-m', text }
+function M.mktemp()
+  local tmpname = os.tmpname()
+  local tmpfile = io.open(tmpname, "w")
+  tmpfile:close()
+  return tmpname
+end
+
+function M.writetofile(filename, lines)
+  local file = io.open(filename, "w")
+  for _, line in ipairs(lines) do
+    file:write(line .. "\n")
+  end
+  file:close()
+end
+
+function M.ask(bufnr, engine, all_lines)
+
+  local command = {}
+  if engine == "new-bing" then
+    local tmpname= M.mktemp()
+    M.writetofile(tmpname, all_lines)
+    command = { engine, tmpname }
+  else
+    local text = table.concat(all_lines, '\n')
+    command = { engine, '-m', text }
+  end
   local append_data = function(_, data)
     if data then
-      vim.api.nvim_buf_set_lines(0, -1, -1, false, data)
+      vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data)
     end
   end
 
-  vim.api.nvim_buf_set_lines(0, -1, -1, false, { '# ---' .. engine .. '----' })
+  vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { '# ---' .. engine .. '----' })
   vim.fn.jobstart(command, {
     stdout_buffered = true,
     on_stdout = append_data,
@@ -18,7 +41,7 @@ function M.ask(engine, all_lines)
   })
 end
 
-M.nvim_get_selected_text = function()
+M.nvim_get_selected_text = function(bufnr)
   local from_pos, to_pos = vim.fn.getpos "'<", vim.fn.getpos "'>"
   local from, to = { line = from_pos[2], col = from_pos[3] }, { line = to_pos[2], col = to_pos[3] }
   -- Tweak for linewise Visual selection
@@ -26,24 +49,25 @@ M.nvim_get_selected_text = function()
     from.col, to.col = 1, vim.fn.col { to.line, '$' } - 1
   end
 
-  local lines = vim.api.nvim_buf_get_text(0, from.line - 1, from.col - 1, to.line - 1, to.col, {})
+  local lines = vim.api.nvim_buf_get_text(bufnr, from.line - 1, from.col - 1, to.line - 1, to.col, {})
   return lines or {}
 end
 
 M.main = function(engine)
+  local bufnr = vim.api.nvim_get_current_buf()
   if not engine then
-    vim.api.nvim_buf_set_lines(0, -1, -1, false, { '# ---no-engine----' })
+    vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { '# ---no-engine----' })
     return
   end
 
   local all_lines = {}
   if vim.fn.visualmode() ~= 'V' or vim.fn.visualmode() ~= 'V' then
-    all_lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
+    all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
   else
-    all_lines = M.nvim_get_selected_text()
+    all_lines = M.nvim_get_selected_text(bufnr)
   end
 
-  M.ask(engine, all_lines)
+  M.ask(bufnr, engine, all_lines)
 end
 
 return M
