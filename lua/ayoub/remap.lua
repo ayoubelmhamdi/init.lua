@@ -1,10 +1,9 @@
 vim.g.mapleader = ' '
 -- vim.keymap.set('n', '<space><space>', vim.cmd.Ex)
 
-vim.keymap.set({'n','v'}, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>')
-vim.keymap.set({'n','v'}, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>')
-vim.keymap.set({'n','v'}, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>')
-
+vim.keymap.set({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>')
+vim.keymap.set({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>')
+vim.keymap.set({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>')
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
@@ -84,8 +83,8 @@ vim.keymap.set('n', '<Space>fw', ':lua require("tsp.cwd-tsp").search_wiki()<cr> 
 vim.keymap.set('n', '<Space>f1', ':lua require("tsp.cwd-tsp").search_proj("sl")<cr> ', { silent = true })
 vim.keymap.set('n', '<Space>f2', ':lua require("tsp.cwd-tsp").search_proj("slstatus")<cr> ', { silent = true })
 
-vim.keymap.set('n', '<Tab>', '     :tabnext<cr>', { silent = true })
-vim.keymap.set('n', '<S-Tab>', '   :tabprev<cr>', { silent = true })
+vim.keymap.set('n', '<Tab>', ':tabnext<cr>', { silent = true })
+vim.keymap.set('n', '<S-Tab>', ':tabprev<cr>', { silent = true })
 
 vim.keymap.set('i', '<c-a-k>', '<c-k>', { silent = true })
 
@@ -115,9 +114,9 @@ vim.keymap.set('n', '<C-M-m>', ':!mv<Space>%<Space>', { silent = true })
 -- fix p y
 --vim.keymap.set('n', 's', '<NOP>', {silent = true})
 --vim.keymap.set('n', 'S', '<NOP>', {silent = true})
-vim.keymap.set('n', '<C-Q>', '     :noautocmd bd<cr>', { silent = true })
+vim.keymap.set('n', '<C-Q>', ':noautocmd bd<cr>', { silent = true })
 vim.keymap.set('n', '<C-Q><C-Q>', ':noautocmd q<cr>', { silent = true })
-vim.keymap.set('n', '<Space>w', '  :w<cr>', { silent = true })
+vim.keymap.set('n', '<Space>w', ':w<cr>', { silent = true })
 
 vim.keymap.set('n', '>', 'v>', { silent = true })
 vim.keymap.set('n', '<', 'v<', { silent = true })
@@ -127,11 +126,11 @@ vim.keymap.set('v', '<', '<gv', { silent = true })
 vim.keymap.set('i', '<A-a>', '<Right>', { silent = true })
 vim.keymap.set('i', '<A-i>', '<Left>', { silent = true })
 
-vim.keymap.set('n', '<silent>', '<A-j> :MoveLine(1)<CR>', { silent = true })
-vim.keymap.set('n', '<silent>', '<A-k> :MoveLine(-1)<CR>', { silent = true })
+vim.keymap.set('n', '<silent>', '<A-j>:MoveLine(1)<CR>', { silent = true })
+vim.keymap.set('n', '<silent>', '<A-k>:MoveLine(-1)<CR>', { silent = true })
 
-vim.keymap.set('v', '<silent>', '<A-j> :MoveBlock(1)<CR>', { silent = true })
-vim.keymap.set('v', '<silent>', '<A-k> :MoveBlock(-1)<CR>', { silent = true })
+vim.keymap.set('v', '<silent>', '<A-j>:MoveBlock(1)<CR>', { silent = true })
+vim.keymap.set('v', '<silent>', '<A-k>:MoveBlock(-1)<CR>', { silent = true })
 
 --command! So su
 --command! W w
@@ -155,7 +154,7 @@ vim.keymap.set('t', '<F7>', '<c-\\><c-n>:FloatermToggle<cr>', { silent = true })
 --autocmd BufEnter *.tex setlocal spell spelllang=fr
 
 -- Clears hlsearch after doing a search, otherwise just does normal <CR> stuff
-vim.keymap.set('n', '<expr>', '<CR> {-> v:hlsearch ? ":nohl\\<CR>" : "\\<CR>"}()', { silent = true })
+vim.keymap.set('n', '<expr>', '<CR> {-> v:hlsearch ? ":nohl\\<CR>":"\\<CR>"}()', { silent = true })
 
 -- grep hightlite
 vim.keymap.set('n', '<leader>sh', '<cmd>TSHighlightCapturesUnderCursor<CR>', { silent = true })
