@@ -2,8 +2,15 @@ local M = {}
 
 ---- TODO:  toggle between list/dictionary telescope_insert("numbers", dict=true)
 ----        then for dict view key in left and value in preview wndows
+local p1 =
+  [[Sans chercher sur Internet. Agir en tant que programmeur d'intelligence artificielle pour cibler les étudiants qui veulent comprendre l'apprentissage en profondeur. Traduisez ce texte: `@@@` en français depuis l'@@@, utilisant le pronom indéfini `on`, pour exemple (on ajoute) n'est pas (j'ajoute).]]
+local p2 =
+  [[Agir en tant que programmeur d'intelligence artificielle. et ajouter les references a ce texts, just ajout references, n'est pas autre contenu]]
 
-M.prompts = { 'In neovim with Lua API, ', 'apple', 'car', '1' }
+local p3=
+[[Rules:@@@- Agir en tant que programmeur d'intelligence artificielle.@@@- Ajoutez les bon références à ce texte.@@@ - N'ajoutez que des références et aucun autre contenu, pour l'indexation de ce texte.@@@- Donner la `BibTex` syntax de à ces références que vous avez ajoutées.@@@Informations: Les bonnes références sont les articles et les livres les plus respectés.@@@Le texte: `@@@`]]
+
+M.prompts = { 'In neovim with Lua API, ', p1, p2, p3 }
 M.numbers = { '1', '2', '3' }
 M.telescope_insert = function(list_name)
   if not list_name then
@@ -27,22 +34,22 @@ M.telescope_insert = function(list_name)
   local action_state = require 'telescope.actions.state'
   local opts = {}
   pickers
-      .new(opts, {
-        prompt_title = 'Pick a prompt',
-        finder = finders.new_table {
-          results = list,
-        },
-        sorter = conf.generic_sorter(opts),
-        attach_mappings = function(prompt_bufnr, map)
-          actions.select_default:replace(function()
-            actions.close(prompt_bufnr)
-            local selection = action_state.get_selected_entry()
-            vim.api.nvim_put({ selection[1] }, '', false, true)
-          end)
-          return true
-        end,
-      })
-      :find()
+    .new(opts, {
+      prompt_title = 'Pick a prompt',
+      finder = finders.new_table {
+        results = list,
+      },
+      sorter = conf.generic_sorter(opts),
+      attach_mappings = function(prompt_bufnr, map)
+        actions.select_default:replace(function()
+          actions.close(prompt_bufnr)
+          local selection = action_state.get_selected_entry()
+          vim.api.nvim_put({ selection[1] }, '', false, true)
+        end)
+        return true
+      end,
+    })
+    :find()
 end
 
 return M
