@@ -89,7 +89,6 @@ return {
       browser = '[BROWSER]',
       buffer = '[BUFFER]',
       look = '[LOOK]',
-
       nvim_lsp_signature_help = '[LSPH]',
       path = '[PATH]',
       luasnip = '[LuaSnip]',
@@ -103,17 +102,17 @@ return {
     }
     cmp.setup {
       sources = cmp.config.sources {
-        { name = 'path', option = { trailing_slash = true }, priority = 10 },
+        { name = 'path',                    option = { trailing_slash = true }, priority = 10 },
         { name = 'nvim_lsp_signature_help', priority = 89 },
-        { name = 'nvim_lsp', priority = 98 },
-        { name = 'nvim_lua', priority = 97 },
+        { name = 'nvim_lsp',                priority = 98 },
+        { name = 'nvim_lua',                priority = 97 },
 
         -- { name = 'cmp_tabnine', priority = 99 },
 
-        { name = 'cmp_matlab', priority = 95 },
-        { name = 'luasnip', priority = 70 },
+        { name = 'cmp_matlab',              priority = 95 },
+        { name = 'luasnip',                 priority = 70 },
         -- { name = 'treesitter', priority = 80 },
-        { name = 'rg', priority = 50 },
+        { name = 'rg',                      priority = 50 },
         -- { name = 'spell' }, { name = 'spell', keyword_length = 2 },
         -- {
         --   name = 'look',
@@ -147,7 +146,7 @@ return {
         ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
         ['<C-i>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
         ['<C-o>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs( -4),
         ['<C-u>'] = cmp.mapping.scroll_docs(4),
         ['<C-y>'] = cmp.mapping.abort(),
         ['<c-e>'] = cmp.mapping(
@@ -159,7 +158,9 @@ return {
         ),
         ['<c-space>'] = cmp.mapping {
           i = cmp.mapping.complete(),
-          c = function()
+          c = function(
+            _ --[[fallback]]
+          )
             if cmp.visible() then
               if not cmp.confirm { select = true } then
                 return
@@ -182,13 +183,33 @@ return {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
       },
-      -- sorting = {
-      --   comparators = {
-      --     function(...)
-      --       return require('cmp_buffer'):compare_locality(...)
-      --     end,
-      --   },
-      -- },
+      sorting = {
+        -- TODO: Would be cool to add stuff like "See variable names before method names" in rust, or something like that.
+        comparators = {
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+
+          -- copied from cmp-under, but I don't think I need the plugin for this.
+          -- I might add some more of my own.
+          function(entry1, entry2)
+            local _, entry1_under = entry1.completion_item.label:find '^_+'
+            local _, entry2_under = entry2.completion_item.label:find '^_+'
+            entry1_under = entry1_under or 0
+            entry2_under = entry2_under or 0
+            if entry1_under > entry2_under then
+              return false
+            elseif entry1_under < entry2_under then
+              return true
+            end
+          end,
+
+          cmp.config.compare.kind,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        },
+      },
       experimental = {
         native_menu = false,
         ghost_text = true,
@@ -239,8 +260,8 @@ return {
     end, { silent = true })
 
     vim.keymap.set({ 'i', 's' }, '<c-k>', function()
-      if ls.jumpable(-1) then
-        ls.jump(-1)
+      if ls.jumpable( -1) then
+        ls.jump( -1)
       end
     end, { silent = true })
 
