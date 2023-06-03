@@ -61,11 +61,14 @@ M.main = function(engine)
   end
 
   local all_lines = {}
-  if vim.fn.visualmode() ~= 'V' or vim.fn.visualmode() ~= 'V' then
-    all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
-  else
-    all_lines = M.nvim_get_selected_text(bufnr)
-  end
+  all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
+  -- TODO: check the methode that use substute with lua sub()
+  -- becase i have many error when using this
+  -- if vim.fn.visualmode() ~= 'V' or vim.fn.visualmode() ~= 'V' then
+  --   all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
+  -- else
+  --   all_lines = M.nvim_get_selected_text(bufnr)
+  -- end
 
   M.ask(bufnr, engine, all_lines)
 end
