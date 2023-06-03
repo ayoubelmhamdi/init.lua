@@ -1,47 +1,73 @@
-vim.o.laststatus = 0
-
-vim.o.hidden = true
-vim.o.splitbelow = true
-vim.o.splitright = true
-
-vim.opt.nu = true
-vim.opt.relativenumber = true
-
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
-
-vim.opt.smartindent = true
-
-vim.opt.wrap = false
-
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = '/tmp/nvim/undodir'
-vim.opt.undofile = true
-
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
-
-vim.opt.termguicolors = true
-vim.opt.signcolumn = 'yes'
-vim.opt.isfname:append '@-@'
-vim.opt.updatetime = 50
-vim.opt.colorcolumn = '80'
+vim.g.loaded_matchparen = 1
 vim.g.mapleader = ' '
 
-vim.cmd [[
+local opt = vim.opt
 
-set spellsuggest+=5
-set linebreak
-set linespace=5
-set clipboard+=unnamedplus
-set clipboard+=unnamed
-set inccommand=split
+-- Ignore compiled files
+opt.wildignore = '__pycache__'
+opt.wildignore:append { '*.o', '*~', '*.pyc', '*pycache*' }
+opt.wildignore:append { 'Cargo.lock', 'Cargo.Bazel.lock' }
 
+opt.pumblend = 7
+opt.wildmode = 'longest:full'
+opt.wildoptions = 'pum'
 
-set nowrap
-set autoindent
-set mouse=a
-]]
+opt.equalalways = false -- I don't like my windows changing all the time
+opt.shada = { '!', "'1000", '<50', 's10', 'h' }
+opt.joinspaces = false
+opt.fillchars = { eob = '~' }
+-- tj end
+
+opt.laststatus = 0
+
+opt.hidden = true
+opt.splitbelow = true
+opt.splitright = true
+
+opt.nu = true
+opt.relativenumber = true
+
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.shiftwidth = 2
+opt.expandtab = true
+
+opt.smartindent = true
+
+opt.wrap = false
+
+opt.swapfile = false
+opt.backup = false
+opt.undodir = '/tmp/nvim/undodir'
+opt.undofile = true
+
+opt.hlsearch = true
+opt.incsearch = true
+opt.showmatch = true
+opt.ignorecase = true -- Ignore case when searching...
+opt.smartcase = true
+
+opt.termguicolors = true
+opt.signcolumn = 'yes'
+opt.isfname:append '@-@'
+opt.updatetime = 500
+opt.colorcolumn = '80'
+
+opt.linebreak = true
+opt.linespace = 5
+
+opt.wrap = false
+opt.autoindent = true
+opt.mouse = 'a'
+
+opt.clipboard = 'unnamedplus'
+opt.clipboard:append { 'unnamed' }
+
+opt.inccommand = 'split'
+opt.spellsuggest = { 'best', 6 }
+
+-- vim.cmd [[
+-- set clipboard+=unnamedplus
+-- set clipboard+=unnamed
+-- set mouse=a
+-- ]]
