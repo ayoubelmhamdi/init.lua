@@ -1,9 +1,21 @@
 vim.g.mapleader = ' '
 -- vim.keymap.set('n', '<space><space>', vim.cmd.Ex)
 
+vim.keymap.set({ 'n', 'v' }, ',tp', '<cmd>lua require("ayoub.telescope_chat").telescope_insert("prompts")<CR>')
+
 vim.keymap.set({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>')
 vim.keymap.set({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>')
 vim.keymap.set({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>')
+
+vim.keymap.set({ 'n', 'v' }, '<A-1>', ':tabnext 1<CR>')
+vim.keymap.set({ 'n', 'v' }, '<A-2>', ':tabnext 2<CR>')
+vim.keymap.set({ 'n', 'v' }, '<A-3>', ':tabnext 3<CR>')
+vim.keymap.set({ 'n', 'v' }, '<A-4>', ':tabnext 4<CR>')
+vim.keymap.set({ 'n', 'v' }, '<A-5>', ':tabnext 5<CR>')
+vim.keymap.set({ 'n', 'v' }, '<A-6>', ':tabnext 6<CR>')
+vim.keymap.set({ 'n', 'v' }, '<A-7>', ':tabnext 7<CR>')
+vim.keymap.set({ 'n', 'v' }, '<A-8>', ':tabnext 8<CR>')
+vim.keymap.set({ 'n', 'v' }, '<A-7>', ':tabnext 9<CR>')
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
@@ -161,3 +173,6 @@ vim.keymap.set('n', '<leader>sh', '<cmd>TSHighlightCapturesUnderCursor<CR>', { s
 vim.keymap.set('n', 'q', ':bd<cr>', { silent = true })
 
 vim.keymap.set('n', 'gt', 'viW"dy:tabnew <c-r>d<cr>', { silent = true })
+
+vim.keymap.set({'n','v'},'<C-U>', '<C-Y><C-Y><C-Y>',{ silent = true })
+vim.keymap.set({ 'n', 'v' }, '<C-D>', '<C-E><C-E><C-E>', { silent = true })
