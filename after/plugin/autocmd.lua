@@ -54,6 +54,26 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+
+local place_sign = require('ayoub.signs').place_sign
+local unplace_sign = require('ayoub.signs').unplace_sign
+
+local api = vim.api
+local group = 'CursorSign'
+
+api.nvim_create_augroup(group, { clear = true })
+
+vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
+  pattern = '*',
+  group = group,
+  callback = function()
+    local line, _ = unpack(api.nvim_win_get_cursor(0))
+    unplace_sign(1)
+    place_sign(line, 1)
+  end,
+})
+
+
 vim.cmd [[
 
 augroup General
