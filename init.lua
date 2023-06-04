@@ -28,6 +28,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNew' }, {
   end,
 })
 
+vim.keymap.set('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
 --1 ---- Define a function to move a buffer to a new tab
 --1 local function move_to_new_tab(bufnr)
 --1   local buffer_name = vim.api.nvim_buf_get_name(bufnr)
