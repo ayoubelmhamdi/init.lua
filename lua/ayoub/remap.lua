@@ -3,9 +3,9 @@ vim.g.mapleader = ' '
 
 vim.keymap.set({ 'n', 'v' }, ',tp', '<cmd>lua require("ayoub.telescope_chat").telescope_insert("prompts")<CR>')
 
-vim.keymap.set({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>')
-vim.keymap.set({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>')
-vim.keymap.set({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>')
+vim.keymap.set({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>Gzz')
+vim.keymap.set({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>Gzz')
+vim.keymap.set({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>Gzz')
 
 vim.keymap.set({ 'n', 'v' }, '<A-1>', ':tabnext 1<CR>')
 vim.keymap.set({ 'n', 'v' }, '<A-2>', ':tabnext 2<CR>')
@@ -26,8 +26,8 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 
-vim.keymap.set('v', ',y', '"dy')
-vim.keymap.set('n', ',p', '"dp')
+-- vim.keymap.set('v', ',y', '"dy')
+-- vim.keymap.set('n', ',p', '"dp')
 
 -- This is going to get me cancelled
 vim.keymap.set('i', '<C-c>', '<Esc>')
@@ -68,6 +68,9 @@ vim.keymap.set('v', 'Y', 'Ygv<Esc>', { silent = true })
 
 vim.keymap.set('v', 'p', 'pgvy', { silent = true })
 vim.keymap.set('v', 'P', 'Pgvy', { silent = true })
+
+vim.keymap.set('n', 'p', 'mdpgvy`d', { silent = true })
+vim.keymap.set('n', 'P', 'mdPgvy`d', { silent = true })
 
 vim.keymap.set('n', ',or', ':OverseerRun<cr>', { silent = true })
 vim.keymap.set('n', ',ol', ':OverseerLoadBundle<cr>', { silent = true })
@@ -174,5 +177,5 @@ vim.keymap.set('n', 'q', ':bd<cr>', { silent = true })
 
 vim.keymap.set('n', 'gt', 'viW"dy:tabnew <c-r>d<cr>', { silent = true })
 
-vim.keymap.set({'n','v'},'<C-U>', '<C-Y><C-Y><C-Y>',{ silent = true })
+vim.keymap.set({ 'n', 'v' }, '<C-U>', '<C-Y><C-Y><C-Y>', { silent = true })
 vim.keymap.set({ 'n', 'v' }, '<C-D>', '<C-E><C-E><C-E>', { silent = true })
