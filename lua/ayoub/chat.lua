@@ -1,36 +1,40 @@
 local M = {}
 
-
 function M.mktemp()
   local tmpname = os.tmpname()
-  local tmpfile = io.open(tmpname, "w")
+  local tmpfile = io.open(tmpname, 'w')
   tmpfile:close()
   return tmpname
 end
 
 function M.writetofile(filename, lines)
-  local file = io.open(filename, "w")
+  local file = io.open(filename, 'w')
   for _, line in ipairs(lines) do
-    file:write(line .. "\n")
+    file:write(line .. '\n')
   end
   file:close()
 end
 
 function M.ask(bufnr, engine, all_lines)
-
   local command = {}
-  if engine == "Bing" then
-    local tmpname= M.mktemp()
+  if engine == 'Bing' or engine == 'client-embedding' or engine == 'bing3' then
+    local tmpname = M.mktemp()
     M.writetofile(tmpname, all_lines)
     command = { engine, tmpname }
   else
     local text = table.concat(all_lines, '\n')
     command = { engine, '-m', text }
   end
+
   local append_data = function(_, data)
     if data then
       vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data)
     end
+  end
+  local notify = function(_, data)
+    vim.fn.jobstart({ 'notify-send', 'title:', engine .. ' finished' }, {
+      stdout_buffered = false,
+    })
   end
 
   vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { '# ---' .. engine .. '----' })
@@ -38,6 +42,7 @@ function M.ask(bufnr, engine, all_lines)
     stdout_buffered = true,
     on_stdout = append_data,
     on_stderr = append_data,
+    on_exit = notify,
   })
 end
 
