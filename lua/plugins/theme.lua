@@ -1,5 +1,17 @@
 return {
   {
+    'sainnhe/edge',
+    config = function()
+      vim.cmd 'colorscheme edge'
+    end,
+  },
+  -- {
+  --   'd00h/nvim-rusticated',
+  --   config = function()
+  --     vim.cmd 'colorscheme rusticated'
+  --   end,
+  -- },
+  {
     'echasnovski/mini.indentscope',
     version = false,
     config = function()
@@ -11,33 +23,33 @@ return {
       }
     end,
   },
-  {
-    'olimorris/onedarkpro.nvim',
-    priority = 1000, -- Ensure it loads first
-    config = function()
-      require('onedarkpro').setup {
-        -- options = {
-        --   transparency = true,
-        -- },
-        styles = {
-          types = 'NONE',
-          methods = 'bold',
-          numbers = 'bold',
-          strings = 'bold,italic',
-          comments = 'bold,italic',
-          keywords = 'bold,italic',
-          constants = 'NONE',
-          functions = 'bold,italic',
-          operators = 'NONE',
-          variables = 'NONE',
-          parameters = 'NONE',
-          conditionals = 'italic',
-          virtual_text = 'NONE',
-        },
-      }
-      vim.cmd 'colorscheme onedark'
-    end,
-  },
+  -- {
+  --   'olimorris/onedarkpro.nvim',
+  --   priority = 1000, -- Ensure it loads first
+  --   config = function()
+  --     require('onedarkpro').setup {
+  --       -- options = {
+  --       --   transparency = true,
+  --       -- },
+  --       styles = {
+  --         types = 'NONE',
+  --         methods = 'bold',
+  --         numbers = 'bold',
+  --         strings = 'bold,italic',
+  --         comments = 'bold,italic',
+  --         keywords = 'bold,italic',
+  --         constants = 'NONE',
+  --         functions = 'bold,italic',
+  --         operators = 'NONE',
+  --         variables = 'NONE',
+  --         parameters = 'NONE',
+  --         conditionals = 'italic',
+  --         virtual_text = 'NONE',
+  --       },
+  --     }
+  --     vim.cmd 'colorscheme onedark'
+  --   end,
+  -- },
   -- {
   --   'olivercederborg/poimandres.nvim',
   --   config = function()
