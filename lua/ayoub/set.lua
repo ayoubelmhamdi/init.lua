@@ -3,6 +3,8 @@ vim.g.mapleader = ' '
 
 local opt = vim.opt
 
+opt.cursorline = true
+
 -- Ignore compiled files
 opt.wildignore = '__pycache__'
 opt.wildignore:append { '*.o', '*~', '*.pyc', '*pycache*' }
