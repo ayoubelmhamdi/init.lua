@@ -3,8 +3,8 @@ return {
   { 'nvim-lua/plenary.nvim' },
 
   -- Git
-  { 'mbbill/undotree' },
-  { 'tpope/vim-fugitive' },
+ --  { 'mbbill/undotree' },
+  -- { 'tpope/vim-fugitive' },
   { 'airblade/vim-rooter' },
   -- Basic
   {
@@ -17,11 +17,11 @@ return {
     end,
   },
   { 'static-nvim/mkdir' },
-  { 'fedepujol/move.nvim' },
-  { 'oberblastmeister/zoom.nvim' },
+  -- { 'fedepujol/move.nvim' },
+  -- { 'oberblastmeister/zoom.nvim' },
   -- Test
-  { 'folke/zen-mode.nvim' },
-  { 'github/copilot.vim' },
+  -- { 'folke/zen-mode.nvim' },
+  -- { 'github/copilot.vim' },
   -- { 'yazgoo/vmux' },
   { 'nyngwang/suave.lua' },
   -- Localy
