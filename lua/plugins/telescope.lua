@@ -20,7 +20,7 @@ return {
         builtin.grep_string { search = vim.fn.input 'Grep > ' }
       end
       vim.keymap.set('n', '<C-p>', ':Telescope repo list<cr>', {})
-      vim.keymap.set('n', '<C-l>', ':Telescope git_files<cr>', {})
+      vim.keymap.set('n', '<C-l>', ':Telescope find_files<cr>', {})
       vim.keymap.set('n', '<leader>lf', ':Telescope find_files<cr>', {})
       vim.keymap.set('n', '<leader>ls', grep_string)
 
@@ -67,6 +67,7 @@ return {
         },
         n = {
           ['q'] = require('telescope.actions').close,
+          ['<ESC>'] = require('telescope.actions').close,
         },
       }
 
