@@ -1,21 +1,23 @@
 -----
+local pattern = {
+  '*.css',
+  '*.html',
+  '*.js',
+  '*.md',
+  '*.tex',
+  '*.c',
+  '*.h',
+  '*.lua',
+  '*.dart',
+  '*.rs',
+  '*.sh',
+  '*.toml',
+  '*.yaml',
+  '*.m',
+}
+
 vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
-  pattern = {
-    '*.css',
-    '*.html',
-    '*.js',
-    '*.md',
-    '*.tex',
-    '*.c',
-    '*.h',
-    '*.lua',
-    '*.dart',
-    '*.rs',
-    '*.sh',
-    '*.toml',
-    '*.yaml',
-    '*.m',
-  },
+  pattern = pattern,
   callback = function()
     vim.cmd [[noautocmd up]]
   end,
@@ -32,6 +34,21 @@ vim.api.nvim_create_autocmd('BufWrite', {
   pattern = { '*.c' },
   callback = function()
     vim.lsp.buf.format { async = true }
+  end,
+})
+
+vim.api.nvim_create_autocmd('VimEnter', {
+  pattern = pattern,
+  callback = function()
+    vim.cmd[[silent! loadview]]
+  end,
+})
+
+
+vim.api.nvim_create_autocmd('VimLeave', {
+  pattern = pattern,
+  callback = function()
+    vim.cmd[[silent! mkview]]
   end,
 })
 
@@ -54,7 +71,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-
 local place_sign = require('ayoub.signs').place_sign
 local unplace_sign = require('ayoub.signs').unplace_sign
 
@@ -72,7 +88,6 @@ vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
     place_sign(line, 1)
   end,
 })
-
 
 vim.cmd [[
 
