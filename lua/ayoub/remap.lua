@@ -1,151 +1,170 @@
 vim.g.mapleader = ' '
--- vim.keymap.set('n', '<space><space>', vim.cmd.Ex)
 
-vim.keymap.set({ 'n', 'v' }, ',tp', '<cmd>lua require("ayoub.telescope_chat").telescope_insert("prompts")<CR>')
+local key = vim.keymap.set
 
-vim.keymap.set({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>Gzz')
-vim.keymap.set({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>Gzz')
-vim.keymap.set({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>Gzz')
+key({ 'n' }, '<cr>', 'viw', { silent = true })
+key({ 'n' }, '<esc>', '<esc>:noh<cr>', { silent = true })
 
-vim.keymap.set({ 'n', 'v' }, '<A-1>', ':tabnext 1<CR>')
-vim.keymap.set({ 'n', 'v' }, '<A-2>', ':tabnext 2<CR>')
-vim.keymap.set({ 'n', 'v' }, '<A-3>', ':tabnext 3<CR>')
-vim.keymap.set({ 'n', 'v' }, '<A-4>', ':tabnext 4<CR>')
-vim.keymap.set({ 'n', 'v' }, '<A-5>', ':tabnext 5<CR>')
-vim.keymap.set({ 'n', 'v' }, '<A-6>', ':tabnext 6<CR>')
-vim.keymap.set({ 'n', 'v' }, '<A-7>', ':tabnext 7<CR>')
-vim.keymap.set({ 'n', 'v' }, '<A-8>', ':tabnext 8<CR>')
-vim.keymap.set({ 'n', 'v' }, '<A-7>', ':tabnext 9<CR>')
+key({ 'n', 'v' }, 'j', 'gj', { silent = true })
+key({ 'n', 'v' }, 'k', 'gk', { silent = true })
 
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+key('n', '<leader>zn', ':TZNarrow<CR>', { silent = true })
+key('v', '<leader>zn', ":'<,'>TZNarrow<CR>", { silent = true })
+key('n', '<leader>zf', ':TZFocus<CR>', { silent = true })
+key('n', '<leader>zm', ':TZAtaraxis<CR>', { silent = true })
+-- k('n', '<leader>zm', ':TZMinimalist<CR>', { silent = true })
 
-vim.keymap.set('n', 'J', 'mzJ`z')
-vim.keymap.set('n', '<C-d>', '<C-d>zz')
-vim.keymap.set('n', '<C-u>', '<C-u>zz')
-vim.keymap.set('n', 'n', 'nzzzv')
-vim.keymap.set('n', 'N', 'Nzzzv')
+key({ 'n', 'v' }, '<A-@>', ':%s#@@@#\\r#g<CR>', { silent = true })
 
--- vim.keymap.set('v', ',y', '"dy')
--- vim.keymap.set('n', ',p', '"dp')
+key({ 'n', 'v' }, ',tp', '<cmd>lua require("ayoub.telescope_chat").telescope_insert("prompts")<CR>')
+
+key({ 'n', 'v' }, ',ae', '<cmd>lua require("ayoub.chat").main("client-embedding")<CR>Gzz')
+key({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>Gzz')
+key({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>Gzz')
+key({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>Gzz')
+
+key({ 'n', 'v' }, '<A-1>', ':tabnext 1<CR>')
+key({ 'n', 'v' }, '<A-2>', ':tabnext 2<CR>')
+key({ 'n', 'v' }, '<A-3>', ':tabnext 3<CR>')
+key({ 'n', 'v' }, '<A-4>', ':tabnext 4<CR>')
+key({ 'n', 'v' }, '<A-5>', ':tabnext 5<CR>')
+key({ 'n', 'v' }, '<A-6>', ':tabnext 6<CR>')
+key({ 'n', 'v' }, '<A-7>', ':tabnext 7<CR>')
+key({ 'n', 'v' }, '<A-8>', ':tabnext 8<CR>')
+key({ 'n', 'v' }, '<A-7>', ':tabnext 9<CR>')
+
+key('v', 'J', ":m '>+1<CR>gv=gv")
+key('v', 'K', ":m '<-2<CR>gv=gv")
+
+key('n', 'J', 'mzJ`z')
+key({ 'n', 'v' }, '<C-d>', '<C-d>zz')
+key({ 'n', 'v' }, '<C-u>', '<C-u>zz')
+key({ 'n', 'v' }, 'n', 'nzzzv')
+key({ 'n', 'v' }, 'N', 'Nzzzv')
+
+-- k('v', ',y', '"dy')
+-- k('n', ',p', '"dp')
 
 -- This is going to get me cancelled
-vim.keymap.set('i', '<C-c>', '<Esc>')
+key('i', '<C-c>', '<Esc>')
 
-vim.keymap.set('n', 'Q', '<nop>')
-vim.keymap.set('n', '<leader>f', function()
+key('n', 'Q', '<nop>')
+key('n', '<leader>f', function()
   vim.lsp.buf.format()
 end)
 
-vim.keymap.set('n', '<C-k>', '<cmd>cnext<CR>zz')
-vim.keymap.set('n', '<C-j>', '<cmd>cprev<CR>zz')
-vim.keymap.set('n', '<leader>k', '<cmd>lnext<CR>zz')
-vim.keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz')
+key('n', '<C-k>', '<cmd>cnext<CR>zz')
+key('n', '<C-j>', '<cmd>cprev<CR>zz')
+key('n', '<leader>k', '<cmd>lnext<CR>zz')
+key('n', '<leader>j', '<cmd>lprev<CR>zz')
 
-vim.keymap.set('n', '<leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>')
-vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
+key('n', '<leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>')
+key('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
 
--- vim.keymap.set(
+-- k(
 --   'n',
 --   '<space><space>',
 --   ':w<cr>:silent !python -m jupyter_ascending.requests.sync --filename %&:<cr>',
 --   { silent = true }
 -- )
-vim.keymap.set('n', '<c-w>o', ':Zoom<cr>', { silent = true })
+key('n', '<c-w>o', ':Zoom<cr>', { silent = true })
 
-vim.keymap.set('n', 'x', '"_x', { silent = true })
-vim.keymap.set('n', 'X', '"_X', { silent = true })
-vim.keymap.set('n', 'c', '"_c', { silent = true })
-vim.keymap.set('n', 'C', '"_C', { silent = true })
+key('n', 'x', '"_x', { silent = true })
+key('n', 'X', '"_X', { silent = true })
+key('n', 'c', '"_c', { silent = true })
+key('n', 'C', '"_C', { silent = true })
 
-vim.keymap.set('v', 'x', '"_x', { silent = true })
-vim.keymap.set('v', 'X', '"_X', { silent = true })
-vim.keymap.set('v', 'c', '"_c', { silent = true })
-vim.keymap.set('v', 'C', '"_C', { silent = true })
+key('v', 'x', '"_x', { silent = true })
+key('v', 'X', '"_X', { silent = true })
+key('v', 'c', '"_c', { silent = true })
+key('v', 'C', '"_C', { silent = true })
 
-vim.keymap.set('v', 'y', 'ygv<Esc>', { silent = true })
-vim.keymap.set('v', 'Y', 'Ygv<Esc>', { silent = true })
+key('v', 'y', 'ygv<Esc>', { silent = true })
+key('v', 'Y', 'Ygv<Esc>', { silent = true })
 
-vim.keymap.set('v', 'p', 'pgvy', { silent = true })
-vim.keymap.set('v', 'P', 'Pgvy', { silent = true })
+-- k('v', 'p', 'pgvy', { silent = true })
+-- k('v', 'P', 'Pgvy', { silent = true })
 
-vim.keymap.set('n', 'p', 'mdpgvy`d', { silent = true })
-vim.keymap.set('n', 'P', 'mdPgvy`d', { silent = true })
+-- k('n', 'p', 'pgvy', { silent = true })
+-- k('n', 'P', 'Pgvy', { silent = true })
+--'p', 'pgvy', { silent = true })
+-- k('n',
+vim.cmd [[xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>]]
 
-vim.keymap.set('n', ',or', ':OverseerRun<cr>', { silent = true })
-vim.keymap.set('n', ',ol', ':OverseerLoadBundle<cr>', { silent = true })
--- vim.keymap.set("n", ",ot", ":OverseerTaskAction<cr>", { silent = true })
-vim.keymap.set('n', ',oq', ':OverseerQuickAction<cr>', { silent = true })
-vim.keymap.set('n', ',ov', ':OverseerQuickAction open vsplit<cr>', { silent = true })
-vim.keymap.set('n', ',ow', ':OverseerQuickAction watch<cr>', { silent = true })
+key('n', ',or', ':OverseerRun<cr>', { silent = true })
+key('n', ',ol', ':OverseerLoadBundle<cr>', { silent = true })
+-- k("n", ",ot", ":OverseerTaskAction<cr>", { silent = true })
+key('n', ',oq', ':OverseerQuickAction<cr>', { silent = true })
+key('n', ',ov', ':OverseerQuickAction open vsplit<cr>', { silent = true })
+key('n', ',ow', ':OverseerQuickAction watch<cr>', { silent = true })
 
-vim.keymap.set('n', 'q:', ':q', { silent = true })
+key('n', 'q:', ':q', { silent = true })
 
-vim.keymap.set('n', '<Space>fs', ':Telescope current_buffer_fuzzy_find<cr>', { silent = true })
-vim.keymap.set('n', '<Space>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { silent = true })
-vim.keymap.set('n', '<Space>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', { silent = true })
-vim.keymap.set('n', '<Space>hh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', { silent = true })
-vim.keymap.set(
+key('n', '<Space>fs', ':Telescope current_buffer_fuzzy_find<cr>', { silent = true })
+key('n', '<Space>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { silent = true })
+key('n', '<Space>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', { silent = true })
+key('n', '<Space>hh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', { silent = true })
+key(
   'n',
   '<Space>ff',
   '<cmd>lua require("telescope.builtin").find_files({ find_command = { "fd","-tf","-tl"}})<cr>',
   { silent = true }
 )
 
-vim.keymap.set('n', '<Space>f.', ':lua require("tsp.cwd-tsp").search_dotfiles()<cr> ', { silent = true })
-vim.keymap.set('n', '<Space>f-', ':lua require("tsp.cwd-tsp").search_nvim()<cr> ', { silent = true })
-vim.keymap.set('n', '<Space>fw', ':lua require("tsp.cwd-tsp").search_wiki()<cr> ', { silent = true })
-vim.keymap.set('n', '<Space>f1', ':lua require("tsp.cwd-tsp").search_proj("sl")<cr> ', { silent = true })
-vim.keymap.set('n', '<Space>f2', ':lua require("tsp.cwd-tsp").search_proj("slstatus")<cr> ', { silent = true })
+key('n', '<Space>f.', ':lua require("tsp.cwd-tsp").search_dotfiles()<cr> ', { silent = true })
+key('n', '<Space>f-', ':lua require("tsp.cwd-tsp").search_nvim()<cr> ', { silent = true })
+key('n', '<Space>fw', ':lua require("tsp.cwd-tsp").search_wiki()<cr> ', { silent = true })
+key('n', '<Space>f1', ':lua require("tsp.cwd-tsp").search_proj("sl")<cr> ', { silent = true })
+key('n', '<Space>f2', ':lua require("tsp.cwd-tsp").search_proj("slstatus")<cr> ', { silent = true })
 
-vim.keymap.set('n', '<Tab>', ':tabnext<cr>', { silent = true })
-vim.keymap.set('n', '<S-Tab>', ':tabprev<cr>', { silent = true })
+key('n', '<Tab>', ':tabnext<cr>', { silent = true })
+key('n', '<S-Tab>', ':tabprev<cr>', { silent = true })
 
-vim.keymap.set('i', '<c-a-k>', '<c-k>', { silent = true })
+key('i', '<c-a-k>', '<c-k>', { silent = true })
 
-vim.keymap.set('n', '<up>', 'k<c-y>', { silent = true })
-vim.keymap.set('n', '<down>', 'j<c-e>', { silent = true })
+key('n', '<up>', 'k<c-y>', { silent = true })
+key('n', '<down>', 'j<c-e>', { silent = true })
 
-vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n><esc>', { silent = true })
-vim.keymap.set('t', '<Tab>', '<c-\\><c-n>:tabnext<cr>', { silent = true })
-vim.keymap.set('t', '<S-Tab>', '<c-\\><c-n>:tabprev<cr>', { silent = true })
+key('t', '<esc><esc>', '<c-\\><c-n><esc>', { silent = true })
+key('t', '<Tab>', '<c-\\><c-n>:tabnext<cr>', { silent = true })
+key('t', '<S-Tab>', '<c-\\><c-n>:tabprev<cr>', { silent = true })
 
-vim.keymap.set('n', '<C-Up>', ':resize +2<cr>', { silent = true })
-vim.keymap.set('n', '<C-Down>', ':resize -2<cr>', { silent = true })
-vim.keymap.set('n', '<C-Left>', ':vertical resize -2<cr>', { silent = true })
-vim.keymap.set('n', '<C-Right>', ':vertical resize +2<cr>', { silent = true })
+key('n', '<C-Up>', ':resize +2<cr>', { silent = true })
+key('n', '<C-Down>', ':resize -2<cr>', { silent = true })
+key('n', '<C-Left>', ':vertical resize -2<cr>', { silent = true })
+key('n', '<C-Right>', ':vertical resize +2<cr>', { silent = true })
 
-vim.keymap.set('t', '<C-Up>', '<C-\\><C-N>:resize +2<cr>', { silent = true })
-vim.keymap.set('t', '<C-Down>', '<C-\\><C-N>:resize -2<cr>', { silent = true })
-vim.keymap.set('t', '<C-Left>', '<C-\\><C-N>:vertical resize -2<cr>', { silent = true })
-vim.keymap.set('t', '<C-Right>', '<C-\\><C-N>:vertical resize +2<cr>', { silent = true })
+key('t', '<C-Up>', '<C-\\><C-N>:resize +2<cr>', { silent = true })
+key('t', '<C-Down>', '<C-\\><C-N>:resize -2<cr>', { silent = true })
+key('t', '<C-Left>', '<C-\\><C-N>:vertical resize -2<cr>', { silent = true })
+key('t', '<C-Right>', '<C-\\><C-N>:vertical resize +2<cr>', { silent = true })
 
 --Basic file system commands
-vim.keymap.set('n', '<C-M-o>', ':!touch<Space>', { silent = true })
-vim.keymap.set('n', '<C-M-d>', ':!mkdir<Space>', { silent = true })
-vim.keymap.set('n', '<C-M-c>', ':!cp<Space>%<Space>', { silent = true })
-vim.keymap.set('n', '<C-M-m>', ':!mv<Space>%<Space>', { silent = true })
+key('n', '<C-M-o>', ':!touch<Space>', { silent = true })
+key('n', '<C-M-d>', ':!mkdir<Space>', { silent = true })
+key('n', '<C-M-c>', ':!cp<Space>%<Space>', { silent = true })
+key('n', '<C-M-m>', ':!mv<Space>%<Space>', { silent = true })
 
 -- fix p y
---vim.keymap.set('n', 's', '<NOP>', {silent = true})
---vim.keymap.set('n', 'S', '<NOP>', {silent = true})
-vim.keymap.set('n', '<C-Q>', ':noautocmd bd<cr>', { silent = true })
-vim.keymap.set('n', '<C-Q><C-Q>', ':noautocmd q<cr>', { silent = true })
-vim.keymap.set('n', '<Space>w', ':w<cr>', { silent = true })
+--k('n', 's', '<NOP>', {silent = true})
+--k('n', 'S', '<NOP>', {silent = true})
+key('n', '<C-Q>', ':noautocmd bd<cr>', { silent = true })
+key('n', '<C-Q><C-Q>', ':noautocmd q<cr>', { silent = true })
+key('n', '<Space>w', ':w<cr>', { silent = true })
 
-vim.keymap.set('n', '>', 'v>', { silent = true })
-vim.keymap.set('n', '<', 'v<', { silent = true })
-vim.keymap.set('v', '>', '>gv', { silent = true })
-vim.keymap.set('v', '<', '<gv', { silent = true })
+key('n', '>', 'v>', { silent = true })
+key('n', '<', 'v<', { silent = true })
+key('v', '>', '>gv', { silent = true })
+key('v', '<', '<gv', { silent = true })
 
-vim.keymap.set('i', '<A-a>', '<Right>', { silent = true })
-vim.keymap.set('i', '<A-i>', '<Left>', { silent = true })
+key('i', '<A-a>', '<Right>', { silent = true })
+key('i', '<A-i>', '<Left>', { silent = true })
 
-vim.keymap.set('n', '<silent>', '<A-j>:MoveLine(1)<CR>', { silent = true })
-vim.keymap.set('n', '<silent>', '<A-k>:MoveLine(-1)<CR>', { silent = true })
+key('n', '<silent>', '<A-j>:MoveLine(1)<CR>', { silent = true })
+key('n', '<silent>', '<A-k>:MoveLine(-1)<CR>', { silent = true })
 
-vim.keymap.set('v', '<silent>', '<A-j>:MoveBlock(1)<CR>', { silent = true })
-vim.keymap.set('v', '<silent>', '<A-k>:MoveBlock(-1)<CR>', { silent = true })
+key('v', '<silent>', '<A-j>:MoveBlock(1)<CR>', { silent = true })
+key('v', '<silent>', '<A-k>:MoveBlock(-1)<CR>', { silent = true })
 
 --command! So su
 --command! W w
@@ -156,10 +175,10 @@ vim.keymap.set('v', '<silent>', '<A-k>:MoveBlock(-1)<CR>', { silent = true })
 --command! Wq wq
 --command! MyGdb let g:termdebug_wide = 10 | packadd termdebug | Termdebug
 
-vim.keymap.set('n', '<F7>', ':FloatermToggle<cr>', { silent = true })
---" vim.keymap.set('n', '<F8>', ':silent FloatermSend           tail_latexmk<cr>:FloatermShow<cr>', {silent = true})
---" vim.keymap.set('t', '<F8>', '<c-\><c-n>:silent FloatermSend tail_latexmk<cr>:FloatermShow<cr>', {silent = true})
-vim.keymap.set('t', '<F7>', '<c-\\><c-n>:FloatermToggle<cr>', { silent = true })
+key('n', '<F7>', ':FloatermToggle<cr>', { silent = true })
+--" k('n', '<F8>', ':silent FloatermSend           tail_latexmk<cr>:FloatermShow<cr>', {silent = true})
+--" k('t', '<F8>', '<c-\><c-n>:silent FloatermSend tail_latexmk<cr>:FloatermShow<cr>', {silent = true})
+key('t', '<F7>', '<c-\\><c-n>:FloatermToggle<cr>', { silent = true })
 --let g:floaterm_height=0.8
 --let g:floaterm_width=0.8
 -- let g:floaterm_wintype="vsplit"
@@ -169,13 +188,14 @@ vim.keymap.set('t', '<F7>', '<c-\\><c-n>:FloatermToggle<cr>', { silent = true })
 --autocmd BufEnter *.tex setlocal spell spelllang=fr
 
 -- Clears hlsearch after doing a search, otherwise just does normal <CR> stuff
-vim.keymap.set('n', '<expr>', '<CR> {-> v:hlsearch ? ":nohl\\<CR>":"\\<CR>"}()', { silent = true })
+key('n', '<expr>', '<CR> {-> v:hlsearch ? ":nohl\\<CR>":"\\<CR>"}()', { silent = true })
 
 -- grep hightlite
-vim.keymap.set('n', '<leader>sh', '<cmd>TSHighlightCapturesUnderCursor<CR>', { silent = true })
-vim.keymap.set('n', 'q', ':bd<cr>', { silent = true })
+key('n', '<leader>sh', '<cmd>TSHighlightCapturesUnderCursor<CR>', { silent = true })
+key('n', 'q', ':bd<cr>', { silent = true })
 
-vim.keymap.set('n', 'gt', 'viW"dy:tabnew <c-r>d<cr>', { silent = true })
+key('n', 'gt', 'viW"dy:tabnew <c-r>d<cr>', { silent = true })
 
-vim.keymap.set({ 'n', 'v' }, '<C-U>', '<C-Y><C-Y><C-Y>', { silent = true })
-vim.keymap.set({ 'n', 'v' }, '<C-D>', '<C-E><C-E><C-E>', { silent = true })
+-- need zz in the last moving
+-- k({ 'n', 'v' }, '<C-U>', '<C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>', { silent = true })
+-- k({ 'n', 'v' }, '<C-D>', '<C-E><C-E><C-E><C-E><C-E><C-E>', { silent = true })
