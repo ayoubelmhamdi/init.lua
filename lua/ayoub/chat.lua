@@ -17,7 +17,7 @@ end
 
 function M.ask(bufnr, engine, all_lines)
   local command = {}
-  if engine == 'Bing' or engine == 'client-embedding' or engine == 'bing3' then
+  if engine == 'Bing' or engine == 'client-embedding' or engine == 'bing3' or 'askbing' then
     local tmpname = M.mktemp()
     M.writetofile(tmpname, all_lines)
     command = { engine, tmpname }
