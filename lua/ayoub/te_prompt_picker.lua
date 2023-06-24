@@ -19,7 +19,7 @@ function M.manual_previewer(cwd)
 end
 
 function M.preview_files(opts)
-  local cwd = '/data/prompts/telescope/' -- last slash is importannt for `find` command
+  local cwd = '/data/chat/telescope/' -- last slash is importannt for `find` command
   opts = opts or {}
 
   -- pickers.new(opts, { previewer = conf.grep_previewer(opts) }):find()
