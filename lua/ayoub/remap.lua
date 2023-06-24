@@ -16,7 +16,7 @@ key('n', '<leader>zm', ':TZAtaraxis<CR>', { silent = true })
 
 key({ 'n', 'v' }, '<A-@>', ':%s#@@@#\\r#g<CR>', { silent = true })
 
-key({ 'n', 'v' }, ',tp', '<cmd>lua require("ayoub.telescope_chat").telescope_insert("prompts")<CR>')
+key({ 'n', 'v' }, ',tp', '<cmd>lua  require("ayoub.te_prompt_picker").preview_files()<CR>')
 
 key({ 'n', 'v' }, ',ae', '<cmd>lua require("ayoub.chat").main("client-embedding")<CR>Gzz')
 key({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>Gzz')
