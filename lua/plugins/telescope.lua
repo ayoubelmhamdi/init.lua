@@ -71,12 +71,50 @@ return {
         },
       }
 
+      local layout_config = {
+        width = 0.99,
+        height = 0.99,
+        -- preview_cutoff = 120,
+        prompt_position = 'top',
+
+        horizontal = {
+          preview_width = function(_, cols, _)
+            if cols > 200 then
+              return math.floor(cols * 0.4)
+            else
+              return math.floor(cols * 0.6)
+            end
+          end,
+
+          preview_cutoff = 10,
+        },
+
+        vertical = {
+          width = 0.95,
+          height = 0.95,
+          preview_height = 0.8,
+          preview_cutoff = 10,
+        },
+
+        flex = {
+          horizontal = {
+            preview_width = 0.9,
+          },
+        },
+      }
+
       require('telescope').setup {
         defaults = {
+          selection_strategy = 'reset',
+          sorting_strategy = 'descending',
+          color_devicons = true,
           initial_mode = 'insert',
-          scroll_strategy = 'limit',
           results_title = false,
+          -- layout_strategy = 'vertical',
           layout_strategy = 'horizontal',
+          -- layout_strategy = 'flex',
+          layout_config = layout_config,
+          --
           path_display = { 'absolute' },
           file_ignore_patterns = file_ignore_patterns,
           file_previewer = require('telescope.previewers').vim_buffer_cat.new,

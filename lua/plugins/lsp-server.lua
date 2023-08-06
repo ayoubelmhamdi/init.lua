@@ -11,8 +11,8 @@ return {
       local on_attach = require('ayoub.lsp-options').on_attach
       local handlers = require('ayoub.lsp-options').handlers
       local capabilities = require('ayoub.lsp-options').capabilities
-      local toggleLsp = require('ayoub.lsp-options').toggleLsp
-      local mylspconfig = require('ayoub.lsp-options').mylspconfig
+      -- local toggleLsp = require('ayoub.lsp-options').toggleLsp
+      -- local mylspconfig = require('ayoub.lsp-options').mylspconfig
 
       local lspconfig = require 'lspconfig'
       -- lspconfig.grammarly.setup {
@@ -22,11 +22,18 @@ return {
       --   init_options = { clientId = 'client_BaDkMgx4X19X9UxxYRCXZo' },
       -- }
 
-      lspconfig.pyright.setup {
+      -- lspconfig.pyright.setup {
+      --   handlers = handlers,
+      --   capabilities = capabilities,
+      --   on_attach = on_attach,
+      -- }
+
+      lspconfig.pylyzer.setup {
         handlers = handlers,
         capabilities = capabilities,
         on_attach = on_attach,
       }
+
 
       lspconfig.sourcery.setup {
         init_options = {
@@ -54,6 +61,7 @@ return {
         handlers = handlers,
         capabilities = capabilities,
         on_attach = on_attach,
+        filetype = { 'typ' },
         cmd = { 'typst-lsp5' },
         settings = {
           exportPdf = 'onSave', -- Choose onType, onSave or never.
