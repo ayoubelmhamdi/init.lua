@@ -2,6 +2,10 @@ vim.g.mapleader = ' '
 
 local key = vim.keymap.set
 
+key("n", "-", '<cmd>lua require("oil").open()<cr>', { silent = true })
+
+key({ 'n' }, '<F5>', ':echo synIDattr(synID(line("."), col("."), 1), "name")<CR>', { silent = true })
+
 key({ 'n' }, '<cr>', 'viw', { silent = true })
 key({ 'n' }, '<esc>', '<esc>:noh<cr>', { silent = true })
 
@@ -23,15 +27,15 @@ key({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>Gzz')
 key({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>Gzz')
 key({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>Gzz')
 
-key({ 'n', 'v' }, '<A-1>', ':tabnext 1<CR>')
-key({ 'n', 'v' }, '<A-2>', ':tabnext 2<CR>')
-key({ 'n', 'v' }, '<A-3>', ':tabnext 3<CR>')
-key({ 'n', 'v' }, '<A-4>', ':tabnext 4<CR>')
-key({ 'n', 'v' }, '<A-5>', ':tabnext 5<CR>')
-key({ 'n', 'v' }, '<A-6>', ':tabnext 6<CR>')
-key({ 'n', 'v' }, '<A-7>', ':tabnext 7<CR>')
-key({ 'n', 'v' }, '<A-8>', ':tabnext 8<CR>')
-key({ 'n', 'v' }, '<A-7>', ':tabnext 9<CR>')
+-- key({ 'n', 'v' }, '<A-1>', ':tabnext 1<CR>')
+-- key({ 'n', 'v' }, '<A-2>', ':tabnext 2<CR>')
+-- key({ 'n', 'v' }, '<A-3>', ':tabnext 3<CR>')
+-- key({ 'n', 'v' }, '<A-4>', ':tabnext 4<CR>')
+-- key({ 'n', 'v' }, '<A-5>', ':tabnext 5<CR>')
+-- key({ 'n', 'v' }, '<A-6>', ':tabnext 6<CR>')
+-- key({ 'n', 'v' }, '<A-7>', ':tabnext 7<CR>')
+-- key({ 'n', 'v' }, '<A-8>', ':tabnext 8<CR>')
+-- key({ 'n', 'v' }, '<A-7>', ':tabnext 9<CR>')
 
 key('v', 'J', ":m '>+1<CR>gv=gv")
 key('v', 'K', ":m '<-2<CR>gv=gv")
