@@ -18,7 +18,6 @@ function M.highlight_next_letter()
     -- The line is empty.
     return
   end
-  -- local word_start, word_end = line:find("[%w_]+", col)
   local word_start, word_end = line:find('[%w_]+', col)
   if word_start == nil then
     print 'word_start is nil'
@@ -29,31 +28,21 @@ function M.highlight_next_letter()
     return
   end
   local no_word = '...'
-  -- if true then
-  --   return
-  -- end
 
+-- TODO check if cursor under %w or not
+
+
+  -- word [cursor]
   if col + 1 > word_end then
-    -- no_word = 'max error'
-
-    -- The cursor is not in a word. Find the last letter in the next word or symbol.
     word_start, word_end = line:find('[%w%s_]+', col)
     if not word_start or not word_end then
-      -- There is no next word or symbol.
       return
     end
   else
+    -- else if
+  -- word[cursor]
     if col + 1 == word_end then
       no_word = 'end_of_word'
-      -- else
-      --   if col + 1 < word_end then
-      --     -- The cursor is in the middle of a word. Move it to the next character.
-      --     -- print("word-middle")
-      --     word_start = col + 2
-      --   else
-      --     -- print("word-end")
-      --     -- The cursor is at the end of a word.
-      --     -- Search for the next word or symbol after skipping spaces.
       word_start, word_end = line:find('[^%s]+', word_end + 1)
       if not word_start then
         -- There is no next word or symbol.
@@ -63,13 +52,16 @@ function M.highlight_next_letter()
       if col + 1 > word_end then
         word_start, word_end = line:find('[%w%s_]+', col)
         if not word_start or not word_end then
-          -- There is no next word or symbol.
           return
         end
       end
+    else
+      -- wor[cursor]d or [cursor] word
     end
+    -- else if fin
   end
 
+  -- check again
   if col + 1 > word_end then
     no_word = 'max search for next char or last letter'
   end
