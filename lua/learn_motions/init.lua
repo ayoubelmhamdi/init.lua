@@ -4,7 +4,9 @@ function M.highlight_next_letter()
   if _G.Match_id then
     local status, err = pcall(vim.fn.matchdelete, _G.Match_id)
     if not status then
-      print('Error deleting match: ', err)
+      --debug
+      --print('Error deleting match: ', err)
+      return
     end
   end
 
@@ -78,7 +80,8 @@ function M.highlight_next_letter()
     -- TODO: .[From].[expected] '}, { col[To]:
   end
 
-  print(no_word .. ' { start: ' .. word_start .. '}, { col: ' .. col + 1 .. '},{ end: ' .. word_end .. '}')
+  --debug
+  --print(no_word .. ' { start: ' .. word_start .. '}, { col: ' .. col + 1 .. '},{ end: ' .. word_end .. '}')
 
   vim.cmd 'hi RedLetter guifg=red ctermfg=red'
   _G.Match_id = vim.fn.matchaddpos('RedLetter', { { row + 1, word_end, 1 } })
