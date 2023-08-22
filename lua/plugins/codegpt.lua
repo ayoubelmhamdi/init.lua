@@ -1,5 +1,6 @@
 return {
   'dpayne/CodeGPT.nvim',
+  cmd = 'Chat',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'MunifTanjim/nui.nvim',
@@ -7,7 +8,7 @@ return {
   config = function()
     require 'codegpt.config'
 
-    vim.g["codegpt_openai_api_key"] = os.getenv("OPENAI_API_KEY")
+    vim.g['codegpt_openai_api_key'] = os.getenv 'OPENAI_API_KEY'
     vim.g['codegpt_commands'] = {
       ['doc'] = {
         system_message_template = 'You are {{language}} developer.',
