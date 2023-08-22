@@ -20,7 +20,7 @@ local pattern = {
 vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
   pattern = pattern,
   callback = function()
-    vim.cmd [[noautocmd up]]
+    vim.cmd [[noautocmd update]]
   end,
 })
 
@@ -31,44 +31,33 @@ vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
 --   end,
 -- })
 
-vim.api.nvim_create_autocmd('BufWrite', {
-  pattern = { '*.c' },
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = pattern,
   callback = function()
     vim.lsp.buf.format { async = true }
   end,
 })
 
+-- useful for some zf
 vim.api.nvim_create_autocmd('VimEnter', {
   pattern = pattern,
   callback = function()
-    vim.cmd[[silent! loadview]]
+    vim.cmd [[silent! loadview]]
   end,
 })
-
 
 vim.api.nvim_create_autocmd('VimLeave', {
   pattern = pattern,
   callback = function()
-    vim.cmd[[silent! mkview]]
+    vim.cmd [[silent! mkview]]
   end,
 })
 
+-- use custom shell for reload flutter using kill
 vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
   pattern = { '*.dart' },
   callback = function()
     os.execute 'killflutter'
-  end,
-})
-
--- highlight text on yank
-vim.api.nvim_create_autocmd('TextYankPost', {
-  pattern = '*',
-  callback = function()
-    vim.highlight.on_yank {
-      higroup = 'IncSearch',
-      timeout = 300,
-      on_visual = true,
-    }
   end,
 })
 
@@ -114,20 +103,20 @@ augroup Help
 augroup END
 ]]
 
-
 local augroup = vim.api.nvim_create_augroup
-local AyoubGroup = augroup('Ayoub', {})
-
 local autocmd = vim.api.nvim_create_autocmd
+
+local AyoubGroup = augroup('Ayoub', {})
 local yank_group = augroup('HighlightYank', {})
 
 function R(name)
   require('plenary.reload').reload_module(name)
 end
 
+-- highlight text on yank
 autocmd('TextYankPost', {
   group = yank_group,
-  pattern = '*',
+  pattern = pattern,
   callback = function()
     vim.highlight.on_yank {
       higroup = 'IncSearch',
@@ -138,28 +127,27 @@ autocmd('TextYankPost', {
 
 autocmd({ 'BufWritePre' }, {
   group = AyoubGroup,
-  pattern = '*',
+  pattern = pattern,
   command = '%s/\\s\\+$//e',
 })
 
-vim.keymap.set('n', '<space>s', function()
-  package.loaded.gg = nil
-  -- vim.cmd 'w'
-  R 'vf'
-  require('vf').view_function()
-end, {})
+--1vim.keymap.set('n', '<space>s', function()
+--1  package.loaded.gg = nil
+--1  -- vim.cmd 'w'
+--1  R 'vf'
+--1  require('vf').view_function()
+--1end, {})
+--1
+--1vim.keymap.set('n', '<space>e', function()
+--1  require('vf').view_function()
+--1end, {})
 
-vim.keymap.set('n', '<space>e', function()
-  require('vf').view_function()
-end, {})
---
--- Create an autocommand group
-local group = vim.api.nvim_create_augroup('delete_no_name_buffers', { clear = true })
+local group_no_name = vim.api.nvim_create_augroup('delete_no_name_buffers', { clear = true })
 
 -- Create an autocommand to delete buffers with the name '[No Name]'
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNew' }, {
   pattern = '*',
-  group = group,
+  group = group_no_name,
   callback = function()
     for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
       local bufname = vim.api.nvim_buf_get_name(bufnr)
@@ -170,19 +158,17 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNew' }, {
   end,
 })
 
--- Create an autocommand group
 local group_hi_last_letter = vim.api.nvim_create_augroup('group_hi_last_letter', { clear = true })
 
 -- Create an autocommand to delete buffers with the name '[No Name]'
 vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
-  pattern = { '*.lua' },
+  pattern = pattern,
   group = group_hi_last_letter,
   callback = function()
     -- require('learn_motions').highlight_last_letter()
     require('learn_motions').highlight_next_letter()
   end,
 })
-vim.keymap.set('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
 --1 ---- Define a function to move a buffer to a new tab
 --1 local function move_to_new_tab(bufnr)
 --1   local buffer_name = vim.api.nvim_buf_get_name(bufnr)
