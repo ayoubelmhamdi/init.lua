@@ -15,4 +15,5 @@ function M.unplace_sign(id)
   local buffer = vim.api.nvim_get_current_buf()
   vim.fn.sign_unplace('', { id = id, buffer = buffer })
 end
+
 return M
