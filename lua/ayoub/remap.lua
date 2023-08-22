@@ -2,7 +2,8 @@ vim.g.mapleader = ' '
 
 local key = vim.keymap.set
 
-key("n", "-", '<cmd>lua require("oil").open()<cr>', { silent = true })
+key('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
+key('n', '-', '<cmd>lua require("oil").open()<cr>', { silent = true })
 
 key({ 'n' }, '<F5>', ':echo synIDattr(synID(line("."), col("."), 1), "name")<CR>', { silent = true })
 
