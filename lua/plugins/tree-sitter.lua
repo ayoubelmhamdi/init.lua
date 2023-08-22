@@ -7,6 +7,7 @@ return {
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
     { 'JoosepAlviste/nvim-ts-context-commentstring' },
     { 'p00f/nvim-ts-rainbow' },
+    { 'filNaj/tree-setter' },
   },
   build = ':TSUpdate',
   --
@@ -15,10 +16,15 @@ return {
       ensure_installed = { 'javascript', 'typescript', 'c', 'lua', 'rust' },
       sync_install = false,
       auto_install = false,
+      -- 'filNaj/tree-setter'
+      tree_setter = {
+        enable = true,
+      },
+
       highlight = {
         enable = true,
-        disable = { "markdown" },
-        additional_vim_regex_highlighting = true,
+        disable = { 'markdown' },
+        additional_vim_regex_highlighting = false,
         -- disable = function(lang, buf)
         --   local max_filesize = 100 * 1024 -- 100 KB
         --   local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -32,7 +38,7 @@ return {
     parser_config.typst = {
       install_info = {
         url = '/data/github/tree-sitter-typst',
-        files = { 'src/parser.c' , 'src/scanner.cc'},
+        files = { 'src/parser.c', 'src/scanner.cc' },
         branch = 'main',
       },
       filetype = 'typst', -- if filetype does not agrees with parser name
