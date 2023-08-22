@@ -2,12 +2,11 @@ local M = {}
 
 function M.highlight_next_letter()
   if _G.Match_id then
-    local status, err = pcall(vim.fn.matchdelete, _G.Match_id)
-    if not status then
-      --debug
-      --print('Error deleting match: ', err)
-      return
-    end
+    pcall(vim.fn.matchdelete, _G.Match_id)
+    --   debug
+    --   print('Error deleting match: ', err)
+    --   do not return if we dont has _G.Match_id
+    --   just delet it if exist
   end
 
   local position = vim.api.nvim_win_get_cursor(0)
