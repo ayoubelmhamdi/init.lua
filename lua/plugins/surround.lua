@@ -1,1 +1,6 @@
-return { 'echasnovski/mini.nvim', version = false }
+return {
+  -- Usage
+  event = 'VeryLazy',
+  'echasnovski/mini.nvim',
+  version = false,
+}

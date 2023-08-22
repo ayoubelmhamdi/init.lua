@@ -1,5 +1,4 @@
-return {
-}
+return {}
 --   'chipsenkbeil/distant.nvim',
 --   -- version = '0.1.2',
 --   dependencies = {

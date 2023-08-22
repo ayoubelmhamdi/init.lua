@@ -1,4 +1,3 @@
--- return {}
 return {
   {
     'kaarmu/typst.vim',
@@ -8,5 +7,4 @@ return {
   -- {
   --   'SeniorMars/typst.nvim',
   -- },
-  {},
 }
