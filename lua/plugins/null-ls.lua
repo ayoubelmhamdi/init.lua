@@ -1,5 +1,4 @@
 return {
-
   'jose-elias-alvarez/null-ls.nvim',
   -- dependencies = { },
   config = function()
@@ -59,8 +58,8 @@ return {
         formatting.shellharden,
         -- ## C
         -- formatting.uncrustify,
-        formatting.clang_format,
-        diagnostics.cppcheck,
+        -- formatting.clang_format,
+        -- diagnostics.cppcheck,
         -- ## Matlab
         -- diagnostics.mh_lint,
         -- ## md
@@ -73,6 +72,9 @@ return {
         formatting.black,
         formatting.isort,
         formatting.reorder_python_imports,
+        -- # json
+        formatting.jq,
+        formatting.fixjson,
       },
       on_attach = on_attach,
     }
