@@ -62,8 +62,8 @@ key('n', '<leader>f', function()
   vim.lsp.buf.format()
 end)
 
-key('n', '<C-k>', '<cmd>cnext<CR>zz')
-key('n', '<C-j>', '<cmd>cprev<CR>zz')
+key('n', '<C-j>', '<cmd>cnext<CR>zz')
+key('n', '<C-k>', '<cmd>cprev<CR>zz')
 key('n', '<leader>k', '<cmd>lnext<CR>zz')
 key('n', '<leader>j', '<cmd>lprev<CR>zz')
 
@@ -203,7 +203,7 @@ key('n', '<expr>', '<CR> {-> v:hlsearch ? ":nohl\\<CR>":"\\<CR>"}()', { silent =
 
 -- grep hightlite
 key('n', '<leader>sh', '<cmd>TSHighlightCapturesUnderCursor<CR>', { silent = true })
-key('n', 'q', ':bd<cr>', { silent = true })
+key('n', '<C-q><C-q>', ':bd<cr>', { silent = true })
 
 key('n', 'gt', 'viW"dy:tabnew <c-r>d<cr>', { silent = true })
 
