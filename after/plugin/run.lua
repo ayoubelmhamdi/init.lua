@@ -1,5 +1,5 @@
-local pattern = 'test.py'
-local command = { 'python3', 'test.py' }
+local pattern = 'test.sh'
+local command = { './test.sh' }
 
 -- It's our main starting function. For now we will only creating navigation window here.
 local win
@@ -56,7 +56,7 @@ local attach_to_buffer = function()
           --     print 'test1'
         end
       end
-      vim.api.nvim_buf_set_lines(buf, 0, -1, false, { 'output ayoub' })
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, { '' })
       vim.fn.jobstart(command, {
         stdout_buffered = true,
         on_stdout = append_data,
