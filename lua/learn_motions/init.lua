@@ -29,8 +29,7 @@ function M.highlight_next_letter()
   end
   local no_word = '...'
 
--- TODO check if cursor under %w or not
-
+  -- TODO check if cursor under %w or not
 
   -- word [cursor]
   if col + 1 > word_end then
@@ -40,7 +39,7 @@ function M.highlight_next_letter()
     end
   else
     -- else if
-  -- word[cursor]
+    -- word[cursor]
     if col + 1 == word_end then
       no_word = 'end_of_word'
       word_start, word_end = line:find('[^%s]+', word_end + 1)
