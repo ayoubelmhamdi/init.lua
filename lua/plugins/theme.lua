@@ -1,17 +1,37 @@
 return {
   {
-    'sainnhe/edge',
-    config = function()
-      vim.cmd 'colorscheme edge'
-    end,
-  },
-  -- {
-  --   'd00h/nvim-rusticated',
-  --   config = function()
-  --     vim.cmd 'colorscheme rusticated'
-  --   end,
-  -- },
-  {
+    dependencies = {
+      {
+        'projekt0n/github-nvim-theme',
+        lazy = false, -- make sure we load this during startup if it is your main colorscheme
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+          require('github-theme').setup {
+            options = {
+              hide_end_of_buffer = true,
+              -- italic,bold
+              -- styles = {
+              --   comments = 'NONE',
+              --   functions = 'NONE',
+              --   keywords = 'NONE',
+              --   variables = 'NONE',
+              --   conditionals = 'NONE',
+              --   constants = 'NONE',
+              --   numbers = 'NONE',
+              --   operators = 'NONE',
+              --   strings = 'NONE',
+              --   types = 'NONE',
+              -- },
+            },
+          }
+        end,
+      },
+      {
+        'sainnhe/edge',
+      },
+    },
+    -- { 'd00h/nvim-rusticated' },
+
     'echasnovski/mini.indentscope',
     version = false,
     config = function()
@@ -21,6 +41,12 @@ return {
           delay = 10,
         },
       }
+
+      if vim.fn.filereadable '/tmp/day' == 1 then
+        vim.cmd 'colorscheme github_light'
+      else
+        vim.cmd 'colorscheme edge'
+      end
     end,
   },
   -- {
@@ -47,14 +73,12 @@ return {
   --         virtual_text = 'NONE',
   --       },
   --     }
-  --     vim.cmd 'colorscheme onedark'
   --   end,
   -- },
   -- {
   --   'olivercederborg/poimandres.nvim',
   --   config = function()
   --     require('poimandres').setup {}
-  --     vim.cmd 'colorscheme poimandres'
   --   end,
   -- },
   -- {
@@ -87,8 +111,5 @@ return {
   -- },
   -- {
   --   'ellisonleao/gruvbox.nvim',
-  --   config = function()
-  --     vim.cmd.colorscheme 'gruvbox'
-  --   end,
   -- },
 }
