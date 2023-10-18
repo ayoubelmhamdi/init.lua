@@ -22,26 +22,25 @@ return {
       --   init_options = { clientId = 'client_BaDkMgx4X19X9UxxYRCXZo' },
       -- }
 
-      -- lspconfig.pyright.setup {
-      --   handlers = handlers,
-      --   capabilities = capabilities,
-      --   on_attach = on_attach,
-      -- }
-
-      lspconfig.pylyzer.setup {
+      lspconfig.pyright.setup {
         handlers = handlers,
         capabilities = capabilities,
         on_attach = on_attach,
       }
 
+      -- lspconfig.pylyzer.setup {
+      --   handlers = handlers,
+      --   capabilities = capabilities,
+      --   on_attach = on_attach,
+      -- }
 
-      lspconfig.sourcery.setup {
-        init_options = {
-          token = 'user_zapqdUoO_oNXWlV0JSVBENoiQu4hGRIBETEmnEfU5tmFOpMjOSr60LrJKig',
-          extension_version = 'vim.lsp',
-          editor_version = 'vim',
-        },
-      }
+      -- lspconfig.sourcery.setup {
+      --   init_options = {
+      --     token = 'user_zapqdUoO_oNXWlV0JSVBENoiQu4hGRIBETEmnEfU5tmFOpMjOSr60LrJKig',
+      --     extension_version = 'vim.lsp',
+      --     editor_version = 'vim',
+      --   },
+      -- }
       lspconfig.ruff_lsp.setup {
         handlers = handlers,
         capabilities = capabilities,
@@ -51,10 +50,38 @@ return {
         end,
         init_options = {
           settings = {
+            organizeImports = false,
+            fixAll= false,
             -- Any extra CLI arguments for `ruff` go here.
-            args = { '--ignore=E501' },
+            args = { '--ignore=E501', '--line-length=150' },
           },
         },
+        --
+        commands = {
+          RuffAutofix = {
+            function()
+              vim.lsp.buf.execute_command {
+                command = 'ruff.applyAutofix',
+                arguments = {
+                  { uri = vim.uri_from_bufnr(0) },
+                },
+              }
+            end,
+            description = 'Ruff: Fix all auto-fixable problems',
+          },
+          RuffOrganizeImports = {
+            function()
+              vim.lsp.buf.execute_command {
+                command = 'ruff.applyOrganizeImports',
+                arguments = {
+                  { uri = vim.uri_from_bufnr(0) },
+                },
+              }
+            end,
+            description = 'Ruff: Format imports',
+          },
+        },
+        --
       }
 
       lspconfig.typst_lsp.setup {
@@ -69,17 +96,17 @@ return {
         },
       }
 
-      -- clangd server setup
-      local clangd_capabilities = capabilities
-      clangd_capabilities.offsetEncoding = 'utf-8'
-
-      lspconfig.clangd.setup {
-        handlers = handlers,
-        capabilities = clangd_capabilities,
-        on_attach = on_attach,
-        single_file_support = true,
-        filetype = { 'c', 'cpp' },
-      }
+      -- -- clangd server setup
+      -- local clangd_capabilities = capabilities
+      -- clangd_capabilities.offsetEncoding = 'utf-8'
+      --
+      -- lspconfig.clangd.setup {
+      --   handlers = handlers,
+      --   capabilities = clangd_capabilities,
+      --   on_attach = on_attach,
+      --   single_file_support = true,
+      --   filetype = { 'c', 'cpp' },
+      -- }
 
       if false then
         -- lspconfig.ltex.setup { cmd = { '/home/mhamdi/.cache/ltex-ls-15.2.0/bin/ltex-ls' } }
