@@ -1,5 +1,6 @@
 vim.g.loaded_matchparen = 1
 vim.g.mapleader = ' '
+vim.g.markdown_fenced_languages = { 'html', 'python', 'bash', 'sh' }
 
 local opt = vim.opt
 
@@ -38,9 +39,15 @@ opt.smartindent = true
 
 opt.wrap = false
 
+local tmp_undo = ''
+if os.getenv 'TMPDIR' then
+  tmp_undo = os.getenv 'TMPDIR' .. '/nvim/undodir'
+else
+  tmp_undo = '/tmp/nvim/undodir'
+end
 opt.swapfile = false
 opt.backup = false
-opt.undodir = '/tmp/nvim/undodir'
+opt.undodir = tmp_undo -- try to use TMPDIR for termux also
 opt.undofile = true
 
 opt.hlsearch = true
