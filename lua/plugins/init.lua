@@ -1,9 +1,8 @@
 return {
---}
   { 'nvim-lua/plenary.nvim' },
 
   -- Git
- --  { 'mbbill/undotree' },
+  --  { 'mbbill/undotree' },
   -- { 'tpope/vim-fugitive' },
   { 'airblade/vim-rooter' },
   -- Basic
