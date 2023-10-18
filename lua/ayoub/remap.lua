@@ -2,6 +2,10 @@ vim.g.mapleader = ' '
 
 local key = vim.keymap.set
 
+-- vim.cmd 'nnoremap <buffer> <CR> <CR>:cclose<CR>'
+
+key('n', '<C-Space>', '<cmd>lua require("ayoub.compilation").OpenQuickfix("%<")<CR>')
+
 key('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
 key('n', '-', '<cmd>lua require("oil").open()<cr>', { silent = true })
 
@@ -122,8 +126,8 @@ key('n', '<Space>fw', ':lua require("tsp.cwd-tsp").search_wiki()<cr> ', { silent
 key('n', '<Space>f1', ':lua require("tsp.cwd-tsp").search_proj("sl")<cr> ', { silent = true })
 key('n', '<Space>f2', ':lua require("tsp.cwd-tsp").search_proj("slstatus")<cr> ', { silent = true })
 
-key('n', '<Tab>', ':tabnext<cr>', { silent = true })
-key('n', '<S-Tab>', ':tabprev<cr>', { silent = true })
+--key('n', '<Tab>', ':tabnext<cr>', { silent = true })
+--key('n', '<S-Tab>', ':tabprev<cr>', { silent = true })
 
 key('i', '<c-a-k>', '<c-k>', { silent = true })
 
@@ -136,8 +140,10 @@ key('t', '<S-Tab>', '<c-\\><c-n>:tabprev<cr>', { silent = true })
 
 key('n', '<C-Up>', ':resize +2<cr>', { silent = true })
 key('n', '<C-Down>', ':resize -2<cr>', { silent = true })
-key('n', '<C-Left>', ':vertical resize -2<cr>', { silent = true })
-key('n', '<C-Right>', ':vertical resize +2<cr>', { silent = true })
+key('n', '<C-Left>', '10h', { silent = true })
+key('n', '<C-Right>', '10l', { silent = true })
+-- key('n', '<C-Left>', ':vertical resize -2<cr>', { silent = true })
+-- key('n', '<C-Right>', ':vertical resize +2<cr>', { silent = true })
 
 key('t', '<C-Up>', '<C-\\><C-N>:resize +2<cr>', { silent = true })
 key('t', '<C-Down>', '<C-\\><C-N>:resize -2<cr>', { silent = true })
