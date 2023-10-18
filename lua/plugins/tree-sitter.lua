@@ -7,23 +7,23 @@ return {
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
     { 'JoosepAlviste/nvim-ts-context-commentstring' },
     { 'p00f/nvim-ts-rainbow' },
-    { 'filNaj/tree-setter' },
+    -- { 'filNaj/tree-setter' },
   },
   build = ':TSUpdate',
   --
   config = function()
     require('nvim-treesitter.configs').setup {
-      ensure_installed = { 'javascript', 'typescript', 'c', 'lua', 'rust' },
+      ensure_installed = { 'markdown', 'markdown_inline', 'javascript', 'typescript', 'c', 'lua', 'rust' },
       sync_install = false,
       auto_install = false,
       -- 'filNaj/tree-setter'
-      tree_setter = {
-        enable = true,
-      },
+      -- tree_setter = {
+      --   enable = true,
+      -- },
 
       highlight = {
         enable = true,
-        disable = { 'markdown' },
+        -- disable = { 'markdown' },
         additional_vim_regex_highlighting = false,
         -- disable = function(lang, buf)
         --   local max_filesize = 100 * 1024 -- 100 KB
