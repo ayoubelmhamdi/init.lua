@@ -96,16 +96,26 @@ augroup quickfix
     autocmd!
     autocmd QuickFixCmdPost [^l]* cwindow
     autocmd QuickFixCmdPost    l* lwindow
+    autocmd FileType qf,jf nnoremap <buffer> <CR> <CR>:cclose<CR>
 augroup END
 
-nnoremap <buffer> <CR> <CR>:cclose<CR>
 ]]
+-- nnoremap <buffer> <CR> <CR>:cclose<CR>
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
 local AyoubGroup = augroup('Ayoub', {})
+local CmainGroup = augroup('Cmain', {})
 local yank_group = augroup('HighlightYank', {})
+
+vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+  pattern = 'main.c',
+  group = CmainGroup,
+  callback = function()
+    vim.cmd 'make | redraw! |echo "make finished"'
+  end,
+})
 
 function R(name)
   require('plenary.reload').reload_module(name)
