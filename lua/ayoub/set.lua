@@ -1,8 +1,10 @@
+local opt = vim.opt
+
 vim.g.loaded_matchparen = 1
 vim.g.mapleader = ' '
 vim.g.markdown_fenced_languages = { 'html', 'python', 'bash', 'sh' }
-
-local opt = vim.opt
+opt.makeprg = './build.sh'
+opt.completeopt = { 'menuone' }
 
 opt.cursorline = true
 
