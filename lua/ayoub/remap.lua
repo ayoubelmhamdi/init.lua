@@ -4,14 +4,15 @@ local key = vim.keymap.set
 
 -- vim.cmd 'nnoremap <buffer> <CR> <CR>:cclose<CR>'
 
-key('n', '<C-Space>', '<cmd>lua require("ayoub.compilation").OpenQuickfix("%<")<CR>')
+-- key('n', '<C-Space>',' <cmd>lua require("ayoub.compilation").OpenQuickfix("make | redraw! |echo \\"make finished\\"")<CR>', {})
+key('n', '<C-Space>',':new | term ./nn<CR>', {})
 
 key('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
 key('n', '-', '<cmd>lua require("oil").open()<cr>', { silent = true })
 
 key({ 'n' }, '<F5>', ':echo synIDattr(synID(line("."), col("."), 1), "name")<CR>', { silent = true })
 
-key({ 'n' }, '<cr>', 'viw', { silent = true })
+key({ 'n' }, '<cr>', ':cclose<cr>viw', { silent = true })
 key({ 'n' }, '<esc>', '<esc>:noh<cr>', { silent = true })
 
 key({ 'n', 'v' }, 'j', 'gj', { silent = true })
