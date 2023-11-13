@@ -61,7 +61,7 @@ opt.smartcase = true
 opt.termguicolors = true
 opt.signcolumn = 'yes'
 opt.isfname:append '@-@'
-opt.updatetime = 100
+opt.updatetime = 300
 opt.colorcolumn = '80'
 
 opt.linebreak = true
