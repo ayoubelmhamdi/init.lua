@@ -1,5 +1,11 @@
+local python = true
 local pattern = 'test.sh'
 local command = { './test.sh' }
+
+if python then
+  pattern = 'test2.py'
+  command = { './test2.py' }
+end
 
 -- It's our main starting function. For now we will only creating navigation window here.
 local win
@@ -10,7 +16,7 @@ Create_win = function()
   -- We save handle to window from which we open the navigation
   start_win = vim.api.nvim_get_current_win()
 
-  vim.api.nvim_command 'botright vnew' -- We open a new vertical window at the far right
+  vim.api.nvim_command 'botright new' -- We open a new vertical window at the far right
   win = vim.api.nvim_get_current_win() -- We save our navigation window handle...
   buf = vim.api.nvim_get_current_buf() -- ...and it's buffer handle.
 
