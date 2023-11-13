@@ -34,9 +34,9 @@ return {
     keymap('n', ']d', '<cmd>Lspsaga diagnostic_jump_next<CR>', { silent = true })
     keymap('n', '<space>o', '<cmd>LSoutlineToggle<CR>', { silent = true })
     keymap('n', 'K', '<cmd>Lspsaga hover_doc<CR>', { silent = true })
-    keymap('n', '<A-d>', '<cmd>Lspsaga open_floaterm<CR>', { silent = true })
-    keymap('n', '<A-d>', '<cmd>Lspsaga open_floaterm lazygit<CR>', { silent = true })
-    keymap('t', '<A-d>', [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
+    -- keymap('n', '<A-d>', '<cmd>Lspsaga open_floaterm<CR>', { silent = true })
+    -- keymap('n', '<A-d>', '<cmd>Lspsaga open_floaterm lazygit<CR>', { silent = true })
+    -- keymap('t', '<A-d>', [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], { silent = true })
 
     -- Show line diagnostics
     -- keymap('n', '<space>cd', '<cmd>Lspsaga show_line_diagnostics<CR>', { silent = true })
