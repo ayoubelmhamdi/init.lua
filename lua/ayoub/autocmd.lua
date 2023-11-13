@@ -94,8 +94,8 @@ augroup END
 
 augroup quickfix
     autocmd!
-    autocmd QuickFixCmdPost [^l]* cwindow
-    autocmd QuickFixCmdPost    l* lwindow
+    autocmd QuickFixCmdPost [^l]* execute "normal! zz" | cwindow
+    autocmd QuickFixCmdPost    l* execute "normal! zz" | lwindow
     autocmd FileType qf,jf nnoremap <buffer> <CR> <CR>:cclose<CR>
 augroup END
 
@@ -110,10 +110,11 @@ local CmainGroup = augroup('Cmain', {})
 local yank_group = augroup('HighlightYank', {})
 
 vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-  pattern = 'main.c',
+  pattern = { 'main.c', 'nn.h' },
   group = CmainGroup,
   callback = function()
     vim.cmd 'make | redraw! |echo "make finished"'
+    vim.cmd 'silent! !ctags -f tags nn.h main.c &'
   end,
 })
 
