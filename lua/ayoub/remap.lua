@@ -2,10 +2,16 @@ vim.g.mapleader = ' '
 
 local key = vim.keymap.set
 
--- vim.cmd 'nnoremap <buffer> <CR> <CR>:cclose<CR>'
-
 -- key('n', '<C-Space>',' <cmd>lua require("ayoub.compilation").OpenQuickfix("make | redraw! |echo \\"make finished\\"")<CR>', {})
-key('n', '<C-Space>',':new | term ./nn<CR>', {})
+key('i', '<TAB>', '<C-I>')
+key({ 'i', 'n' }, '<A-d>', ':t.<CR>')
+key('i', '<C-L>', '<C-X><C-L>', { silent = true })
+key('i', '<C-I>', '<C-X><C-I>', { silent = true })
+key('i', '<C-]>', '<C-X><C-]>', { silent = true })
+key('i', '<C-F>', '<C-X><C-F>', { silent = true })
+key('i', '<C-D>', '<C-X><C-D>', { silent = true })
+
+key('n', '<C-Space>', ':new | term ./nn<CR>', {})
 
 key('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
 key('n', '-', '<cmd>lua require("oil").open()<cr>', { silent = true })
@@ -52,8 +58,8 @@ key({ 'n', 'v' }, '<C-u>', '<C-u>zz')
 key({ 'n', 'v' }, 'n', 'nzzzv')
 key({ 'n', 'v' }, 'N', 'Nzzzv')
 
--- k('v', ',y', '"dy')
 -- k('n', ',p', '"dp')
+-- k('v', ',y', '"dy')
 
 -- This is going to get me cancelled
 key('i', '<C-c>', '<Esc>')
@@ -68,7 +74,7 @@ key('n', '<C-k>', '<cmd>cprev<CR>zz')
 key('n', '<leader>k', '<cmd>lnext<CR>zz')
 key('n', '<leader>j', '<cmd>lprev<CR>zz')
 
-key('n', '<leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>')
+key('n', '<A-s>', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>')
 key('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
 
 -- k(
@@ -77,7 +83,7 @@ key('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
 --   ':w<cr>:silent !python -m jupyter_ascending.requests.sync --filename %&:<cr>',
 --   { silent = true }
 -- )
-key('n', '<c-w>o', ':Zoom<cr>', { silent = true })
+-- key('n', '<c-w>o', ':Zoom<cr>', { silent = true })
 
 key('n', 'x', '"_x', { silent = true })
 key('n', 'X', '"_X', { silent = true })
@@ -152,15 +158,15 @@ key('t', '<C-Left>', '<C-\\><C-N>:vertical resize -2<cr>', { silent = true })
 key('t', '<C-Right>', '<C-\\><C-N>:vertical resize +2<cr>', { silent = true })
 
 --Basic file system commands
-key('n', '<C-M-o>', ':!touch<Space>', { silent = true })
-key('n', '<C-M-d>', ':!mkdir<Space>', { silent = true })
-key('n', '<C-M-c>', ':!cp<Space>%<Space>', { silent = true })
-key('n', '<C-M-m>', ':!mv<Space>%<Space>', { silent = true })
+-- key('n', '<C-M-o>', ':!touch<Space>', { silent = true })
+-- key('n', '<C-M-d>', ':!mkdir<Space>', { silent = true })
+-- key('n', '<C-M-c>', ':!cp<Space>%<Space>', { silent = true })
+-- key('n', '<C-M-m>', ':!mv<Space>%<Space>', { silent = true })
 
 -- fix p y
 --k('n', 's', '<NOP>', {silent = true})
 --k('n', 'S', '<NOP>', {silent = true})
-key('n', '<C-Q>', ':noautocmd bd<cr>', { silent = true })
+-- key('n', '<C-Q>', ':noautocmd bd<cr>', { silent = true })
 key('n', '<C-Q><C-Q>', ':noautocmd q<cr>', { silent = true })
 key('n', '<Space>w', ':w<cr>', { silent = true })
 
