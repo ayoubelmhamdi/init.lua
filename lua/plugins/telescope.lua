@@ -17,10 +17,31 @@ return {
     config = function()
       local builtin = require 'telescope.builtin'
       local function grep_string()
-        builtin.grep_string { search = vim.fn.input 'Grep > ' }
+        builtin.grep_string {
+          find_command = {
+            'rg',
+            '-g',
+            '!.git',
+            '-g',
+            '!node_modules',
+            '-g',
+            '!package-lock.json',
+            '-g',
+            '!yarn.lock',
+            '--hidden',
+            '--no-ignore-global',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+          },
+          ignore_case = true,
+          search = vim.fn.input 'Grep > ',
+        }
       end
       vim.keymap.set('n', '<C-p>', ':Telescope repo list<cr>', {})
-      vim.keymap.set('n', '<C-l>', ':Telescope find_files<cr>', {})
+      vim.keymap.set('n', '<C-l>', ':Telescope git_files<cr>', {})
       vim.keymap.set('n', '<leader>lf', ':Telescope find_files<cr>', {})
       vim.keymap.set('n', '<leader>ls', grep_string)
 
@@ -76,7 +97,6 @@ return {
         height = 0.99,
         -- preview_cutoff = 120,
         prompt_position = 'top',
-
         horizontal = {
           preview_width = function(_, cols, _)
             if cols > 200 then
@@ -88,14 +108,12 @@ return {
 
           preview_cutoff = 10,
         },
-
         vertical = {
           width = 0.95,
           height = 0.95,
           preview_height = 0.8,
           preview_cutoff = 10,
         },
-
         flex = {
           horizontal = {
             preview_width = 0.9,
