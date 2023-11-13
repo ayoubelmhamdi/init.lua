@@ -46,6 +46,7 @@ return {
         vim.cmd 'colorscheme github_light'
       else
         vim.cmd 'colorscheme edge'
+        vim.cmd 'hi Normal guibg=#21262D'
       end
     end,
   },
