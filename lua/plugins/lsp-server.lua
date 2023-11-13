@@ -51,9 +51,9 @@ return {
         init_options = {
           settings = {
             organizeImports = false,
-            fixAll= false,
+            fixAll = false,
             -- Any extra CLI arguments for `ruff` go here.
-            args = { '--ignore=E501', '--line-length=150' },
+            args = { '--ignore=E501' },
           },
         },
         --
