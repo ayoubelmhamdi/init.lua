@@ -11,7 +11,7 @@ key('i', '<C-]>', '<C-X><C-]>', { silent = true })
 key('i', '<C-F>', '<C-X><C-F>', { silent = true })
 key('i', '<C-D>', '<C-X><C-D>', { silent = true })
 
-key('n', '<C-Space>', ':new | term ./nn<CR>', {})
+key('n', '<C-Space>', ':new | term ./dwm<CR>', {})
 
 key('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
 key('n', '-', '<cmd>lua require("oil").open()<cr>', { silent = true })
