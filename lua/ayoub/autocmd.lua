@@ -110,11 +110,11 @@ local CmainGroup = augroup('Cmain', {})
 local yank_group = augroup('HighlightYank', {})
 
 vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-  pattern = { 'main.c', 'nn.h' },
+  pattern = { 'dwm.c', 'nn.h' },
   group = CmainGroup,
   callback = function()
     vim.cmd 'make | redraw! |echo "make finished"'
-    vim.cmd 'silent! !ctags -f tags nn.h main.c &'
+    vim.cmd 'silent! !ctags -f tags dwm.c config.def.h &'
   end,
 })
 
