@@ -1,5 +1,6 @@
 return {
-  'jose-elias-alvarez/null-ls.nvim',
+  -- 'jose-elias-alvarez/null-ls.nvim',
+  'nvimtools/none-ls.nvim',
   -- dependencies = { },
   config = function()
     -- if true then return end
@@ -46,10 +47,10 @@ return {
       debug = true,
       sources = {
         -- All
-        completion.spell,
-        completion.luasnip,
+        -- completion.spell,
+        -- completion.luasnip,
         -- ## Rust
-        formatting.rustfmt,
+        -- formatting.rustfmt,
         -- ## Lua
         formatting.stylua,
         -- ## Bash
@@ -69,7 +70,7 @@ return {
         -- formatting.mdformat,
         -- ## python
         -- diagnostics.flake8,
-        formatting.black,
+        -- formatting.black,
         formatting.isort,
         formatting.reorder_python_imports,
         -- # json
