@@ -3,7 +3,7 @@ local opt = vim.opt
 vim.g.loaded_matchparen = 1
 vim.g.mapleader = ' '
 vim.g.markdown_fenced_languages = { 'html', 'python', 'bash', 'sh' }
-opt.makeprg = './build.sh'
+-- opt.makeprg = './build.sh'
 opt.completeopt = { 'menuone' }
 
 opt.cursorline = true
@@ -32,9 +32,9 @@ opt.splitright = true
 opt.nu = true
 opt.relativenumber = true
 
-opt.tabstop = 2
-opt.softtabstop = 2
-opt.shiftwidth = 2
+opt.tabstop = 4
+opt.softtabstop = 4
+opt.shiftwidth = 4
 opt.expandtab = true
 
 opt.smartindent = true
