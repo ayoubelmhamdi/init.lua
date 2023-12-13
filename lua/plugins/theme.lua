@@ -1,6 +1,7 @@
 return {
   {
     dependencies = {
+      {"blazkowolf/gruber-darker.nvim" },
       {
         'projekt0n/github-nvim-theme',
         lazy = false, -- make sure we load this during startup if it is your main colorscheme
@@ -42,11 +43,12 @@ return {
         },
       }
 
-      if vim.fn.filereadable '/tmp/day' == 1 then
+      if vim.fn.filereadable '/tmp/day1' == 1 then
         vim.cmd 'colorscheme github_light'
       else
-        vim.cmd 'colorscheme edge'
-        vim.cmd 'hi Normal guibg=#21262D'
+        -- vim.cmd 'colorscheme edge'
+        vim.cmd.colorscheme("gruber-darker")
+        -- vim.cmd 'hi Normal guibg=#181818'
       end
     end,
   },
