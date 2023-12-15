@@ -65,9 +65,7 @@ key({ 'n', 'v' }, 'N', 'Nzzzv')
 key('i', '<C-c>', '<Esc>')
 
 key('n', 'Q', '<nop>')
-key('n', '<leader>f', function()
-  vim.lsp.buf.format()
-end)
+key('n', '<leader>f', function() vim.lsp.buf.format() end)
 
 key('n', '<C-j>', '<cmd>cnext<CR>zz')
 key('n', '<C-k>', '<cmd>cprev<CR>zz')
@@ -105,7 +103,7 @@ key('v', 'Y', 'Ygv<Esc>', { silent = true })
 -- k('n', 'P', 'Pgvy', { silent = true })
 --'p', 'pgvy', { silent = true })
 -- k('n',
-vim.cmd [[xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>]]
+vim.cmd([[xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>]])
 
 key('n', ',or', ':OverseerRun<cr>', { silent = true })
 key('n', ',ol', ':OverseerLoadBundle<cr>', { silent = true })
@@ -120,12 +118,7 @@ key('n', '<Space>fs', ':Telescope current_buffer_fuzzy_find<cr>', { silent = tru
 key('n', '<Space>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { silent = true })
 key('n', '<Space>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', { silent = true })
 key('n', '<Space>hh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', { silent = true })
-key(
-  'n',
-  '<Space>ff',
-  '<cmd>lua require("telescope.builtin").find_files({ find_command = { "fd","-tf","-tl"}})<cr>',
-  { silent = true }
-)
+key('n', '<Space>ff', '<cmd>lua require("telescope.builtin").find_files({ find_command = { "fd","-tf","-tl"}})<cr>', { silent = true })
 
 key('n', '<Space>f.', ':lua require("tsp.cwd-tsp").search_dotfiles()<cr> ', { silent = true })
 key('n', '<Space>f-', ':lua require("tsp.cwd-tsp").search_nvim()<cr> ', { silent = true })

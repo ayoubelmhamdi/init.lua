@@ -1,25 +1,23 @@
 local pattern = {
-  '*.css',
-  '*.html',
-  '*.js',
-  '*.md',
-  '*.tex',
-  '*.c',
-  '*.h',
-  '*.lua',
-  '*.dart',
-  '*.rs',
-  '*.sh',
-  '*.toml',
-  '*.yaml',
-  '*.m',
+    '*.css',
+    '*.html',
+    '*.js',
+    '*.md',
+    '*.tex',
+    '*.c',
+    '*.h',
+    '*.lua',
+    '*.dart',
+    '*.rs',
+    '*.sh',
+    '*.toml',
+    '*.yaml',
+    '*.m',
 }
 
 vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
-  pattern = pattern,
-  callback = function()
-    vim.cmd [[noautocmd update]]
-  end,
+    pattern = pattern,
+    callback = function() vim.cmd([[noautocmd update]]) end,
 })
 
 -- vim.api.nvim_create_autocmd({ 'CursorHold' }, {
@@ -38,25 +36,19 @@ vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
 
 -- useful for some zf
 vim.api.nvim_create_autocmd('VimEnter', {
-  pattern = pattern,
-  callback = function()
-    vim.cmd [[silent! loadview]]
-  end,
+    pattern = pattern,
+    callback = function() vim.cmd([[silent! loadview]]) end,
 })
 
 vim.api.nvim_create_autocmd('VimLeave', {
-  pattern = pattern,
-  callback = function()
-    vim.cmd [[silent! mkview]]
-  end,
+    pattern = pattern,
+    callback = function() vim.cmd([[silent! mkview]]) end,
 })
 
 -- use custom shell for reload flutter using kill
 vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
-  pattern = { '*.dart' },
-  callback = function()
-    os.execute 'killflutter'
-  end,
+    pattern = { '*.dart' },
+    callback = function() os.execute('killflutter') end,
 })
 
 local place_sign = require('ayoub.signs').place_sign
@@ -68,16 +60,16 @@ local group = 'CursorSign'
 api.nvim_create_augroup(group, { clear = true })
 
 vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
-  pattern = '*',
-  group = group,
-  callback = function()
-    local line, _ = unpack(api.nvim_win_get_cursor(0))
-    unplace_sign(1)
-    place_sign(line, 1)
-  end,
+    pattern = '*',
+    group = group,
+    callback = function()
+        local line, _ = unpack(api.nvim_win_get_cursor(0))
+        unplace_sign(1)
+        place_sign(line, 1)
+    end,
 })
 
-vim.cmd [[
+vim.cmd([[
 
 augroup General
   autocmd!
@@ -99,7 +91,7 @@ augroup quickfix
     autocmd FileType qf,jf nnoremap <buffer> <CR> <CR>:cclose<CR>
 augroup END
 
-]]
+]])
 -- nnoremap <buffer> <CR> <CR>:cclose<CR>
 
 local augroup = vim.api.nvim_create_augroup
@@ -110,34 +102,32 @@ local CmainGroup = augroup('Cmain', {})
 local yank_group = augroup('HighlightYank', {})
 
 vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-  pattern = { 'dwm.c', 'nn.h' },
-  group = CmainGroup,
-  callback = function()
-    vim.cmd 'make | redraw! |echo "make finished"'
-    vim.cmd 'silent! !ctags -f tags dwm.c config.def.h &'
-  end,
+    pattern = { 'dwm.c', 'nn.h' },
+    group = CmainGroup,
+    callback = function()
+        vim.cmd('make | redraw! |echo "make finished"')
+        vim.cmd('silent! !ctags -f tags dwm.c config.def.h &')
+    end,
 })
 
-function R(name)
-  require('plenary.reload').reload_module(name)
-end
+function R(name) require('plenary.reload').reload_module(name) end
 
 -- highlight text on yank
 autocmd('TextYankPost', {
-  group = yank_group,
-  pattern = pattern,
-  callback = function()
-    vim.highlight.on_yank {
-      higroup = 'IncSearch',
-      timeout = 300,
-    }
-  end,
+    group = yank_group,
+    pattern = pattern,
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = 'IncSearch',
+            timeout = 300,
+        })
+    end,
 })
 
 autocmd({ 'BufWritePre' }, {
-  group = AyoubGroup,
-  pattern = pattern,
-  command = '%s/\\s\\+$//e',
+    group = AyoubGroup,
+    pattern = pattern,
+    command = '%s/\\s\\+$//e',
 })
 
 --1vim.keymap.set('n', '<space>s', function()
@@ -155,28 +145,26 @@ local group_no_name = vim.api.nvim_create_augroup('delete_no_name_buffers', { cl
 
 -- Create an autocommand to delete buffers with the name '[No Name]'
 vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNew' }, {
-  pattern = '*',
-  group = group_no_name,
-  callback = function()
-    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-      local bufname = vim.api.nvim_buf_get_name(bufnr)
-      if bufname == '' then
-        vim.bo[bufnr].bufhidden = 'delete'
-      end
-    end
-  end,
+    pattern = '*',
+    group = group_no_name,
+    callback = function()
+        for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+            local bufname = vim.api.nvim_buf_get_name(bufnr)
+            if bufname == '' then vim.bo[bufnr].bufhidden = 'delete' end
+        end
+    end,
 })
 
 local group_hi_last_letter = vim.api.nvim_create_augroup('group_hi_last_letter', { clear = true })
 
 -- Create an autocommand to delete buffers with the name '[No Name]'
 vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
-  pattern = pattern,
-  group = group_hi_last_letter,
-  callback = function()
-    -- require('learn_motions').highlight_last_letter()
-    require('learn_motions').highlight_next_letter()
-  end,
+    pattern = pattern,
+    group = group_hi_last_letter,
+    callback = function()
+        -- require('learn_motions').highlight_last_letter()
+        require('learn_motions').highlight_next_letter()
+    end,
 })
 --1 ---- Define a function to move a buffer to a new tab
 --1 local function move_to_new_tab(bufnr)
