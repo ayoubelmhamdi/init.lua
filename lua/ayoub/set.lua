@@ -6,7 +6,7 @@ vim.g.markdown_fenced_languages = { 'html', 'python', 'bash', 'sh' }
 -- opt.makeprg = './build.sh'
 opt.completeopt = { 'menuone' }
 
-opt.cursorline = true
+-- opt.cursorline = true
 opt.shiftround = true
 opt.timeoutlen = 300 -- time to wait for a mapped sequence to complete (in milliseconds)
 opt.path:append('**') -- search down into subfolders
