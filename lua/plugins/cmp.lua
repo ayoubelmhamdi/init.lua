@@ -1,56 +1,16 @@
 return {
     'hrsh7th/nvim-cmp',
-    -- after = "lspkind-nvim",
+    after = 'lspkind-nvim',
     event = 'InsertEnter',
     dependencies = {
+        { 'onsails/lspkind.nvim' },
         { 'hrsh7th/cmp-cmdline' },
-        --2 { 'onsails/lspkind.nvim', config=function ()
-        --2   My_Symbols = {
-        --2
-        --2     Codeium = ' ',
-        --2     Copilot = '  ',
-        --2     Array = ' ', -- '謹',
-        --2     Boolean = ' ', --'ﬧ ',
-        --2     Class = ' ', --' ', -- ' ', -- ' ',
-        --2     Color = ' ', -- ' ',
-        --2     Constant = ' ', -- ' ',
-        --2     Constructor = ' ', -- ' ',
-        --2     Enum = ' ', -- '練 ', -- ' ',
-        --2     EnumMember = ' ', -- ' ',
-        --2     Event = ' ', -- ' ', -- ' ',
-        --2     Field = ' ', -- ' ', -- ' ',
-        --2     File = ' ', -- ' ',
-        --2     Folder = ' ', -- ' ',
-        --2     Function = ' ',
-        --2     Interface = ' ', -- '﨡', -- ' ',
-        --2     Keyword = ' ', -- ' ', -- ' ',
-        --2     Method = ' ', -- ' ',
-        --2     Module = ' ', -- ' ',
-        --2     Namespace = ' ', -- ' ',
-        --2     Number = ' ', -- '濫',
-        --2     Object = '謹',
-        --2     Operator = '璉 ', -- ' ',
-        --2     Package = ' ', -- ' ',
-        --2     Property = ' ', -- ' ', -- ' ',
-        --2     Reference = ' ', -- ' ', -- ' ' -- ' ',
-        --2     Snippet = ' ', -- ' ', -- ' ',
-        --2     Struct = ' ', --'פּ ', -- ' ',
-        --2     Text = ' ', -- ' ',
-        --2     TypeParameter = '', --' ', -- ' ', -- ' ',
-        --2     Unit = ' ', -- '塞 ', -- 'ﰩ '  --' ',
-        --2     Value = ' ', -- ' ',
-        --2     Variable = ' ', -- ' ', -- ' ',
-        --2   }
-        --2   require('lspkind').init({
-        --2     symbol_map = My_Symbols,
-        --2   })
-        --2 end },
         { 'hrsh7th/cmp-path' },
-        -- { 'hrsh7th/cmp-buffer' },
+        { 'hrsh7th/cmp-buffer' },
         -- { 'saadparwaiz1/cmp_luasnip' },
         { 'hrsh7th/cmp-nvim-lsp' },
         -- { 'hrsh7th/cmp-nvim-lua' },
-        -- { 'hrsh7th/cmp-nvim-lsp-signature-help' },
+        { 'hrsh7th/cmp-nvim-lsp-signature-help' },
         -- { 'mstanciu552/cmp-matlab' },
         -- Snippets
         -- { 'L3MON4D3/LuaSnip' },
@@ -61,254 +21,144 @@ return {
         -- thne create my own regex to grep all partener
         -- { 'lukas-reineke/cmp-rg' },
     },
-    --1 priority = 1,
-    --1 config = function()
-    --1   --if true then return end
-    --1   vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-    --1
-    --1   local lspkind = require 'lspkind'
-    --1   ------------------------------luasnip-----------------------------------------------------
-    --1   require('luasnip.loaders.from_lua').lazy_load()
-    --1   --require('luasnip/loaders/from_snipmate').lazy_load()
-    --1   local ls = require 'luasnip'
-    --1   local types = require 'luasnip.util.types'
-    --1
-    --1   ls.config.set_config {
-    --1     history = false,
-    --1     update_events = 'TextChanged,TextChangedI',
-    --1     delete_check_events = 'TextChanged',
-    --1     ext_opts = {
-    --1       [types.choiceNode] = {
-    --1         active = {
-    --1           virt_text = { { '<-- choiceNode', 'Comment' } },
-    --1         },
-    --1       },
-    --1     },
-    --1     ext_base_prio = 300,
-    --1     ext_prio_increase = 1,
-    --1     enable_autosnippets = true,
-    --1     store_selection_keys = '<Tab>',
-    --1     ft_func = function()
-    --1       return vim.split(vim.bo.filetype, '.', true)
-    --1     end,
-    --1   }
-    --1   --------------------------- VARS--------------------------------------------
-    --1   -- local truncate = function(text, max_width)
-    --1   --   if #text > max_width then
-    --1   --     return string.sub(text, 1, max_width) .. '…'
-    --1   --   else
-    --1   --     return text
-    --1   --   end
-    --1   -- end
-    --1   local cmp = require 'cmp'
-    --1
-    --1   local sources = cmp.config.sources {
-    --1     { name = 'codeium' },
-    --1     { name = 'path' },
-    --1     { name = 'nvim_lsp_signature_help' },
-    --1     { name = 'nvim_lsp' },
-    --1     { name = 'nvim_lua' },
-    --1     { name = 'luasnip' },
-    --1     -- { name = 'treesitter'},
-    --1     -- { name = 'cmp_tabnine', priority = 99 },
-    --1     -- { name = 'spell' }, { name = 'spell', keyword_length = 2 },
-    --1     -- {
-    --1     --   name = 'look',
-    --1     --   priority = 60,
-    --1     --   keyword_length = 5,
-    --1     --   option = {
-    --1     --     convert_case = true,
-    --1     --     loud = true,
-    --1     --     --dict = '/usr/share/dict/words'
-    --1     --   },
-    --1     -- },
-    --1     -- {
-    --1     --   name = 'buffer',
-    --1     --   option = {
-    --1     --     get_bufnrs = function()
-    --1     --       local buf = vim.api.nvim_get_current_buf()
-    --1     --       local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-    --1     --       if byte_size > 2048 * 2048 then
-    --1     --         return {}
-    --1     --       end
-    --1     --       return { buf }
-    --1     --     end,
-    --1     --   },
-    --1     -- },
-    --1     -- { name = 'browser' },
-    --1   }
-    --1
-    --1   local mapping = {
-    --1     ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-    --1     ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-    --1     ['<C-i>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-    --1     ['<C-o>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-    --1     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    --1     ['<C-u>'] = cmp.mapping.scroll_docs(4),
-    --1     ['<C-y>'] = cmp.mapping.abort(),
-    --1     ['<c-e>'] = cmp.mapping(
-    --1       cmp.mapping.confirm {
-    --1         behavior = cmp.ConfirmBehavior.Insert,
-    --1         select = true,
-    --1       },
-    --1       { 'i', 'c' }
-    --1     ),
-    --1     ['<c-space>'] = cmp.mapping {
-    --1       i = cmp.mapping.complete(),
-    --1       c = function(
-    --1         _ --[[fallback]]
-    --1       )
-    --1         if cmp.visible() then
-    --1           if not cmp.confirm { select = true } then
-    --1             return
-    --1           end
-    --1         else
-    --1           cmp.complete()
-    --1         end
-    --1       end,
-    --1     },
-    --1     ['<tab>'] = cmp.config.disable,
-    --1     -- ['<down>'] = cmp.config.disable,
-    --1     -- ['<up>'] = cmp.config.disable,
-    --1   }
-    --1
-    --1   local sorting = {
-    --1     -- tj sort
-    --1     comparators = {
-    --1       cmp.config.compare.offset,
-    --1       cmp.config.compare.exact,
-    --1       cmp.config.compare.score,
-    --1
-    --1       -- copied from cmp-under, but I don't think I need the plugin for this.
-    --1       -- I might add some more of my own.
-    --1       function(entry1, entry2)
-    --1         local _, entry1_under = entry1.completion_item.label:find '^_+'
-    --1         local _, entry2_under = entry2.completion_item.label:find '^_+'
-    --1         entry1_under = entry1_under or 0
-    --1         entry2_under = entry2_under or 0
-    --1         if entry1_under > entry2_under then
-    --1           return false
-    --1         elseif entry1_under < entry2_under then
-    --1           return true
-    --1         end
-    --1       end,
-    --1
-    --1       cmp.config.compare.kind,
-    --1       cmp.config.compare.sort_text,
-    --1       cmp.config.compare.length,
-    --1       cmp.config.compare.order,
-    --1     },
-    --1   }
-    --1
-    --1   local formatting = {
-    --1       format = lspkind.cmp_format {
-    --1         with_text = true,
-    --1         menu = {
-    --1           buffer = '[buf]',
-    --1           nvim_lsp = '[LSP]',
-    --1           nvim_lua = '[lua]',
-    --1           path = '[path]',
-    --1           lusasnip = '[snip]',
-    --1         },
-    --1         -- defines how annotations are shown
-    --1         -- default: symbol
-    --1         -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-    --1         mode = 'text_symbol',
-    --1         -- prevent the popup from showing more than 50 chars
-    --1         maxwidth = 80,
-    --1       },
-    --1     }
-    --1   ---------------------------- CMP SETUP -------------------------------------
-    --1   -- cmp.setup {
-    --1   --   sources = sources,
-    --1   --   formatting = formatting,
-    --1   --   mapping = mapping,
-    --1   --   snippet = {
-    --1   --     expand = function(args)
-    --1   --       ls.lsp_expand(args.body)
-    --1   --     end,
-    --1   --   },
-    --1   --   sorting = sorting,
-    --1   --   window = {
-    --1   --     completion = cmp.config.window.bordered(),
-    --1   --     documentation = cmp.config.window.bordered(),
-    --1   --   },
-    --1   --   experimental = {
-    --1   --     native_menu = false,
-    --1   --     ghost_text = true,
-    --1   --   },
-    --1   -- }
-    --1
-    --1   ---------------------------- cmdline -------------------------------------
-    --1   cmp.setup.cmdline(':', {
-    --1     mapping = cmp.mapping.preset.cmdline(),
-    --1     sources = cmp.config.sources({
-    --1       {
-    --1         name = 'path',
-    --1         option = {
-    --1           trailing_slash = true,
-    --1         },
-    --1       },
-    --1     }, {
-    --1       { name = 'nvim_lua' },
-    --1     }, {
-    --1       { name = 'cmdline' },
-    --1     }),
-    --1   })
-    --1
-    --1   --------------------------- MAPPING  -------------------------------------
-    --1   cmp.setup.cmdline('/', {
-    --1     mapping = cmp.mapping.preset.cmdline(),
-    --1     sources = cmp.config.sources {
-    --1       { name = 'buffer' },
-    --1     },
-    --1   })
-    --1
-    --1   -- vim.keymap.set({ 'i', 's' }, '<c-j>', function()
-    --1   --   if ls.expand_or_jumpable() then
-    --1   --     ls.expand_or_jump()
-    --1   --   end
-    --1   -- end, { silent = true })
-    --1   --
-    --1   -- vim.keymap.set({ 'i', 's' }, '<c-k>', function()
-    --1   --   if ls.jumpable(-1) then
-    --1   --     ls.jump(-1)
-    --1   --   end
-    --1   -- end, { silent = true })
-    --1   --
-    --1   -- vim.keymap.set('i', '<c-l>', function()
-    --1   --   if ls.choice_active() then
-    --1   --     ls.change_choice(1)
-    --1   --   end
-    --1   -- end)
-    --1
-    --1   -------------------------------------------------------------------
-    --1 end, -- end lazyconfig-cmp
-    -----------------
-    --################
-    --1 config = function()
-    --1   --if true then return end
-    --1   vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-    --1
-    --1   local lspkind = require 'lspkind'
-    --1   ------------------------------luasnip-----------------------------------------------------
+    priority = 1,
     config = function()
-        local cmp = require('cmp')
+        --if true then return end
+        vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
-        cmp.setup.cmdline(':', {
-            mapping = cmp.mapping.preset.cmdline(),
+        local cmp = require('cmp')
+        local ok, lspkind = pcall(require, 'lspkind')
+        if not ok then return end
+
+        local sources = cmp.config.sources({
+            { name = 'codeium' },
+            { name = 'path' },
+            { name = 'nvim_lsp_signature_help' },
+            { name = 'nvim_lsp' },
+            -- { name = 'nvim_lua' },
+            -- { name = 'luasnip' },
+        })
+
+        local mapping = {
+            ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+            ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+            ['<C-d>'] = cmp.mapping.scroll_docs( -4),
+            ['<C-u>'] = cmp.mapping.scroll_docs(4),
+            ['<C-y>'] = cmp.mapping.abort(),
+            ['<c-e>'] = cmp.mapping(
+                cmp.mapping.confirm({
+                    behavior = cmp.ConfirmBehavior.Insert,
+                    select = true,
+                }),
+                { 'i', 'c' }
+            ),
+            ['<c-space>'] = cmp.mapping({
+                i = cmp.mapping.complete(),
+                c = function(
+                    _ --[[fallback]]
+                )
+                    if cmp.visible() then
+                        if not cmp.confirm({ select = true }) then return end
+                    else
+                        cmp.complete()
+                    end
+                end,
+            }),
+            ['<tab>'] = cmp.config.disable,
+            -- Cody completion
+            ['<c-a>'] = cmp.mapping.complete({
+                config = {
+                    sources = {
+                        { name = 'cody' },
+                    },
+                },
+            }),
+            -- ['<up>'] = cmp.config.disable,
+        }
+
+        local sorting = {
+            -- tj sort
+            comparators = {
+                cmp.config.compare.offset,
+                cmp.config.compare.exact,
+                cmp.config.compare.score,
+
+                -- copied from cmp-under, but I don't think I need the plugin for this.
+                -- I might add some more of my own.
+                function(entry1, entry2)
+                    local _, entry1_under = entry1.completion_item.label:find('^_+')
+                    local _, entry2_under = entry2.completion_item.label:find('^_+')
+                    entry1_under = entry1_under or 0
+                    entry2_under = entry2_under or 0
+                    if entry1_under > entry2_under then
+                        return false
+                    elseif entry1_under < entry2_under then
+                        return true
+                    end
+                end,
+
+                cmp.config.compare.kind,
+                cmp.config.compare.sort_text,
+                cmp.config.compare.length,
+                cmp.config.compare.order,
+            },
+        }
+
+        local formatting = {
+            format = lspkind.cmp_format({
+                with_text = true,
+                menu = {
+                    buffer = '[buf]',
+                    nvim_lsp = '[LSP]',
+                    nvim_lua = '[lua]',
+                    path = '[path]',
+                    lusasnip = '[snip]',
+                },
+                -- mode = 'text_symbol',
+                maxwidth = 80,
+            }),
+        }
+        ---------------------------- CMP SETUP -------------------------------------
+        cmp.setup({
+            sources = sources,
+            formatting = formatting,
+            mapping = mapping,
+            sorting = sorting,
+            window = {
+                completion = cmp.config.window.bordered(),
+                documentation = cmp.config.window.bordered(),
+            },
+            experimental = {
+                native_menu = false,
+                ghost_text = true,
+            },
+        })
+
+        ---------------------------- cmdline -------------------------------------
+        -- Set configuration for specific filetype.
+        cmp.setup.filetype('gitcommit', {
             sources = cmp.config.sources({
-                -- { name = 'path', option = { trailing_slash = true } },
-                -- { name = 'nvim_lua' },
-                { name = 'cmdline' },
+                { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+            }, {
+                { name = 'buffer' },
             }),
         })
 
-        --------------------------- MAPPING  -------------------------------------
-        cmp.setup.cmdline('/', {
+        -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+        cmp.setup.cmdline({ '/', '?' }, {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+                { name = 'buffer' },
+            },
+        })
+
+        -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+        cmp.setup.cmdline(':', {
             mapping = cmp.mapping.preset.cmdline(),
             sources = cmp.config.sources({
-                { name = 'buffer' },
+                { name = 'path' },
+            }, {
+                { name = 'cmdline' },
             }),
         })
     end,
