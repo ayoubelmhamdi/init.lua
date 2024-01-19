@@ -178,12 +178,20 @@ key('v', '<silent>', '<A-j>:MoveBlock(1)<CR>', { silent = true })
 key('v', '<silent>', '<A-k>:MoveBlock(-1)<CR>', { silent = true })
 
 --command! So su
---command! W w
---command! Q q
---command! Qa qa
---command! QA qa
---command! WQ wq
---command! Wq wq
+vim.cmd [[
+command! W w
+command! Q q
+
+command! Qa qa
+command! QA qa
+
+command! Wq wq
+command! WQ wq
+
+command! Wqa wqa
+command! WQa wqa
+command! WQA wqa
+]]
 --command! MyGdb let g:termdebug_wide = 10 | packadd termdebug | Termdebug
 
 key('n', '<F7>', ':FloatermToggle<cr>', { silent = true })
