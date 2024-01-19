@@ -13,6 +13,7 @@ return {
 
             local ft = require('Comment.ft')
             ft({ 'typst' }, ft.get('c'))
+            ft.nasm = ';%s'
         end,
     },
     { 'static-nvim/mkdir' },
