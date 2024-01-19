@@ -11,6 +11,24 @@ return {
         { 'hrsh7th/cmp-nvim-lsp' },
         -- { 'hrsh7th/cmp-nvim-lua' },
         { 'hrsh7th/cmp-nvim-lsp-signature-help' },
+        {
+            'Exafunction/codeium.nvim',
+            config = function() require('codeium').setup({}) end,
+        },
+        {
+            'rcarriga/cmp-dap',
+            config = function()
+                require('cmp').setup({
+                    enabled = function() return vim.api.nvim_buf_get_option(0, 'buftype') ~= 'prompt' or require('cmp_dap').is_dap_buffer() end,
+                })
+
+                require('cmp').setup.filetype({ 'dap-repl', 'dapui_watches', 'dapui_hover' }, {
+                    sources = {
+                        { name = 'dap' },
+                    },
+                })
+            end,
+        },
         -- { 'mstanciu552/cmp-matlab' },
         -- Snippets
         -- { 'L3MON4D3/LuaSnip' },
@@ -42,7 +60,7 @@ return {
         local mapping = {
             ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
             ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-            ['<C-d>'] = cmp.mapping.scroll_docs( -4),
+            ['<C-d>'] = cmp.mapping.scroll_docs(-4),
             ['<C-u>'] = cmp.mapping.scroll_docs(4),
             ['<C-y>'] = cmp.mapping.abort(),
             ['<c-e>'] = cmp.mapping(
