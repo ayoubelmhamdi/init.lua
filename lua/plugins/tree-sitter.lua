@@ -15,7 +15,7 @@ return {
         require('nvim-treesitter.configs').setup({
             ensure_installed = { 'markdown', 'markdown_inline', 'javascript', 'typescript', 'c', 'python', 'lua', 'rust' },
             sync_install = false,
-            auto_install = false,
+            auto_install = true,
             -- 'filNaj/tree-setter'
             -- tree_setter = {
             --   enable = true,
