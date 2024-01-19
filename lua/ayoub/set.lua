@@ -3,6 +3,23 @@ local opt = vim.opt
 vim.g.loaded_matchparen = 1
 vim.g.mapleader = ' '
 vim.g.markdown_fenced_languages = { 'html', 'python', 'bash', 'sh' }
+
+vim.g.markdown_fenced_languages = {
+    'fs=fsharp',
+    'js=javascript',
+    'py=python',
+    'rs=rust',
+    'rb=ruby',
+    'yex=yex',
+    'scala=scala',
+    'viml=vim',
+    'jsx=javascript',
+    'shell=bash',
+    'sh',
+    'bash',
+    'c',
+    'rust',
+}
 -- opt.makeprg = './build.sh'
 opt.completeopt = { 'menuone' }
 
@@ -41,16 +58,21 @@ opt.softtabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true
 
-opt.formatoptions = opt.formatoptions
-    - 'a' -- Auto formatting is BAD.
-    - 't' -- Don't auto format my code. I got linters for that.
-    + 'c' -- In general, I like it when comments respect textwidth
-    + 'q' -- Allow formatting comments w/ gq
-    - 'o' -- O and o, don't continue comments
-    - 'r' -- Don't insert comment after <Enter>
-    + 'n' -- Indent past the formatlistpat, not underneath it.
-    + 'j' -- Auto-remove comments if possible.
-    - '2' -- I'm not in gradeschool anymore
+-- vim.cmd'set formatoptions-=jcro'
+-- vim.cmd'setlocal formatoptions-=cro'
+-- opt.formatoptions = opt.formatoptions
+--     -- prevent automatically continuing comments 
+--     - 'c'
+--     - 'r'
+--     - 'o'
+--     -- 
+--     - 'a' -- Auto formatting is BAD.
+--     - 't' -- Don't auto format my code. I got linters for that.
+--     + 'q' -- Allow formatting comments w/ gq
+--     + 'j' -- Auto-remove comments if possible.
+--
+--     + 'n' -- Indent past the formatlistpat, not underneath it.
+--     - '2' -- I'm not in gradeschool anymore
 
 opt.wrap = false
 
@@ -77,7 +99,7 @@ opt.termguicolors = true
 opt.signcolumn = 'yes'
 opt.isfname:append('@-@')
 opt.updatetime = 300
-opt.colorcolumn = '80'
+opt.colorcolumn = '120'
 
 opt.linebreak = true
 opt.linespace = 5
