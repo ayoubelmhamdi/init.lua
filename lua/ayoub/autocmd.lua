@@ -124,11 +124,11 @@ autocmd('TextYankPost', {
     end,
 })
 
-autocmd({ 'BufWritePre' }, {
-    group = AyoubGroup,
-    pattern = pattern,
-    command = '%s/\\s\\+$//e',
-})
+-- autocmd({ 'BufWritePre' }, {
+--     group = AyoubGroup,
+--     pattern = pattern,
+--     command = '%s/\\s\\+$//e',
+-- })
 
 --1vim.keymap.set('n', '<space>s', function()
 --1  package.loaded.gg = nil
@@ -155,17 +155,17 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNew' }, {
     end,
 })
 
-local group_hi_last_letter = vim.api.nvim_create_augroup('group_hi_last_letter', { clear = true })
-
--- Create an autocommand to delete buffers with the name '[No Name]'
-vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
-    pattern = pattern,
-    group = group_hi_last_letter,
-    callback = function()
-        -- require('learn_motions').highlight_last_letter()
-        require('learn_motions').highlight_next_letter()
-    end,
-})
+-- local group_hi_last_letter = vim.api.nvim_create_augroup('group_hi_last_letter', { clear = true })
+--
+-- -- Create an autocommand to delete buffers with the name '[No Name]'
+-- vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
+--     pattern = pattern,
+--     group = group_hi_last_letter,
+--     callback = function()
+--         -- require('learn_motions').highlight_last_letter()
+--         require('learn_motions').highlight_next_letter()
+--     end,
+-- })
 --1 ---- Define a function to move a buffer to a new tab
 --1 local function move_to_new_tab(bufnr)
 --1   local buffer_name = vim.api.nvim_buf_get_name(bufnr)
