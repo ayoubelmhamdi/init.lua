@@ -54,7 +54,7 @@ return {
                 -- ## Bash
                 diagnostics.shellcheck,
                 code_actions.shellcheck,
-                formatting.shellharden,
+                -- formatting.shellharden,
                 -- ## C
                 -- formatting.uncrustify,
                 -- formatting.clang_format,
