@@ -4,8 +4,7 @@ M.win = nil
 M.start_win = nil
 M.buf = nil
 M.job_id = nil
-M.command = { './test.sh' }
-M.pattern = { 'box.asm' }
+M.command = { './box' }
 
 M.create_win = function()
     -- We save handle to window from which we open the navigation
@@ -46,20 +45,36 @@ M.create_win = function()
 end
 
 M.append_data = function(_, data)
-    if data then vim.api.nvim_buf_set_lines(M.buf, -1, -1, false, data) end
+    if data then
+        vim.api.nvim_buf_set_lines(M.buf, -1, -1, false, data)
+    else
+        vim.api.nvim_buf_set_lines(M.buf, -1, -1, false, { '---', '++++' })
+    end
 end
 
 M.attach_to_buffer = function()
-    if M.start_win == nil then M.create_win() end
+    vim.api.nvim_command('silent make')
 
-    vim.api.nvim_buf_set_lines(M.buf, 0, -1, false, { '' })
+    local qflist = vim.fn.getqflist()
+    local error_count = 0
+    for _, item in pairs(qflist) do
+        if item.valid == 1 and (item.type == nil or item.type == '') then
+            error_count = error_count + 1
+            -- break -- check if not zero and stop
+        end
+    end
 
-    if M.job_id ~= nil then vim.fn.jobstop(M.job_id) end
-    M.job_id = vim.fn.jobstart(M.command, {
-        stdout_buffered = true,
-        on_stdout = M.append_data,
-        on_stderr = M.append_data,
-    })
+    if error_count == 0 then
+        if M.start_win == nil then M.create_win() end
+        vim.api.nvim_buf_set_lines(M.buf, 0, -1, false, { '' })
+
+        if M.job_id ~= nil then vim.fn.jobstop(M.job_id) end
+        M.job_id = vim.fn.jobstart(M.command, {
+            stdout_buffered = false,
+            on_stdout = M.append_data,
+            on_stderr = M.append_data,
+        })
+    end
 end
 
 return M
