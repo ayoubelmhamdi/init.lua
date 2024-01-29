@@ -26,7 +26,7 @@ return {
         --   border_style = 'rounded',
         -- }
 
-        keymap({ 'n', 'v' }, ',ca', '<cmd>Lspsaga code_action<CR>', { silent = true })
+        keymap({ 'n', 'v' }, '<space>ca', '<cmd>Lspsaga code_action<CR>', { silent = true })
         keymap('n', '<space>rn', '<cmd>Lspsaga rename<CR>', { silent = true })
         -- keymap('n', 'gd', '<cmd>Lspsaga peek_definition<CR>', { silent = true })
 
