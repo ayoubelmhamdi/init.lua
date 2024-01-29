@@ -2,6 +2,15 @@ function R(name) require('plenary.reload').reload_module(name) end
 
 vim.cmd([[
 
+augroup restore_pos |
+  au!
+  au BufReadPost *
+      \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+      \ |   exe "normal! g`\"zz"
+      \ | endif
+augroup end
+
+
 augroup General
   autocmd!
   autocmd BufWritePost       *.sh,*.pl,*.py silent !chmod +x %
