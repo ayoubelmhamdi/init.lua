@@ -206,7 +206,8 @@ return {
         lazy = true,
         ft = 'dart',
         dependencies = {
-            'nvim-telescope/telescope.nvim',
+            'nvim-lua/plenary.nvim',
+            'stevearc/dressing.nvim', -- optional for vim.ui.select
         },
         config = function()
             local on_attach = require('ayoub.lsp-options').on_attach
@@ -232,6 +233,7 @@ return {
                     capabilities = capabilities,
                     handlers = handlers,
                     settings = {
+                        lineLength = 200,
                         showTodos = true,
                         completeFunctionCalls = true,
                     },
