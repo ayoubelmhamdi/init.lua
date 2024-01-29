@@ -50,8 +50,8 @@ opt.hidden = true
 opt.splitbelow = true
 opt.splitright = true
 
-opt.nu = true
-opt.relativenumber = true
+-- opt.nu = true
+-- opt.relativenumber = true
 
 opt.tabstop = 4
 opt.softtabstop = 4
