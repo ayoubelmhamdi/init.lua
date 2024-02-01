@@ -77,18 +77,18 @@ vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave' }, {
     callback = function() vim.cmd('silent! !killflutter') end,
 })
 
-local place_sign = require('ayoub.signs').place_sign
-local unplace_sign = require('ayoub.signs').unplace_sign
+-- local place_sign = require('ayoub.signs').place_sign
+-- local unplace_sign = require('ayoub.signs').unplace_sign
 
-vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
-    pattern = '*',
-    group = vim.api.nvim_create_augroup('CursorSign', { clear = true }),
-    callback = function()
-        local line, _ = unpack(vim.api.nvim_win_get_cursor(0))
-        unplace_sign(1)
-        place_sign(line, 1)
-    end,
-})
+-- vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
+--     pattern = '*',
+--     group = vim.api.nvim_create_augroup('CursorSign', { clear = true }),
+--     callback = function()
+--         local line, _ = unpack(vim.api.nvim_win_get_cursor(0))
+--         unplace_sign(1)
+--         place_sign(line, 1)
+--     end,
+-- })
 
 vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
     pattern = { 'dwm.c', 'nn.h' },
