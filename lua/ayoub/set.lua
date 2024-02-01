@@ -99,7 +99,7 @@ opt.termguicolors = true
 opt.signcolumn = 'yes'
 opt.isfname:append('@-@')
 opt.updatetime = 300
-opt.colorcolumn = '120'
+-- opt.colorcolumn = '120'
 
 opt.linebreak = true
 opt.linespace = 5
