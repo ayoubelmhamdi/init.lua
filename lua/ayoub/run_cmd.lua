@@ -4,7 +4,7 @@ M.win = nil
 M.start_win = nil
 M.buf = nil
 M.job_id = nil
-M.command = { './box' }
+-- M.command = { './box' }
 
 M.create_win = function()
     M.start_win = vim.api.nvim_get_current_win()
@@ -36,7 +36,7 @@ M.append_data = function(_, data)
     end
 end
 
-M.attach_to_buffer = function()
+M.attach_to_buffer = function(command)
     vim.api.nvim_command('silent make')
 
     local qflist = vim.fn.getqflist()
@@ -52,7 +52,7 @@ M.attach_to_buffer = function()
         vim.api.nvim_buf_set_lines(M.buf, 0, -1, false, { '' })
 
         if M.job_id ~= nil then vim.fn.jobstop(M.job_id) end
-        M.job_id = vim.fn.jobstart(M.command, {
+        M.job_id = vim.fn.jobstart(command, {
             stdout_buffered = false,
             on_stdout = M.append_data,
             on_stderr = M.append_data,
