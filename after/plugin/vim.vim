@@ -11,8 +11,6 @@ set foldmethod=marker
 set foldlevel=0
 set foldcolumn=1
 
-hi Folded guibg=Dark 
-hi FoldColumn guibg=Dark
 set fillchars=eob:⏺,fold:\ 
 
 " nnoremap <F6> :exec 'r !'.getline('.')<cr> " {{{
