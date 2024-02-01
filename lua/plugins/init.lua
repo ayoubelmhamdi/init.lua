@@ -1,5 +1,6 @@
 return {
     { 'nvim-lua/plenary.nvim' },
+    { 'folke/lazy.nvim', tag = 'stable' },
 
     -- Git
     --  { 'mbbill/undotree' },
@@ -10,7 +11,7 @@ return {
         'numToStr/Comment.nvim',
         config = function()
             require('Comment').setup({
-                ignore = '^$'
+                ignore = '^$',
             })
 
             local ft = require('Comment.ft')
@@ -18,7 +19,7 @@ return {
             ft.nasm = ';%s'
         end,
     },
-    { 'static-nvim/mkdir' },
+    { 'jghauser/mkdir.nvim' },
     -- { 'fedepujol/move.nvim' },
     -- { 'oberblastmeister/zoom.nvim' },
     -- Test
