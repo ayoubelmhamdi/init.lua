@@ -14,9 +14,7 @@ function M.node_at_pos(start_line, start_col, buf)
     return node
 end
 
-M.main = function()
-    P(M.node_at_pos(1, 1):end_())
-end
+M.main = function() P(M.node_at_pos(1, 1):end_()) end
 
 M.print_function_info = function()
     -- Get the current buffer and its Tree-sitter parser
@@ -30,36 +28,34 @@ M.print_function_info = function()
     local query = vim.treesitter.query.parse(
         'c',
         [[
-        (function_definition
+        ((function_definition
             declarator: (function_declarator
-                        declarator: (identifier) @function.name)
-            body: (compound_statement 
-                    (return_statement) @function.return) @function.body)
+                        declarator: (identifier) @name
+                        parameters: (parameter_list) @args)
+            body: (compound_statement (return_statement (binary_expression) @return))
+                        )@function)
         ]]
     )
-    for _, captures in query:iter_matches(root, bufnr) do
+
+    local list = {}
+    for _, captures, _ in query:iter_matches(root, bufnr) do
         local function_name_node = captures[1]
-        local function_body_node = captures[2]
-        local return_node = captures[3]
+        local function_args_node = captures[2]
+        local function_return_node = captures[3]
+        local function_body_node = captures[4]
 
-        -- Check if the nodes exist before trying to use them
-        if function_name_node and function_body_node then
-            -- Extract and print function definition range and name
-            local s_row, s_col, e_row, e_col = function_body_node:range()
-            print(string.format('function_definition [%d, %d] - [%d, %d]', s_row + 1, s_col, e_row + 1, e_col))
-            print('identifier', vim.treesitter.get_node_text(function_name_node, bufnr))
-        -- else
-        --     print('Error: Missing function name or body node')
+        if function_name_node and function_args_node and function_return_node and function_body_node then
+            local s_row, _, e_row, _ = function_body_node:range()
+            local func_info = {
+                a_name = vim.treesitter.get_node_text(function_name_node, bufnr),
+                b_return_ = function_return_node and vim.treesitter.get_node_text(function_return_node, bufnr) or nil,
+                c_start = s_row,
+                d_end_ = e_row + 1,
+            }
+            table.insert(list, func_info)
         end
-
-        -- If there's a return statement, print its range
-        if return_node then
-            local rs_row, rs_col, re_row, re_col = return_node:range()
-            print(string.format('return [%d, %d] - [%d, %d]', rs_row + 1, rs_col, re_row + 1, re_col))
-        end
-        print('------\n')
     end
-
+    vim.print(list)
 end
 
 return M
