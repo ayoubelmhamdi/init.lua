@@ -1,6 +1,13 @@
 P = function(v)
-    print(vim.inspect(vim))
-    return v
+    print(type(v))
+    local v_type = type(v)
+    if v_type == 'number' or v_type == 'string' or v_type == 'boolean' then
+        print(v)
+    elseif v_type == 'function' then
+        print(vim.inspect(v))
+    else -- v_type == 'userdata'
+        print(vim.inspect(getmetatable(v)))
+    end
 end
 
 RELOAD = function(...) return require('plenary.reload').reload_module(...) end
