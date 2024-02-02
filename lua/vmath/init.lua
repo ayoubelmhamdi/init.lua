@@ -1,4 +1,5 @@
 local M = {}
+
 function M.node_at_pos(start_line, start_col, buf)
     buf = buf or vim.api.nvim_get_current_buf()
     start_col = start_col - 1
@@ -46,14 +47,30 @@ M.print_function_info = function()
 
         if function_name_node and function_args_node and function_return_node and function_body_node then
             local s_row, _, e_row, _ = function_body_node:range()
+            local args = {}
+            for child in function_args_node:iter_children() do
+                -- Check if the child node is a parameter_declaration
+                if child:type() == 'parameter_declaration' then
+                    -- Iterate over the children of the parameter_declaration
+                    for parameter_child in child:iter_children() do
+                        -- Check if the child node is an identifier
+                        if parameter_child:type() == 'identifier' then
+                            local arg_name = vim.treesitter.get_node_text(parameter_child, bufnr)
+                            table.insert(args, arg_name)
+                        end
+                    end
+                end
+            end
             local func_info = {
                 a_name = vim.treesitter.get_node_text(function_name_node, bufnr),
-                b_return_ = function_return_node and vim.treesitter.get_node_text(function_return_node, bufnr) or nil,
-                c_start = s_row,
-                d_end_ = e_row + 1,
+                b_args = args,
+                c_return_ = function_return_node and vim.treesitter.get_node_text(function_return_node, bufnr) or nil,
+                d_start = s_row,
+                e_end_ = e_row + 1,
             }
             table.insert(list, func_info)
         end
+        -- break
     end
     vim.print(list)
 end
