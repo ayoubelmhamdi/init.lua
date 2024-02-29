@@ -1,6 +1,7 @@
 local M = {}
 
-M.capabilities = require('cmp_nvim_lsp').default_capabilities()
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
+M.capabilities = vim.tbl_deep_extend('force', M.capabilities, require('cmp_nvim_lsp').default_capabilities())
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -48,13 +49,14 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
     vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format({ async = true }) end, bufopts)
+    -- vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format({ async = true }) end, bufopts) -- see conform.lua
 end
 
 vim.g.isLspStart = true
 M.toggleLsp = function()
+    -- if server is slow the vim.cmd('LspStart/LspStop')does not work yet.
     if vim.g.isLspStart then
-        vim.cmd('LspStop')
+        vim.lsp.stop_client(vim.lsp.get_active_clients())
         vim.g.isLspStart = false
     else
         vim.cmd('LspStart')
