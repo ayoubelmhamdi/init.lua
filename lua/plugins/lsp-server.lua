@@ -1,11 +1,12 @@
 return {
     {
         'neovim/nvim-lspconfig',
+        event = 'LspAttach',
         dependencies = {
-            { 'williamboman/mason.nvim' },
-            { 'williamboman/mason-lspconfig.nvim' },
-            { 'barreiroleo/ltex-extra.nvim' },
-            { 'hrsh7th/nvim-cmp' },
+            { 'williamboman/mason.nvim',           event = 'LspAttach' },
+            { 'williamboman/mason-lspconfig.nvim', event = 'LspAttach' },
+            { 'barreiroleo/ltex-extra.nvim',       event = 'LspAttach' },
+            { 'hrsh7th/nvim-cmp',                  event = 'LspAttach' },
         },
         config = function()
             local on_attach = require('ayoub.lsp-options').on_attach
