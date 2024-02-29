@@ -22,6 +22,7 @@ vim.g.markdown_fenced_languages = {
 }
 -- opt.makeprg = './build.sh'
 opt.completeopt = { 'menuone' }
+vim.opt.scrolloff = 1
 
 -- opt.cursorline = true
 opt.shiftround = true
@@ -44,7 +45,9 @@ opt.joinspaces = false
 opt.fillchars = { eob = '~' }
 -- tj end
 
-opt.laststatus = 0
+opt.cmdheight = 1
+opt.laststatus = 3
+-- opt.signcolumn = 'yes'
 
 opt.hidden = true
 opt.splitbelow = true
@@ -61,11 +64,11 @@ opt.expandtab = true
 -- vim.cmd'set formatoptions-=jcro'
 -- vim.cmd'setlocal formatoptions-=cro'
 -- opt.formatoptions = opt.formatoptions
---     -- prevent automatically continuing comments 
+--     -- prevent automatically continuing comments
 --     - 'c'
 --     - 'r'
 --     - 'o'
---     -- 
+--     --
 --     - 'a' -- Auto formatting is BAD.
 --     - 't' -- Don't auto format my code. I got linters for that.
 --     + 'q' -- Allow formatting comments w/ gq
@@ -96,7 +99,6 @@ opt.smarttab = true
 opt.smartindent = true
 
 opt.termguicolors = true
-opt.signcolumn = 'yes'
 opt.isfname:append('@-@')
 opt.updatetime = 300
 -- opt.colorcolumn = '120'
