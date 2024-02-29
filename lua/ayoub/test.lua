@@ -1,6 +1,25 @@
 local M = {}
--- Define the query and the language_tree as local variables
--- Use the new treesitter API to parse the query
+local c = {}
+
+-- TODO: remove the table because maybe i don;t want it, the c.bullet_highlights should interpreted using string, and c.headline_highlights highit directly using `hi  @markup.heading.1.markdown`
+c.headline_highlights = {
+    'Headline1',
+    'Headline2',
+    'Headline3',
+    'Headline4',
+    'Headline5',
+    'Headline6',
+}
+c.bullet_highlights = {
+    'Bullet1',
+    'Bullet2',
+    'Bullet3',
+    'Bullet4',
+    'Bullet5',
+    'Bullet6',
+}
+c.bullets = { '✸', '◉', '○', '✸' }
+
 local query = vim.treesitter.query.parse(
     'markdown',
     [[
@@ -14,11 +33,11 @@ local query = vim.treesitter.query.parse(
     ])
   ]]
 )
+
 local language = vim.bo.filetype
-local bullets = { '✸', '◉', '○', '✸' }
 M.ns_id = vim.api.nvim_create_namespace('headlines_namespace')
 
-M.create_heading_keyword = function()
+M.refresh = function()
     local bufnr = vim.api.nvim_get_current_buf()
     local language_tree = vim.treesitter.get_parser(bufnr, language)
     local syntax_tree = language_tree:parse()
@@ -32,27 +51,40 @@ M.create_heading_keyword = function()
                 local capture = query.captures[id]
                 local start_row, start_column, end_row, end_column = unpack(vim.tbl_extend('force', { node:range() }, (metadata[id] or {}).range or {}))
 
-                -- Check the capture name to get the heading level
                 local level = tonumber(capture:sub(-1)) or 1
-                -- Get the bullet symbol and the highlight group for this level
-                local bullet = bullets[level]
-                local hl_group = 'HeadingBullet' .. level
-                -- Create a virtual text with the bullet symbol and a space
-                -- Use the node's end_column instead of the metadata's end_column
+                local bullet = c.bullets[level]
+                local bullet_hl_group = c.bullet_highlights[level]
+                local hl_group = c.headline_highlights[level]
+                local bullet_len = string.len(bullet)
+                local virt_text = {}
+                if c.bullets and #c.bullets > 0 then
+                    local bullet = c.bullets[((level - 1) % #c.bullets) + 1]
+                    virt_text[1] = { string.rep(' ', level - 1) .. bullet, { hl_group, bullet_hl_group } }
+                end
+
                 local extmark_id = vim.api.nvim_buf_set_extmark(bufnr, M.ns_id, start_row, start_column, {
-                    virt_text = { { bullet .. ' ', hl_group } },
+                    virt_text = virt_text,
                     virt_text_pos = 'overlay',
                     end_line = start_row,
-                    end_col = end_colum,
+                    end_col = end_column,
                 })
-                -- Optionally, add some highlighting to the bullet symbol
-                -- You need to define the highlight groups in your colorscheme
-                vim.api.nvim_buf_add_highlight(bufnr, -1, hl_group, start_row, start_column, start_column + #bullet)
-                -- Hide the original text with neovim virtual text
-                -- Use the metadata's end_column instead of the node's end_column
-                vim.api.nvim_buf_set_virtual_text(bufnr, 0, start_row, { { string.rep(' ', end_column - start_column), hl_group } }, {})
             end
         end
     end
+    vim.cmd([[
+        highlight  @markup.heading.1.markdown guifg=#ff00ff guibg=NONE gui=bold
+        highlight  @markup.heading.2.markdown guifg=#ff00ff guibg=NONE gui=bold
+        highlight  @markup.heading.3.markdown guifg=#ff00ff guibg=NONE gui=bold
+        highlight  @markup.heading.4.markdown guifg=#ff00ff guibg=NONE gui=bold
+
+        highlight  Bullet1                    guifg=#ff00ff guibg=NONE gui=bold
+        highlight  Bullet2                    guifg=#ff00ff guibg=NONE gui=bold
+        highlight  Bullet3                    guifg=#ff00ff guibg=NONE gui=bold
+
+        augroup Headlines
+        autocmd FileChangedShellPost,Syntax,TextChanged,InsertLeave,WinScrolled * lua require('ayoub.test').refresh()
+        augroup END
+    ]])
 end
+
 return M
