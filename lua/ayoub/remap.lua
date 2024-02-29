@@ -1,36 +1,44 @@
 vim.g.mapleader = ' '
 
 local key = vim.keymap.set
+local opt = { noremap = true, silent = true }
+
+-- key('n', '<space>b', function() require('qbuf').copen_and_cnext() end, opt)
+
+-- key('n', '<C-j>', '<cmd>cnext<CR>zz')
+-- key('n', '<C-k>', '<cmd>cprev<CR>zz')
+key('n', '<C-j>', '<cmd>silent! cnext<CR>')
+key('n', '<C-k>', '<cmd>silent! cprev<CR>')
 
 -- key('n', '<C-Space>',' <cmd>lua require("ayoub.compilation").OpenQuickfix("make | redraw! |echo \\"make finished\\"")<CR>', {})
 key('i', '<TAB>', '<C-I>')
-key({ 'i', 'n' }, '<A-d>', ':t.<CR>')
-key('i', '<C-L>', '<C-X><C-L>', { silent = true })
-key('i', '<C-I>', '<C-X><C-I>', { silent = true })
-key('i', '<C-]>', '<C-X><C-]>', { silent = true })
-key('i', '<C-F>', '<C-X><C-F>', { silent = true })
-key('i', '<C-D>', '<C-X><C-D>', { silent = true })
+key({ 'i', 'n' }, '<A-d>', ':t.<CR>', opt)
+key('i', '<C-L>', '<C-X><C-L>', opt)
+key('i', '<C-I>', '<C-X><C-I>', opt)
+key('i', '<C-]>', '<C-X><C-]>', opt)
+key('i', '<C-F>', '<C-X><C-F>', opt)
+key('i', '<C-D>', '<C-X><C-D>', opt)
 
 key('n', '<C-Space>', ':new | term ./dwm<CR>', {})
 
 key('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
-key('n', '-', '<cmd>lua require("oil").open()<cr>', { silent = true })
+key('n', '-', '<cmd>lua require("oil").open()<cr>', opt)
 
-key({ 'n' }, '<F5>', ':echo synIDattr(synID(line("."), col("."), 1), "name")<CR>', { silent = true })
+key({ 'n' }, '<F5>', ':echo synIDattr(synID(line("."), col("."), 1), "name")<CR>', opt)
 
-key({ 'n' }, '<cr>', ':cclose<cr>viw', { silent = true })
-key({ 'n' }, '<esc>', '<esc>:noh<cr>', { silent = true })
+key({ 'n' }, '<cr>', ':cclose<cr>viw', opt)
+key({ 'n' }, '<esc>', '<esc>:noh<cr>', opt)
 
-key({ 'n', 'v' }, 'j', 'gj', { silent = true })
-key({ 'n', 'v' }, 'k', 'gk', { silent = true })
+key({ 'n', 'v' }, 'j', 'gj', opt)
+key({ 'n', 'v' }, 'k', 'gk', opt)
 
-key('n', '<leader>zn', ':TZNarrow<CR>', { silent = true })
-key('v', '<leader>zn', ":'<,'>TZNarrow<CR>", { silent = true })
-key('n', '<leader>zf', ':TZFocus<CR>', { silent = true })
-key('n', '<leader>zm', ':TZAtaraxis<CR>', { silent = true })
--- k('n', '<leader>zm', ':TZMinimalist<CR>', { silent = true })
+key('n', '<leader>zn', ':TZNarrow<CR>', opt)
+key('v', '<leader>zn', ":'<,'>TZNarrow<CR>", opt)
+key('n', '<leader>zf', ':TZFocus<CR>', opt)
+key('n', '<leader>zm', ':TZAtaraxis<CR>', opt)
+-- k('n', '<leader>zm', ':TZMinimalist<CR>', opt)
 
-key({ 'n', 'v' }, '<A-@>', ':%s#@@@#\\r#g<CR>', { silent = true })
+key({ 'n', 'v' }, '<A-@>', ':%s#@@@#\\r#g<CR>', opt)
 
 key({ 'n', 'v' }, ',tp', '<cmd>lua  require("ayoub.te_prompt_picker").preview_files()<CR>')
 
@@ -65,120 +73,116 @@ key({ 'n', 'v' }, 'N', 'Nzzzv')
 key('i', '<C-c>', '<Esc>')
 
 key('n', 'Q', '<nop>')
-key('n', '<leader>f', function() vim.lsp.buf.format() end)
 
-key('n', '<C-j>', '<cmd>cnext<CR>zz')
-key('n', '<C-k>', '<cmd>cprev<CR>zz')
 key('n', '<leader>k', '<cmd>lnext<CR>zz')
 key('n', '<leader>j', '<cmd>lprev<CR>zz')
 
 key('n', '<A-s>', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>')
-key('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
+key('n', '<leader>x', '<cmd>!chmod +x %<CR>', opt)
 
 -- k(
 --   'n',
 --   '<space><space>',
 --   ':w<cr>:silent !python -m jupyter_ascending.requests.sync --filename %&:<cr>',
---   { silent = true }
+--   opt
 -- )
--- key('n', '<c-w>o', ':Zoom<cr>', { silent = true })
+-- key('n', '<c-w>o', ':Zoom<cr>', opt)
 
-key('n', 'x', '"_x', { silent = true })
-key('n', 'X', '"_X', { silent = true })
-key('n', 'c', '"_c', { silent = true })
-key('n', 'C', '"_C', { silent = true })
+key('n', 'x', '"_x', opt)
+key('n', 'X', '"_X', opt)
+key('n', 'c', '"_c', opt)
+key('n', 'C', '"_C', opt)
 
-key('v', 'x', '"_x', { silent = true })
-key('v', 'X', '"_X', { silent = true })
-key('v', 'c', '"_c', { silent = true })
-key('v', 'C', '"_C', { silent = true })
+key('v', 'x', '"_x', opt)
+key('v', 'X', '"_X', opt)
+key('v', 'c', '"_c', opt)
+key('v', 'C', '"_C', opt)
 
-key('v', 'y', 'ygv<Esc>', { silent = true })
-key('v', 'Y', 'Ygv<Esc>', { silent = true })
+key('v', 'y', 'ygv<Esc>', opt)
+key('v', 'Y', 'Ygv<Esc>', opt)
 
--- k('v', 'p', 'pgvy', { silent = true })
--- k('v', 'P', 'Pgvy', { silent = true })
+-- k('v', 'p', 'pgvy', opt)
+-- k('v', 'P', 'Pgvy', opt)
 
--- k('n', 'p', 'pgvy', { silent = true })
--- k('n', 'P', 'Pgvy', { silent = true })
---'p', 'pgvy', { silent = true })
+-- k('n', 'p', 'pgvy', opt)
+-- k('n', 'P', 'Pgvy', opt)
+--'p', 'pgvy', opt)
 -- k('n',
 vim.cmd([[xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>]])
 
-key('n', ',or', ':OverseerRun<cr>', { silent = true })
-key('n', ',ol', ':OverseerLoadBundle<cr>', { silent = true })
--- k("n", ",ot", ":OverseerTaskAction<cr>", { silent = true })
-key('n', ',oq', ':OverseerQuickAction<cr>', { silent = true })
-key('n', ',ov', ':OverseerQuickAction open vsplit<cr>', { silent = true })
-key('n', ',ow', ':OverseerQuickAction watch<cr>', { silent = true })
+key('n', ',or', ':OverseerRun<cr>', opt)
+key('n', ',ol', ':OverseerLoadBundle<cr>', opt)
+-- k("n", ",ot", ":OverseerTaskAction<cr>", opt)
+key('n', ',oq', ':OverseerQuickAction<cr>', opt)
+key('n', ',ov', ':OverseerQuickAction open vsplit<cr>', opt)
+key('n', ',ow', ':OverseerQuickAction watch<cr>', opt)
 
-key('n', 'q:', ':q', { silent = true })
+key('n', 'q:', ':q', opt)
 
-key('n', '<Space>fs', ':Telescope current_buffer_fuzzy_find<cr>', { silent = true })
-key('n', '<Space>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { silent = true })
-key('n', '<Space>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', { silent = true })
-key('n', '<Space>hh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', { silent = true })
-key('n', '<Space>ff', '<cmd>lua require("telescope.builtin").find_files({ find_command = { "fd","-tf","-tl"}})<cr>', { silent = true })
+key('n', '<Space>fs', ':Telescope current_buffer_fuzzy_find<cr>', opt)
+key('n', '<Space>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opt)
+key('n', '<Space>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', opt)
+key('n', '<Space>hh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', opt)
+key('n', '<Space>ff', '<cmd>lua require("telescope.builtin").find_files({ find_command = { "fd","-tf","-tl"}})<cr>', opt)
 
-key('n', '<Space>f.', ':lua require("tsp.cwd-tsp").search_dotfiles()<cr> ', { silent = true })
-key('n', '<Space>f-', ':lua require("tsp.cwd-tsp").search_nvim()<cr> ', { silent = true })
-key('n', '<Space>fw', ':lua require("tsp.cwd-tsp").search_wiki()<cr> ', { silent = true })
-key('n', '<Space>f1', ':lua require("tsp.cwd-tsp").search_proj("sl")<cr> ', { silent = true })
-key('n', '<Space>f2', ':lua require("tsp.cwd-tsp").search_proj("slstatus")<cr> ', { silent = true })
+key('n', '<Space>f.', ':lua require("tsp.cwd-tsp").search_dotfiles()<cr> ', opt)
+key('n', '<Space>f-', ':lua require("tsp.cwd-tsp").search_nvim()<cr> ', opt)
+key('n', '<Space>fw', ':lua require("tsp.cwd-tsp").search_wiki()<cr> ', opt)
+key('n', '<Space>f1', ':lua require("tsp.cwd-tsp").search_proj("sl")<cr> ', opt)
+key('n', '<Space>f2', ':lua require("tsp.cwd-tsp").search_proj("slstatus")<cr> ', opt)
 
---key('n', '<Tab>', ':tabnext<cr>', { silent = true })
---key('n', '<S-Tab>', ':tabprev<cr>', { silent = true })
+key('n', '<Tab>', ':bn<cr>', opt)
+--key('n', '<S-Tab>', ':tabprev<cr>', opt)
 
-key('i', '<c-a-k>', '<c-k>', { silent = true })
+key('i', '<c-a-k>', '<c-k>', opt)
 
-key('n', '<up>', 'k<c-y>', { silent = true })
-key('n', '<down>', 'j<c-e>', { silent = true })
+key('n', '<up>', 'k<c-y>', opt)
+key('n', '<down>', 'j<c-e>', opt)
 
-key('t', '<esc><esc>', '<c-\\><c-n><esc>', { silent = true })
-key('t', '<Tab>', '<c-\\><c-n>:tabnext<cr>', { silent = true })
-key('t', '<S-Tab>', '<c-\\><c-n>:tabprev<cr>', { silent = true })
+key('t', '<esc><esc>', '<c-\\><c-n><esc>', opt)
+key('t', '<Tab>', '<c-\\><c-n>:bn<cr>', opt)
 
-key('n', '<C-Up>', ':resize +2<cr>', { silent = true })
-key('n', '<C-Down>', ':resize -2<cr>', { silent = true })
-key('n', '<C-Left>', '10h', { silent = true })
-key('n', '<C-Right>', '10l', { silent = true })
--- key('n', '<C-Left>', ':vertical resize -2<cr>', { silent = true })
--- key('n', '<C-Right>', ':vertical resize +2<cr>', { silent = true })
+key('n', '<C-Up>', ':resize +2<cr>', opt)
+key('n', '<C-Down>', ':resize -2<cr>', opt)
+key('n', '<C-Left>', '10h', opt)
+key('n', '<C-Right>', '10l', opt)
+-- key('n', '<C-Left>', ':vertical resize -2<cr>', opt)
+-- key('n', '<C-Right>', ':vertical resize +2<cr>', opt)
 
-key('t', '<C-Up>', '<C-\\><C-N>:resize +2<cr>', { silent = true })
-key('t', '<C-Down>', '<C-\\><C-N>:resize -2<cr>', { silent = true })
-key('t', '<C-Left>', '<C-\\><C-N>:vertical resize -2<cr>', { silent = true })
-key('t', '<C-Right>', '<C-\\><C-N>:vertical resize +2<cr>', { silent = true })
+key('t', '<C-Up>', '<C-\\><C-N>:resize +2<cr>', opt)
+key('t', '<C-Down>', '<C-\\><C-N>:resize -2<cr>', opt)
+key('t', '<C-Left>', '<C-\\><C-N>:vertical resize -2<cr>', opt)
+key('t', '<C-Right>', '<C-\\><C-N>:vertical resize +2<cr>', opt)
 
 --Basic file system commands
--- key('n', '<C-M-o>', ':!touch<Space>', { silent = true })
--- key('n', '<C-M-d>', ':!mkdir<Space>', { silent = true })
--- key('n', '<C-M-c>', ':!cp<Space>%<Space>', { silent = true })
--- key('n', '<C-M-m>', ':!mv<Space>%<Space>', { silent = true })
+-- key('n', '<C-M-o>', ':!touch<Space>', opt)
+-- key('n', '<C-M-d>', ':!mkdir<Space>', opt)
+-- key('n', '<C-M-c>', ':!cp<Space>%<Space>', opt)
+-- key('n', '<C-M-m>', ':!mv<Space>%<Space>', opt)
 
 -- fix p y
 --k('n', 's', '<NOP>', {silent = true})
 --k('n', 'S', '<NOP>', {silent = true})
--- key('n', '<C-Q>', ':noautocmd bd<cr>', { silent = true })
-key('n', '<C-Q><C-Q>', ':noautocmd q<cr>', { silent = true })
-key('n', '<Space>w', ':w<cr>', { silent = true })
+-- key('n', '<C-Q>', ':noautocmd bd<cr>', opt)
+key('n', '<C-Q><C-Q>', ':noautocmd q<cr>', opt)
+key('n', '<Space>w', ':w<cr>', opt)
 
-key('n', '>', 'v>', { silent = true })
-key('n', '<', 'v<', { silent = true })
-key('v', '>', '>gv', { silent = true })
-key('v', '<', '<gv', { silent = true })
+key('n', '>', 'v>', opt)
+key('n', '<', 'v<', opt)
+key('v', '>', '>gv', opt)
+key('v', '<', '<gv', opt)
 
-key('i', '<A-a>', '<Right>', { silent = true })
-key('i', '<A-i>', '<Left>', { silent = true })
+key('i', '<A-a>', '<Right>', opt)
+key('i', '<A-i>', '<Left>', opt)
 
-key('n', '<silent>', '<A-j>:MoveLine(1)<CR>', { silent = true })
-key('n', '<silent>', '<A-k>:MoveLine(-1)<CR>', { silent = true })
+key('n', '<silent>', '<A-j>:MoveLine(1)<CR>', opt)
+key('n', '<silent>', '<A-k>:MoveLine(-1)<CR>', opt)
 
-key('v', '<silent>', '<A-j>:MoveBlock(1)<CR>', { silent = true })
-key('v', '<silent>', '<A-k>:MoveBlock(-1)<CR>', { silent = true })
+key('v', '<silent>', '<A-j>:MoveBlock(1)<CR>', opt)
+key('v', '<silent>', '<A-k>:MoveBlock(-1)<CR>', opt)
 
 --command! So su
-vim.cmd [[
+vim.cmd([[
 command! W w
 command! Q q
 
@@ -191,13 +195,13 @@ command! WQ wq
 command! Wqa wqa
 command! WQa wqa
 command! WQA wqa
-]]
+]])
 --command! MyGdb let g:termdebug_wide = 10 | packadd termdebug | Termdebug
 
-key('n', '<F7>', ':FloatermToggle<cr>', { silent = true })
+key('n', '<F7>', ':FloatermToggle<cr>', opt)
 --" k('n', '<F8>', ':silent FloatermSend           tail_latexmk<cr>:FloatermShow<cr>', {silent = true})
 --" k('t', '<F8>', '<c-\><c-n>:silent FloatermSend tail_latexmk<cr>:FloatermShow<cr>', {silent = true})
-key('t', '<F7>', '<c-\\><c-n>:FloatermToggle<cr>', { silent = true })
+key('t', '<F7>', '<c-\\><c-n>:FloatermToggle<cr>', opt)
 --let g:floaterm_height=0.8
 --let g:floaterm_width=0.8
 -- let g:floaterm_wintype="vsplit"
@@ -207,14 +211,14 @@ key('t', '<F7>', '<c-\\><c-n>:FloatermToggle<cr>', { silent = true })
 --autocmd BufEnter *.tex setlocal spell spelllang=fr
 
 -- Clears hlsearch after doing a search, otherwise just does normal <CR> stuff
-key('n', '<expr>', '<CR> {-> v:hlsearch ? ":nohl\\<CR>":"\\<CR>"}()', { silent = true })
+key('n', '<expr>', '<CR> {-> v:hlsearch ? ":nohl\\<CR>":"\\<CR>"}()', opt)
 
 -- grep hightlite
-key('n', '<leader>sh', '<cmd>TSHighlightCapturesUnderCursor<CR>', { silent = true })
-key('n', '<C-q><C-q>', ':bd<cr>', { silent = true })
+key('n', '<leader>sh', '<cmd>TSHighlightCapturesUnderCursor<CR>', opt)
+key('n', '<C-q><C-q>', ':bd<cr>', opt)
 
-key('n', 'gt', 'viW"dy:tabnew <c-r>d<cr>', { silent = true })
+key('n', 'gt', 'viW"dy:tabnew <c-r>d<cr>', opt)
 
 -- need zz in the last moving
--- k({ 'n', 'v' }, '<C-U>', '<C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>', { silent = true })
--- k({ 'n', 'v' }, '<C-D>', '<C-E><C-E><C-E><C-E><C-E><C-E>', { silent = true })
+-- k({ 'n', 'v' }, '<C-U>', '<C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>', opt)
+-- k({ 'n', 'v' }, '<C-D>', '<C-E><C-E><C-E><C-E><C-E><C-E>', opt)
