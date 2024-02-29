@@ -1,5 +1,6 @@
 return {
     'chentoast/marks.nvim',
+    event = 'VeryLazy',
     config = function()
         require('marks').setup({
             force_write_shada = false,
