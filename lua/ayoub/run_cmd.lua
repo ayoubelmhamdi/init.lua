@@ -60,4 +60,56 @@ M.attach_to_buffer = function(command)
     end
 end
 
+M.stderr = function(_, data) print('error in stderr') end
+M.stdout = function(_, data)
+    print('start2')
+    vim.print(data)
+
+    -- Initialize an empty table for quickfix entries
+    local qf_entries = {}
+
+    -- Parse each line of the output
+    local file = '@@'
+    local line2 = '##'
+    local text2 = '??'
+    for _, line in ipairs(data) do
+        local file_path, line_number, text = line:match('(.-):(%d+):(.*)')
+        if file_path and line_number then
+            file = file_path
+            line2 = line_number
+            text2 = text
+            print('filename: ' .. file .. ' line2: ' .. line2 .. ' text2: ' .. text2)
+            table.insert(qf_entries, {
+                filename = file_path,
+                lnum = tonumber(line_number),
+                text = text or 'No additional message',
+            })
+        end
+    end
+
+    --1-- Update the quickfix list with the parsed entries
+    --1if #qf_entries > 0 then
+    --1    vim.fn.setqflist(qf_entries)
+    --1    -- Optionally, open the quickfix window
+    --1    vim.api.nvim_command('copen')
+    --1end
+end
+
+M.output_to_quickfix = function(command)
+    -- Start the job
+    local job_id = vim.fn.jobstart(command, {
+        -- stdout_buffered = true,
+        on_stdout = M.stdout,
+        -- on_stderr = M.stderr,
+        on_stderr = M.stdout,
+    })
+
+    -- Check if the job started successfully
+    if not job_id then
+        print('Failed to start job for command:')
+    else
+        print('job_id: ' .. job_id)
+    end
+end
+
 return M
