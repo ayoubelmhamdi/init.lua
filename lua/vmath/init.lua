@@ -29,12 +29,22 @@ M.print_function_info = function()
     local query = vim.treesitter.query.parse(
         'c',
         [[
-        ((function_definition
-            declarator: (function_declarator
-                        declarator: (identifier) @name
-                        parameters: (parameter_list) @args)
-            body: (compound_statement (return_statement (binary_expression) @return))
-                        )@function)
+((function_definition
+    declarator: (function_declarator
+                declarator: (identifier) @name
+                parameters: (parameter_list) @args)
+    body: (compound_statement 
+           (return_statement 
+            (binary_expression) @return))
+                )@function)
+((function_definition
+    declarator: (function_declarator
+                declarator: (identifier) @name
+                parameters: (parameter_list) @args)
+    body: (compound_statement 
+           (return_statement 
+            (number_literal) @return))
+                )@function)
         ]]
     )
 
@@ -65,7 +75,7 @@ M.print_function_info = function()
                 a_name = vim.treesitter.get_node_text(function_name_node, bufnr),
                 b_args = args,
                 c_return_ = function_return_node and vim.treesitter.get_node_text(function_return_node, bufnr) or nil,
-                d_start = s_row,
+                d_start = s_row + 1,
                 e_end_ = e_row + 1,
             }
             table.insert(list, func_info)
