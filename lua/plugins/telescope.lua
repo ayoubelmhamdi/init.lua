@@ -1,10 +1,5 @@
 return {
     {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        lazy = true,
-        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
-    },
-    {
         'nvim-telescope/telescope.nvim',
         version = '0.1.4',
         lazy = true,
@@ -12,7 +7,7 @@ return {
         cmd = 'Telescope',
         dependencies = {
             'cljoly/telescope-repo.nvim',
-            'nvim-telescope/telescope-fzf-native.nvim',
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
         },
         config = function()
             local builtin = require('telescope.builtin')
@@ -40,9 +35,19 @@ return {
                     search = vim.fn.input('Grep > '),
                 })
             end
-            vim.keymap.set('n', '<C-p>', ':Telescope repo list<cr>', {})
-            vim.keymap.set('n', '<C-l>', ':Telescope git_files<cr>', {})
-            vim.keymap.set('n', '<leader>lf', ':Telescope find_files<cr>', {})
+            local function git_or_find_files()
+                local in_git_repo = vim.fn.systemlist('git rev-parse --is-inside-work-tree')[1] == 'true'
+                if in_git_repo then
+                    builtin.git_files({show_untracked = true})
+                else
+                    builtin.find_files()
+                end
+            end
+            local opt = { noremap = true, silent = true }
+
+            vim.keymap.set('n', '<C-p>', ':Telescope repo list<cr>', opt)
+            vim.keymap.set('n', '<C-l>', git_or_find_files, opt)
+            vim.keymap.set('n', '<leader>lf', ':Telescope find_files<cr>', opt)
             vim.keymap.set('n', '<leader>ls', grep_string)
 
             local file_ignore_patterns = {
