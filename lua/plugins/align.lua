@@ -1,7 +1,7 @@
 return {
     'Vonr/align.nvim',
     branch = 'v2',
-    lazy = true,
+    event = 'VeryLazy',
     init = function()
         vim.keymap.set('x', 'ga', function()
             require('align').align_to_char({
