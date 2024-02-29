@@ -5,10 +5,11 @@ return {
     -- Git
     --  { 'mbbill/undotree' },
     -- { 'tpope/vim-fugitive' },
-    { 'airblade/vim-rooter' },
+    { 'airblade/vim-rooter', event = 'VeryLazy' },
     -- Basic
     {
         'numToStr/Comment.nvim',
+        event = 'VeryLazy',
         config = function()
             require('Comment').setup({
                 ignore = '^$',
@@ -19,14 +20,14 @@ return {
             ft.nasm = ';%s'
         end,
     },
-    { 'jghauser/mkdir.nvim' },
+    { 'jghauser/mkdir.nvim', event = 'VeryLazy' },
     -- { 'fedepujol/move.nvim' },
     -- { 'oberblastmeister/zoom.nvim' },
     -- Test
     -- { 'folke/zen-mode.nvim' },
     -- { 'github/copilot.vim' },
     -- { 'yazgoo/vmux' },
-    { 'nyngwang/suave.lua' },
+    { 'nyngwang/suave.lua', event = 'VeryLazy' },
     -- Localy
     -- { '/data/projects/lua/gg.nvim' },
 }
