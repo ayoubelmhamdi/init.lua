@@ -8,3 +8,6 @@ hi CurSearch	guibg=Red   guifg=Black" Used for highlighting a search pattern und
 hi Folded     guibg=Dark
 hi SignColumn guibg=#202020
 hi FoldColumn guibg=#202020
+
+hi Normal guibg=#181818
+hi StatusLine guifg=#181818 
