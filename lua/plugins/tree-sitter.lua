@@ -1,7 +1,7 @@
 return {
     'nvim-treesitter/nvim-treesitter',
+    event = 'VeryLazy',
     dependencies = {
-        { 'nvim-treesitter/playground' },
         { 'lewis6991/spellsitter.nvim' },
         { 'David-Kunz/treesitter-unit' },
         { 'nvim-treesitter/nvim-treesitter-textobjects' },
@@ -34,12 +34,15 @@ return {
                 -- end,
             },
         })
+
+        require('nvim-treesitter.install').prefer_git = true
         local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
         parser_config.typst = {
             install_info = {
-                url = '/data/github/tree-sitter-typst',
-                files = { 'src/parser.c', 'src/scanner.cc' },
-                branch = 'main',
+                -- url = 'https://github.com/frozolotl/tree-sitter-typst.git',
+                url = '/data/local_tmp/github_treesitters/tree-sitter-typst',
+                files = { 'src/parser.c', 'src/scanner.c' },
+                -- branch = 'main',
             },
             filetype = 'typst', -- if filetype does not agrees with parser name
         }
