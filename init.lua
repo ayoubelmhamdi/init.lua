@@ -15,4 +15,6 @@ vim.g.loaded_netrwPlugin = 0
 vim.g.loaded_spec = 0
 vim.g.loaded_syncolor = 0
 
-
+local key = vim.keymap.set
+key('n', '<space>r', '<cmd>lua R("vmath")<cr>', { noremap = true, silent = true })
+key('n', '<space>m', '<cmd>lua R("vmath")<cr>:lua require("vmath").print_function_info()<cr>', { noremap = true, silent = true })
