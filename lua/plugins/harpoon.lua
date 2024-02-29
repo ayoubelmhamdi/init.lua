@@ -1,7 +1,8 @@
 return {
     -- file switcher
     'ThePrimeagen/harpoon',
-    lazy = true,
+    -- todo check if need lazy keyword
+    -- lazy = true,
     keys = {
         { '<c-e>', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>' },
         { '<leader>a', '<cmd>lua require("harpoon.mark").add_file()<cr>' },
