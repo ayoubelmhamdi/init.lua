@@ -19,3 +19,15 @@ set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinko
 
 autocmd BufEnter * set formatoptions-=cro
 autocmd BufEnter * setlocal formatoptions-=cro
+
+
+if !exists('g:no_vim_conceal') || has('conceal') || &enc == 'utf-8'
+    
+    " this is not a comment:
+    syn match HateWord /\# {{{/ conceal cchar=⏷
+    syn match HateWord /# }}}/ conceal cchar=⏶
+    
+    setlocal conceallevel=1
+    setlocal concealcursor=n
+endif
+
