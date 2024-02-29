@@ -1,6 +1,7 @@
 return {
     -- Dap
     'mfussenegger/nvim-dap',
+    -- todo check if can make it optional
     -- optional = true,
     event = 'VeryLazy',
     dependencies = {
@@ -14,8 +15,8 @@ return {
             config = function() require('persistent-breakpoints').setup({ load_breakpoints_event = { 'BufReadPost' } }) end,
             event = 'BufReadPost',
             keys = {
-                { '<leader>db',  ":lua require'persistent-breakpoints.api'.toggle_breakpoint()<cr>",         desc = 'debug breakpoint' },
-                { '<Leader>dbc', ":lua require'persistent-breakpoints.api'.set_conditional_breakpoint()<cr>" },
+                { '<leader>db', "<cmd>lua require'persistent-breakpoints.api'.toggle_breakpoint()<cr>", desc = 'debug breakpoint' },
+                { '<Leader>dbc', "<cmd>lua require'persistent-breakpoints.api'.set_conditional_breakpoint()<cr>" },
             },
         },
         {
@@ -46,7 +47,7 @@ return {
                     icons = { expanded = '▾', collapsed = '▸' },
                     layouts = {
                         { elements = { 'scopes', 'breakpoints', 'repl' }, size = 40, position = 'left' },
-                        { elements = { 'watches', 'console' },            size = 10, position = 'bottom' },
+                        { elements = { 'watches', 'console' }, size = 10, position = 'bottom' },
                     },
                 })
             end,
@@ -61,18 +62,18 @@ return {
         },
     },
     keys = {
-        -- { '<space><space>', ":lua require'dap'.step_over()<cr>zz"},
-        { '<space>dc',      ":lua require'dap'.continue()<cr>"},
-        { '<space>dn',      ":lua require'dap'.step_over()<cr>"},
-        { '<space>ds',      ":lua require'dap'.step_into()<cr>"},
-        { '<space>do',      ":lua require'dap'.step_out()<cr>"},
-        { '<space>dr',      ":lua require'dap'.restart()<cr>"},
-        { '<space>dro',     ":lua require'dap'.repl_open()<cr>"},
-        { '<space>du',      ":lua require'dapui'.toggle()<cr>"},
-        { '<space>dhh',     ":lua require('dap.ui.variables').hover()<CR>" },
-        { '<space>dhv',     ":lua require('dap.ui.variables').visual_hover()<CR>" },
+        -- { '<space><space>', "<cmd>lua require'dap'.step_over()<cr>zz"},
+        { '<space>dc', "<cmd>lua require'dap'.continue()<cr>" },
+        { '<space>dn', "<cmd>lua require'dap'.step_over()<cr>" },
+        { '<space>ds', "<cmd>lua require'dap'.step_into()<cr>" },
+        { '<space>do', "<cmd>lua require'dap'.step_out()<cr>" },
+        { '<space>dr', "<cmd>lua require'dap'.restart()<cr>" },
+        { '<space>dro', "<cmd>lua require'dap'.repl_open()<cr>" },
+        { '<space>du', "<cmd>lua require'dapui'.toggle()<cr>" },
+        { '<space>dhh', "<cmd>lua require('dap.ui.variables').hover()<CR>" },
+        { '<space>dhv', "<cmd>lua require('dap.ui.variables').visual_hover()<CR>" },
 
-        { '<Leader>duf',     ":lua local widgets=require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<CR>" },
+        { '<Leader>duf', "<cmd>lua local widgets=require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<CR>" },
     },
     config = function()
         local dap = require('dap')
@@ -112,8 +113,7 @@ return {
 
         dap.listeners.after['event_terminated']['me'] = function()
             for _, keymap in pairs(keymap_restore) do
-                api.nvim_buf_set_keymap(keymap.buffer, keymap.mode, keymap.lhs, keymap.rhs,
-                    { silent = keymap.silent == 1 })
+                api.nvim_buf_set_keymap(keymap.buffer, keymap.mode, keymap.lhs, keymap.rhs, { silent = keymap.silent == 1 })
             end
             keymap_restore = {}
         end
