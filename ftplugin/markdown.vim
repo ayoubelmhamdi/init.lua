@@ -1,4 +1,6 @@
 set linebreak wrap
+silent! lua require("ayoub.test").refresh()
+
 
 " vnoremap <space>` "ddi`<C-r>d`<Esc>
 " vnoremap <space>* "ddi*<C-r>d*<Esc>gvlol
