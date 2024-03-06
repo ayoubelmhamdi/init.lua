@@ -8,11 +8,12 @@ M.capabilities = vim.tbl_deep_extend('force', M.capabilities, require('cmp_nvim_
 -- capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
 
 M.handlers = {
-    ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = true,
-        update_in_insert = false,
-        virtual_text = true,
-    }),
+    ['textDocument/publishDiagnostics'] = function() end,
+    -- ['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+    --     underline = true,
+    --     update_in_insert = false,
+    --     virtual_text = true,
+    -- }),
     ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
     ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
 }
