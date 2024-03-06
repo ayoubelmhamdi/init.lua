@@ -1,7 +1,7 @@
 return {
     {
         'neovim/nvim-lspconfig',
-        event = 'LspAttach',
+        -- event = 'LspAttach',
         dependencies = {
             { 'williamboman/mason.nvim',           event = 'LspAttach' },
             { 'williamboman/mason-lspconfig.nvim', event = 'LspAttach' },
