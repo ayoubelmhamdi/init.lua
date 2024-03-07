@@ -57,7 +57,6 @@ M.close_child_win = function()
         M.child_buf = nil
         M.job_id = nil
         M.dir = nil
-
     end
 
     if vim.api.nvim_win_is_valid(M.parent_win) then
@@ -87,7 +86,22 @@ M.toggle = function(command, mode)
             print('tmpfile_is_range_of_output')
         elseif mode == modes['tmpfile_is_diff'] then ------------- the tmpfile is just a diff file that we need to generate the full output.
             print('tmpfile_is_diff')
-            M.diff_to_child_buf("./diff.diff")
+            -- M.diff_to_child_buf("./diff.diff")
+            -- diffs = {
+            --     '--- a.txt	2024-03-07 04:47:03.131359789 +0100',
+            --     '+++ b.txt	2024-03-07 04:47:09.888367070 +0100',
+            --     '@@ -1,3 +1,5 @@',
+            --     ' aaa',
+            --     ' bbb',
+            --     '+ddd',
+            --     ' eee',
+            --     '+',
+            -- }
+            -- M.diff_to_child_buf(diffs)
+            diffs = M.ruff_diff()
+            vim.print(diffs)
+            -- check if diffs table not empty
+            if not M.isempty(diffs) then M.diff_to_child_buf(diffs) end
         end
     else
         print('assert: the job_id: ' .. M.job_id .. 'should not be exist.')
@@ -143,11 +157,11 @@ M.diff_to_child_buf = function(diff)
 
     -- we have /tmp/diff.XXXX/file.txt and /tmp/diff.XXXX/diff.diff
     local child_lines
-    command = { 'patch', cur_tmpfile, tmp_tmpfile }
-    M.job_id = vim.fn.jobstart(command, {
+    patch = { 'patch', cur_tmpfile, tmp_tmpfile }
+    M.job_id = vim.fn.jobstart(patch, {
         cwd = '/tmp/',
         stdout_buffered = true,
-        on_stdout = function(_, _lines) 
+        on_stdout = function(_, _lines)
             -- vim.print(_lines) -- @loggin
             child_lines = vim.fn.readfile(cur_tmpfile) -- read after patch it.
         end,
@@ -157,6 +171,23 @@ M.diff_to_child_buf = function(diff)
     if not M.job_id then print('Failed to start job for command:') end
 
     vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, child_lines)
+end
+
+M.ruff_diff = function()
+    local diffs
+    local bufname = vim.api.nvim_buf_get_name(M.parent_buf) -- /home/mhamdi/file.txt
+    -- bufname = '/data/projects/typst/PFE/python/ppt/pptjson.py'
+    ruff_diff = { 'ruff', 'check', bufname, '--diff' }
+    M.job_id = vim.fn.jobstart(ruff_diff, {
+        cwd = '/tmp/',
+        stdout_buffered = true,
+        on_stdout = function(_, _lines) diffs = _lines end,
+        on_stderr = M.stderr,
+    })
+    vim.fn.jobwait({ M.job_id })
+    if not M.job_id then print('Failed to start job for command:') end
+
+    return diffs
 end
 
 M.basename = function(path)
@@ -171,8 +202,12 @@ end
 
 -- M.join = function(...) return table.concat({ ... }, '/') end
 
-M.mktempDir = function()
-    return uv.fs_mkdtemp('/tmp/diff_XXXXXXXXX')
+M.mktempDir = function() return uv.fs_mkdtemp('/tmp/diff_XXXXXXXXX') end
+
+M.isempty = function(t)
+    if not t or not next(t) then return true end
+    local k, v = next(t)
+    return not next(t, k) and v == ''
 end
 
 M.stderr = function(_, data)
