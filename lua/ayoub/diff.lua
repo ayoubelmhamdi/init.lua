@@ -22,6 +22,8 @@ M.create_win = function()
         return nil -- used for toggle feature
     end
 
+    -- TODO: save original keymaping, to recover them in close_child_win
+
     M.parent_win = vim.api.nvim_get_current_win()
     M.parent_buf = vim.api.nvim_get_current_buf()
 
@@ -62,6 +64,7 @@ M.close_child_win = function()
     if vim.api.nvim_win_is_valid(M.parent_win) then
         vim.api.nvim_set_current_win(M.parent_win)
         vim.cmd('diffoff')
+        -- TODO: recover saved original keymaping.
     else
         print('no M.win')
     end
@@ -87,19 +90,7 @@ M.toggle = function(command, mode)
         elseif mode == modes['tmpfile_is_diff'] then ------------- the tmpfile is just a diff file that we need to generate the full output.
             print('tmpfile_is_diff')
             -- M.diff_to_child_buf("./diff.diff")
-            -- diffs = {
-            --     '--- a.txt	2024-03-07 04:47:03.131359789 +0100',
-            --     '+++ b.txt	2024-03-07 04:47:09.888367070 +0100',
-            --     '@@ -1,3 +1,5 @@',
-            --     ' aaa',
-            --     ' bbb',
-            --     '+ddd',
-            --     ' eee',
-            --     '+',
-            -- }
-            -- M.diff_to_child_buf(diffs)
-            diffs = M.ruff_diff()
-            vim.print(diffs)
+            diffs = M.ruff_diff(command)
             -- check if diffs table not empty
             if not M.isempty(diffs) then M.diff_to_child_buf(diffs) end
         end
@@ -173,12 +164,12 @@ M.diff_to_child_buf = function(diff)
     vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, child_lines)
 end
 
-M.ruff_diff = function()
+M.ruff_diff = function(command)
     local diffs
     local bufname = vim.api.nvim_buf_get_name(M.parent_buf) -- /home/mhamdi/file.txt
     -- bufname = '/data/projects/typst/PFE/python/ppt/pptjson.py'
-    ruff_diff = { 'ruff', 'check', bufname, '--diff' }
-    M.job_id = vim.fn.jobstart(ruff_diff, {
+    -- ruff_diff = { 'ruff', 'check', bufname, '--diff' }
+    M.job_id = vim.fn.jobstart(command, {
         cwd = '/tmp/',
         stdout_buffered = true,
         on_stdout = function(_, _lines) diffs = _lines end,
@@ -213,12 +204,12 @@ end
 M.stderr = function(_, data)
     -- todo: should imrobe check if all lines is empty or not
     -- we can test the number of line is great then one, or if we have one line we should check if is empty.
-    if data[1] ~= '' then
-        print('error in stderr')
-        print('-------')
-        vim.print(data)
-        print('~~~~~~~')
-    end
+    -- if data[1] ~= '' then
+    --     print('error in stderr')
+    --     print('-------')
+    --     vim.print(data)
+    --     print('~~~~~~~')
+    -- end
 end
 
 M.put_to_child_buf = function(_, data)
