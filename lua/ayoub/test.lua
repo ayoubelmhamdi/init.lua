@@ -71,20 +71,6 @@ M.refresh = function()
             end
         end
     end
-    vim.cmd([[
-        highlight  @markup.heading.1.markdown guifg=#ff00ff guibg=NONE gui=bold
-        highlight  @markup.heading.2.markdown guifg=#ff00ff guibg=NONE gui=bold
-        highlight  @markup.heading.3.markdown guifg=#ff00ff guibg=NONE gui=bold
-        highlight  @markup.heading.4.markdown guifg=#ff00ff guibg=NONE gui=bold
-
-        highlight  Bullet1                    guifg=#ff00ff guibg=NONE gui=bold
-        highlight  Bullet2                    guifg=#ff00ff guibg=NONE gui=bold
-        highlight  Bullet3                    guifg=#ff00ff guibg=NONE gui=bold
-
-        augroup Headlines
-        autocmd FileChangedShellPost,Syntax,TextChanged,InsertLeave,WinScrolled * lua require('ayoub.test').refresh()
-        augroup END
-    ]])
 end
 
 return M
