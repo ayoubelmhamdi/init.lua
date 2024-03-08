@@ -1,5 +1,19 @@
 set linebreak wrap
-silent! lua require("ayoub.test").refresh()
+
+highlight  @markup.heading.1.markdown guifg=#ff00ff guibg=NONE gui=bold
+highlight  @markup.heading.2.markdown guifg=#ff00ff guibg=NONE gui=bold
+highlight  @markup.heading.3.markdown guifg=#ff00ff guibg=NONE gui=bold
+highlight  @markup.heading.4.markdown guifg=#ff00ff guibg=NONE gui=bold
+
+highlight  Bullet1                    guifg=#ff00ff guibg=NONE gui=bold
+highlight  Bullet2                    guifg=#ff00ff guibg=NONE gui=bold
+highlight  Bullet3                    guifg=#ff00ff guibg=NONE gui=bold
+
+lua require('ayoub.test').refresh()
+" augroup Headlines
+"     autocmd!
+"     autocmd InsertLeave *.md lua require('ayoub.test').refresh()
+" augroup END
 
 
 " vnoremap <space>` "ddi`<C-r>d`<Esc>
