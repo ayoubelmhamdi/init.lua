@@ -47,7 +47,9 @@ opt.fillchars = { eob = '~' }
 
 opt.cmdheight = 1
 opt.laststatus = 3
--- opt.signcolumn = 'yes'
+-- opt.signcolumn = 'no'
+-- set foldlevel=0 see after/plugin/vim.vim
+-- set foldcolumn=1
 
 opt.hidden = true
 opt.splitbelow = true
