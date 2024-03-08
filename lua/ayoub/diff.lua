@@ -3,7 +3,6 @@ local uv = vim.uv or vim.loop
 local key = vim.keymap.set
 local opt = { noremap = true, silent = true }
 
-
 M.parent_win = nil
 M.parent_buf = nil
 M.child_win = nil
@@ -13,9 +12,8 @@ M.job_id = nil
 M.current_file_path = nil
 M.dir = nil
 
-local backup_keys = {'<C-J>'}
+local backup_keys = { '<C-J>' }
 M.original_keymaps = {}
-
 
 local modes = {
     tmpfile_is_full_output = 1,
@@ -41,7 +39,7 @@ M.create_win = function()
     M.child_win = vim.api.nvim_get_current_win()
     M.child_buf = vim.api.nvim_get_current_buf()
     vim.api.nvim_buf_set_name(M.child_buf, 'Diff: ' .. M.child_buf)
-    vim.api.nvim_buf_set_option(M.child_buf, 'buftype', "nofile") -- modifiable...
+    vim.api.nvim_buf_set_option(M.child_buf, 'buftype', 'nofile') -- modifiable...
     vim.bo[M.child_buf].filetype = buftype -- lang
     vim.api.nvim_buf_set_option(M.child_buf, 'bufhidden', 'wipe')
     vim.api.nvim_buf_set_option(M.child_buf, 'swapfile', false)
@@ -92,6 +90,7 @@ M.toggle = function(command, mode)
             M.fullfile_to_child_buf(command)
         elseif mode == modes['tmpfile_is_range_of_output'] then -- the tmpfile is just a range of output that's we need
             print('tmpfile_is_range_of_output')
+            M.range_to_child_buf(command)
         elseif mode == modes['tmpfile_is_diff'] then ------------- the tmpfile is just a diff file that we need to generate the full output.
             print('tmpfile_is_diff')
             -- M.diff_to_child_buf("./diff.diff")
@@ -124,12 +123,47 @@ M.fullfile_to_child_buf = function(command)
     end
 end
 
-M.range_to_child_buf = function(start_line, end_line, range)
-    local first = vim.api.nvim_buf_get_lines(M.parent_buf, 0, start_line, true)
-    local last = vim.api.nvim_buf_get_lines(M.parent_buf, end_line, -1, true)
-    -- table.concat(vim.fn.readfile "CONTRIBUTING.md", "\n")
-    -- texts = concatenate (first + range + last)
-    -- vim.api.nvim_buf_set_lines(buf_tmp_current_file, 0, -1, true, texts)
+M.range_to_child_buf = function(command)
+    local start = vim.api.nvim_buf_get_mark(0, '<')
+    local end_ = vim.api.nvim_buf_get_mark(0, '>')
+
+    local start_row = start[1]
+    local start_col = start[2]
+    local end_row = end_[1]
+    local end_col = end_[2]
+
+    -- if end_col == vim.v.maxcol then
+    --     print('we are in Viual_Line mode: end_col == maxcol')
+    -- end
+    -- print('{start_row: ' .. start_row .. ', start_col: ' ..start_col .. ', end_row: ' .. end_row .. ', end_col: ' .. end_col .. '}')
+
+    local midle = {}
+    M.job_id = vim.fn.jobstart(command, {
+        cwd = '/tmp/',
+        stdout_buffered = true,
+        on_stdout = function(_, _lines)
+            -- vim.print(_lines) -- @loggin
+            midle = _lines
+        end,
+        on_stderr = M.stderr,
+    })
+    vim.fn.jobwait({ M.job_id })
+
+    local lines = {}
+    local first = vim.api.nvim_buf_get_lines(M.parent_buf, 0, start_row, true)
+    local last = vim.api.nvim_buf_get_lines(M.parent_buf, end_row, -1, true)
+
+    for _, v in ipairs(first) do
+        table.insert(lines, v)
+    end
+    for _, v in ipairs(midle) do
+        table.insert(lines, v)
+    end
+    for _, v in ipairs(last) do
+        table.insert(lines, v)
+    end
+
+    vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, true, lines)
 end
 
 M.diff_to_child_buf = function(diff)
@@ -206,7 +240,7 @@ M.isempty = function(t)
     return not next(t, k) and v == ''
 end
 
-M.backup_keymaps= function()
+M.backup_keymaps = function()
     for _, map in ipairs(vim.api.nvim_get_keymap('n')) do
         for _, key in ipairs(backup_keys) do
             if map.lhs == key then
@@ -216,10 +250,10 @@ M.backup_keymaps= function()
         end
     end
 
-    key('n', '<C-J>', ":w<cr>:diffget<cr>]c", opt)
+    key('n', '<C-J>', ':w<cr>:diffget<cr>]c', opt)
 end
 
-M.recover_keymaps = function ()
+M.recover_keymaps = function()
     for lhs, rhs in pairs(M.original_keymaps) do
         key('n', lhs, rhs, opt)
     end
