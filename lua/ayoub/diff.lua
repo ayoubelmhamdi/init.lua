@@ -1,5 +1,8 @@
 local M = {}
 local uv = vim.uv or vim.loop
+local key = vim.keymap.set
+local opt = { noremap = true, silent = true }
+
 
 M.parent_win = nil
 M.parent_buf = nil
@@ -10,6 +13,10 @@ M.job_id = nil
 M.current_file_path = nil
 M.dir = nil
 
+local backup_keys = {'<C-J>'}
+M.original_keymaps = {}
+
+
 local modes = {
     tmpfile_is_full_output = 1,
     tmpfile_is_range_of_output = 2,
@@ -17,25 +24,25 @@ local modes = {
 }
 
 M.create_win = function()
-    M.dir = M.mktempDir()
     if M.child_win or M.child_win then
         return nil -- used for toggle feature
     end
-
-    -- TODO: save original keymaping, to recover them in close_child_win
+    M.dir = M.mktempDir()
+    M.backup_keymaps()
 
     M.parent_win = vim.api.nvim_get_current_win()
     M.parent_buf = vim.api.nvim_get_current_buf()
+    local buftype = vim.bo.filetype
 
     vim.api.nvim_win_set_option(M.parent_win, 'wrap', true)
     vim.cmd.diffthis()
 
-    -- vim.api.nvim_command('botright vnew' .. file)
     vim.api.nvim_command('botright vnew')
     M.child_win = vim.api.nvim_get_current_win()
     M.child_buf = vim.api.nvim_get_current_buf()
     vim.api.nvim_buf_set_name(M.child_buf, 'Diff: ' .. M.child_buf)
-    vim.api.nvim_buf_set_option(M.child_buf, 'buftype', 'nofile')
+    vim.api.nvim_buf_set_option(M.child_buf, 'buftype', "nofile") -- modifiable...
+    vim.bo[M.child_buf].filetype = buftype -- lang
     vim.api.nvim_buf_set_option(M.child_buf, 'bufhidden', 'wipe')
     vim.api.nvim_buf_set_option(M.child_buf, 'swapfile', false)
     vim.api.nvim_win_set_option(M.child_win, 'wrap', true)
@@ -53,20 +60,18 @@ M.create_win = function()
 end
 
 M.close_child_win = function()
-    if M.child_win then
+    if M.child_win and vim.api.nvim_win_is_valid(M.parent_win) then
         vim.api.nvim_win_close(M.child_win, 'force')
+        vim.api.nvim_set_current_win(M.parent_win)
+        vim.cmd('diffoff')
+        M.recover_keymaps()
+
         M.child_win = nil
         M.child_buf = nil
         M.job_id = nil
         M.dir = nil
-    end
-
-    if vim.api.nvim_win_is_valid(M.parent_win) then
-        vim.api.nvim_set_current_win(M.parent_win)
-        vim.cmd('diffoff')
-        -- TODO: recover saved original keymaping.
     else
-        print('no M.win')
+        print('no M.win or M.child_win')
     end
 end
 
@@ -199,6 +204,26 @@ M.isempty = function(t)
     if not t or not next(t) then return true end
     local k, v = next(t)
     return not next(t, k) and v == ''
+end
+
+M.backup_keymaps= function()
+    for _, map in ipairs(vim.api.nvim_get_keymap('n')) do
+        for _, key in ipairs(backup_keys) do
+            if map.lhs == key then
+                M.original_keymaps[map.lhs] = map.rhs
+                break
+            end
+        end
+    end
+
+    key('n', '<C-J>', ":w<cr>:diffget<cr>]c", opt)
+end
+
+M.recover_keymaps = function ()
+    for lhs, rhs in pairs(M.original_keymaps) do
+        key('n', lhs, rhs, opt)
+    end
+    M.original_keymaps = {}
 end
 
 M.stderr = function(_, data)
