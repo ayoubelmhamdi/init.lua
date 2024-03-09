@@ -142,7 +142,7 @@ M.range_to_child_buf = function(command)
         cwd = '/tmp/',
         stdout_buffered = true,
         on_stdout = function(_, _lines)
-            -- vim.print(_lines) -- @loggin
+            table.remove(_lines) -- remove last line
             midle = _lines
         end,
         on_stderr = M.stderr,
