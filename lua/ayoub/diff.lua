@@ -10,22 +10,21 @@ M.child_buf = nil
 
 M.job_id = nil
 M.current_file_path = nil
-M.dir = nil
 
 local backup_keys = { '<C-J>' }
 M.original_keymaps = {}
 
-local modes = {
-    tmpfile_is_full_output = 1,
-    tmpfile_is_range_of_output = 2,
-    tmpfile_is_diff = 3,
+M.kinds = {
+    full = 1,
+    range = 2,
+    diff = 3,
 }
+
 
 M.create_win = function()
     if M.child_win or M.child_win then
         return nil -- used for toggle feature
     end
-    M.dir = M.mktempDir()
     M.backup_keymaps()
 
     M.parent_win = vim.api.nvim_get_current_win()
@@ -38,7 +37,7 @@ M.create_win = function()
     vim.api.nvim_command('botright vnew')
     M.child_win = vim.api.nvim_get_current_win()
     M.child_buf = vim.api.nvim_get_current_buf()
-    vim.api.nvim_buf_set_name(M.child_buf, 'Diff: ' .. M.child_buf)
+    -- vim.api.nvim_buf_set_name(M.child_buf, 'Diff: ' .. M.child_buf)
     vim.api.nvim_buf_set_option(M.child_buf, 'buftype', 'nofile') -- modifiable...
     vim.bo[M.child_buf].filetype = buftype -- lang
     vim.api.nvim_buf_set_option(M.child_buf, 'bufhidden', 'wipe')
@@ -62,54 +61,43 @@ M.close_child_win = function()
         vim.api.nvim_win_close(M.child_win, 'force')
         vim.api.nvim_set_current_win(M.parent_win)
         vim.cmd('diffoff')
+        -- TODO: 
         M.recover_keymaps()
 
         M.child_win = nil
         M.child_buf = nil
         M.job_id = nil
-        M.dir = nil
     else
         print('no M.win or M.child_win')
     end
 end
 
-M.toggle = function(command, mode)
-    -- command = command or '{'ruff', 'check', '--diff'}'
-    command = command or { 'echo', '-e', 'aaa\neee' }
-    -- mode = mode or modes['tmpfile_is_full_output']
-    -- mode = mode or modes['tmpfile_is_range_of_output']
-    mode = mode or modes['tmpfile_is_diff']
-
+M.toggle = function(kind, command)
     if not M.create_win() then
         M.close_child_win()
         return
     end
 
     if not M.job_id then
-        if mode == modes['tmpfile_is_full_output'] then ---------- the tmpfile is all output that's we need
-            M.fullfile_to_child_buf(command)
-        elseif mode == modes['tmpfile_is_range_of_output'] then -- the tmpfile is just a range of output that's we need
-            print('tmpfile_is_range_of_output')
-            M.range_to_child_buf(command)
-        elseif mode == modes['tmpfile_is_diff'] then ------------- the tmpfile is just a diff file that we need to generate the full output.
-            print('tmpfile_is_diff')
-            -- M.diff_to_child_buf("./diff.diff")
-            diffs = M.ruff_diff(command)
-            -- check if diffs table not empty
-            if not M.isempty(diffs) then M.diff_to_child_buf(diffs) end
+        -- full = fullfile_to_child_buf: the tmpfile is all output that's we need
+        if kind == M.kinds['full'] then
+            M.full(command)
+
+        -- range = range_to_child_buf: the tmpfile is just a range of output that's we need
+        elseif kind == M.kinds['range'] then
+            M.range(command)
+
+        --- diff = diff_to_child_buf: the tmpfile is just a diff file that we need to generate the full output.
+        elseif kind == M.kinds['diff'] then
+            diffs = M.generate_diff(command)
+            if not M.isempty(diffs) then M.diff(diffs) end
         end
     else
         print('assert: the job_id: ' .. M.job_id .. 'should not be exist.')
     end
 end
 
--- current_file to /tmp/current_file.
--- create_tmp:
---   - maybe we generate a full tmpfile.
---   - maybe we generate just a range from tmpfile base on a range of current_file, so we need the rest of tmpfile.
---   - maybe we generate a diff file, so we need to backup current_file to tmp_current_file and generate tmpfile.
-
-M.fullfile_to_child_buf = function(command)
+M.full = function(command)
     M.job_id = vim.fn.jobstart(command, {
         stdout_buffered = true,
         on_stdout = M.put_to_child_buf,
@@ -123,7 +111,7 @@ M.fullfile_to_child_buf = function(command)
     end
 end
 
-M.range_to_child_buf = function(command)
+M.range = function(command)
     local start = vim.api.nvim_buf_get_mark(0, '<')
     local end_ = vim.api.nvim_buf_get_mark(0, '>')
 
@@ -133,7 +121,7 @@ M.range_to_child_buf = function(command)
     local end_col = end_[2]
 
     -- if end_col == vim.v.maxcol then
-    --     print('we are in Viual_Line mode: end_col == maxcol')
+    --     print('we are in Viual_Line kind: end_col == maxcol')
     -- end
     -- print('{start_row: ' .. start_row .. ', start_col: ' ..start_col .. ', end_row: ' .. end_row .. ', end_col: ' .. end_col .. '}')
 
@@ -166,8 +154,8 @@ M.range_to_child_buf = function(command)
     vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, true, lines)
 end
 
-M.diff_to_child_buf = function(diff)
-    -- current file path to dir.XXXX/file.txt
+M.diff = function(diff)
+    -- copy buffer of current file to dir.XXXX/file.txt
     local cur_lines = vim.api.nvim_buf_get_lines(M.parent_buf, 0, -1, true)
     local bufname = vim.api.nvim_buf_get_name(M.parent_buf) -- /home/mhamdi/file.txt
     local basename = M.basename(bufname) -- file.txt
@@ -176,7 +164,7 @@ M.diff_to_child_buf = function(diff)
     local cur_tmpfile = dir .. '/' .. basename
     vim.fn.writefile(cur_lines, cur_tmpfile)
 
-    -- diff content/path to dir.XXXX/diff.diff
+    -- save diff table to the dir.XXXX/diff.diff
     local tmp_tmpfile = dir .. '/' .. 'diff.diff'
     if type(diff) == 'string' then -- path
         local tmp_lines = vim.fn.readfile(diff)
@@ -185,11 +173,12 @@ M.diff_to_child_buf = function(diff)
         vim.fn.writefile(diff, tmp_tmpfile)
     end
 
-    -- we have /tmp/diff.XXXX/file.txt and /tmp/diff.XXXX/diff.diff
+    -- we have /tmp/diff.XXXX/file.txt and /tmp/diff.XXXX/diff.diff.
+    -- we create the new file.txt based on diff.diff using patch command.
     local child_lines
     patch = { 'patch', cur_tmpfile, tmp_tmpfile }
     M.job_id = vim.fn.jobstart(patch, {
-        cwd = '/tmp/',
+        -- cwd = '/tmp/',
         stdout_buffered = true,
         on_stdout = function(_, _lines)
             -- vim.print(_lines) -- @loggin
@@ -200,22 +189,27 @@ M.diff_to_child_buf = function(diff)
     vim.fn.jobwait({ M.job_id })
     if not M.job_id then print('Failed to start job for command:') end
 
+    M.rmtempDir(dir)
+
     vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, child_lines)
 end
 
-M.ruff_diff = function(command)
+M.generate_diff = function(command)
+    local bufname = vim.api.nvim_buf_get_name(M.parent_buf) -- /home/mhamdi/file.txt
+    local basename = M.basename(bufname) -- file.txt
+    table.insert(command, basename)
     local diffs
     local bufname = vim.api.nvim_buf_get_name(M.parent_buf) -- /home/mhamdi/file.txt
-    -- bufname = '/data/projects/typst/PFE/python/ppt/pptjson.py'
-    -- ruff_diff = { 'ruff', 'check', bufname, '--diff' }
+
     M.job_id = vim.fn.jobstart(command, {
-        cwd = '/tmp/',
+        -- cwd = '/tmp/',
         stdout_buffered = true,
         on_stdout = function(_, _lines) diffs = _lines end,
         on_stderr = M.stderr,
     })
     vim.fn.jobwait({ M.job_id })
     if not M.job_id then print('Failed to start job for command:') end
+    print(table.concat(diffs, '\n'))
 
     return diffs
 end
@@ -233,6 +227,7 @@ end
 -- M.join = function(...) return table.concat({ ... }, '/') end
 
 M.mktempDir = function() return uv.fs_mkdtemp('/tmp/diff_XXXXXXXXX') end
+M.rmtempDir = function(dir) vim.cmd(":silent !rm -rf " .. dir) end
 
 M.isempty = function(t)
     if not t or not next(t) then return true end
@@ -263,12 +258,12 @@ end
 M.stderr = function(_, data)
     -- todo: should imrobe check if all lines is empty or not
     -- we can test the number of line is great then one, or if we have one line we should check if is empty.
-    -- if data[1] ~= '' then
-    --     print('error in stderr')
-    --     print('-------')
-    --     vim.print(data)
-    --     print('~~~~~~~')
-    -- end
+    if data[1] ~= '' then
+        print('-------')
+        print('Stderr:')
+        vim.print(data)
+        print('~~~~~~~')
+    end
 end
 
 M.put_to_child_buf = function(_, data)
@@ -276,10 +271,3 @@ M.put_to_child_buf = function(_, data)
 end
 
 return M
-
--- TODO:
---  - ./ruff check --diff
---      - create a new file that different from the original.
---      - use the `diffthis` in parrent windows, than use it in the child window, and put the content of new file to child_win.
-
--- don't use /tmp, try to use TMPDIR it's work in android/termux (universale)
