@@ -227,7 +227,7 @@ end
 -- M.join = function(...) return table.concat({ ... }, '/') end
 
 M.mktempDir = function() return uv.fs_mkdtemp('/tmp/diff_XXXXXXXXX') end
-M.rmtempDir = function(dir) vim.cmd(":silent !rm -rf " .. dir) end
+M.rmtempDir = function(dir) vim.fn.system {'rm', '-rf', dir} end
 
 M.isempty = function(t)
     if not t or not next(t) then return true end
