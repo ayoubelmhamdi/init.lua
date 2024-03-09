@@ -1,20 +1,17 @@
 local key = vim.keymap.set
 local opt = { noremap = true, silent = true }
 
-local ayoub = require('ayoub.diff')
+local control = require('ayoub.control')
+local kinds = control.kinds
+local parent_buf = control.parent_buf
 
-local kinds = {
-    ['full'] = 1,
-    ['range'] = 2,
-    ['diff'] = 3,
-}
 
 local commands = {
-    ['ruff_format'] = { 'ruff', 'format', vim.fn.expand('%:p'), '--diff' },
-    ['format_check'] = { 'ruff', 'check', vim.fn.expand('%:p'), '--diff' },
-    ['echo'] = { 'echo', '-e', 'Hell\\nWord' },
+    ruff_format = { 'ruff', 'format', '--diff' },
+    ruff_check = { 'ruff', 'check', '--diff' },
+    echo = { 'echo', '-e', 'Hell\\nWord' },
 }
 
-key('n', '<C-f>', function() ayoub.toggle(commands['ruff_format'], kinds['diff']) end, opt)
-key('n', '<C-c>', function() ayoub.toggle(commands['ruff_check'], kinds['diff']) end, opt)
-key('v', '<C-f>', function() ayoub.toggle(commands['echo'], kinds['range']) end, opt)
+key('n', '<C-f>', function() control.toggle(kinds['diff'], commands['ruff_format']) end, opt)
+key('n', '<C-c>', function() control.toggle(kinds['diff'], commands['ruff_check']) end, opt)
+key('v', '<C-f>', function() control.toggle(kinds['range'], commands['echo']) end, opt)
