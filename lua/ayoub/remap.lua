@@ -2,6 +2,15 @@ vim.g.mapleader = ' '
 
 local key = vim.keymap.set
 local opt = { noremap = true, silent = true }
+local control = require('ayoub.control')
+
+
+key('n', '<C-f>', function() control.toggle('format') end, opt)
+key('n', '<C-c>', function() control.toggle('check') end, opt)
+key('v', '<C-f>', function() control.toggle('cmd')end, opt)
+
+key('n', '<space>r', '<cmd>lua R("vmath")<cr>', { noremap = true, silent = true })
+key('n', '<space>m', '<cmd>lua R("vmath")<cr>:lua require("vmath").print_function_info()<cr>', { noremap = true, silent = true })
 
 -- key('n', '<space>b', function() require('qbuf').copen_and_cnext() end, opt)
 
