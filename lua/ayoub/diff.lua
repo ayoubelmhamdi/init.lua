@@ -63,7 +63,6 @@ M.create_win = function()
     M.parent_win = vim.api.nvim_get_current_win()
     M.parent_buf = vim.api.nvim_get_current_buf()
     M.basename   = M.get_basename(vim.api.nvim_buf_get_name(M.parent_buf)) -- file.txt
-    M.buftype    = vim.bo.filetype
 
     M.original_keymaps = M.backup_keymaps()
 
@@ -239,7 +238,7 @@ M.diff = function(cmd_diff, file_diff)
 
     M.rmtempDir(dir)
 
-    if M.isempty(child_lines) then vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, child_lines) end
+    vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, child_lines)
 end
 
 M.generate_diff = function(command)
@@ -276,6 +275,7 @@ end
 M.mktempDir = function() return uv.fs_mkdtemp('/tmp/diff_XXXXXXXXX') end
 M.rmtempDir = function(dir) vim.fn.system {'rm', '-rf', dir} end
 
+-- does not work as i expected
 M.isempty = function(t)
     if not t or not next(t) then return true end
     local k, v = next(t)
