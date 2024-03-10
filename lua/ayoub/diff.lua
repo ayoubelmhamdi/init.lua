@@ -15,19 +15,45 @@ M.job_id = nil
 M.basename = nil
 M.buftype = nil
 M.original_keymaps = {}
-
-
+M.cmds = {}
 
 
 -- const
-
 local backup_keys = { '<C-J>' }
 
-M.kinds = {
-    full = 1,
-    range = 2,
-    diff = 3,
+local cmds = {
+    python = {
+        format = {
+            target = 'diff',
+            command = { 'ruff', 'format', '--diff' },
+        },
+        check = {
+            target = 'diff',
+            command = { 'ruff', 'check', '--diff' },
+        },
+        cmd = {
+            target = 'range',
+            command = { 'echo', '-e', 'hello\\nworld' },
+        },
+    },
+
+    lua = {
+        format = {
+            target = 'diff',
+            command = { 'stylua', '-s', '--check', '--output-format', 'Unified'},
+        },
+        -- check = {
+        --     target = 'diff',
+        --     command = { 'ruff', 'check', '--diff' },
+        -- },
+        -- cmd = {
+        --     target = 'range',
+        --     command = { 'echo', '-e', 'hello\\nworld' },
+        -- },
+    },
+
 }
+
 
 
 M.create_win = function()
@@ -59,9 +85,9 @@ M.create_win = function()
 
     local is_parent = vim.api.nvim_win_is_valid(M.parent_win)
 
-    if not M.child_win  then    print('no M.child_win')
-    elseif is_parent    then    vim.api.nvim_set_current_win(M.parent_win)
-    else                        print('no M.win and M.child_buf')
+    if     not M.child_win  then    print('no M.child_win')
+    elseif is_parent        then    vim.api.nvim_set_current_win(M.parent_win)
+    else                            print('no M.win and M.child_buf')
     end
 
     return true
@@ -85,31 +111,35 @@ M.close_child_win = function()
         M.basename = nil
         M.buftype = nil
         M.original_keymaps = {}
-
+        M.cmds = {}
     else
         print('no M.win or M.child_win')
     end
 end
 
-M.toggle = function(kind, command)
-    if not M.create_win() then
-        M.close_child_win()
-        return
-    end
-    print('ft: ' .. M.buftype)
 
-    if not M.job_id then
-        -- full = fullfile_to_child_buf: the tmpfile is all output that's we need
-        -- range = range_to_child_buf: the tmpfile is just a range of output that's we need
-        --- diff = diff_to_child_buf: the tmpfile is just a diff file that we need to generate the full output.
-        if kind == M.kinds['full']      then M.full(command)
-        elseif kind == M.kinds['range'] then M.range(command)
-        elseif kind == M.kinds['diff']  then M.diff(command)
+M.toggle = function(kind)
+    M.buftype = vim.bo.filetype
+    local cmd = cmds[M.buftype][kind]
+    if cmd then
+        local target = cmd.target
+        local command = cmd.command
+        if target and command then
+            if not M.create_win() then
+                M.close_child_win()
+                return
+            end
+
+            local func = M[target]
+            func(command)
+        else
+            vim.notify('cmd or target is nil')
         end
     else
-        print('assert: the job_id: ' .. M.job_id .. 'should not be exist, maybe should be wait')
+        vim.notify('Invalid kind: ' .. kind)
     end
 end
+
 
 M.full = function(command)
     M.job_id = vim.fn.jobstart(command, {
@@ -187,6 +217,7 @@ M.diff = function(cmd_diff, file_diff)
         if M.isempty(diffs) then
             print('no diff created')
             M.close_child_win()
+            return
         end
 
         vim.fn.writefile(diffs, tmp_tmpfile)
@@ -194,7 +225,7 @@ M.diff = function(cmd_diff, file_diff)
 
     -- we have /tmp/diff.XXXX/file.txt and /tmp/diff.XXXX/diff.diff.
     -- we create the new file.txt based on diff.diff using patch command.
-    local child_lines
+    local child_lines = {}
     local cmd_patch = { 'patch', cur_tmpfile, tmp_tmpfile }
     M.job_id = vim.fn.jobstart(cmd_patch, {
         stdout_buffered = true,
@@ -208,7 +239,7 @@ M.diff = function(cmd_diff, file_diff)
 
     M.rmtempDir(dir)
 
-    vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, child_lines)
+    if M.isempty(child_lines) then vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, child_lines) end
 end
 
 M.generate_diff = function(command)
@@ -228,6 +259,7 @@ M.generate_diff = function(command)
 
     return diffs
 end
+
 
 M.get_basename = function(path)
     if path == '/' or path == '' then
