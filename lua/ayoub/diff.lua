@@ -3,16 +3,25 @@ local uv = vim.uv or vim.loop
 local key = vim.keymap.set
 local opt = { noremap = true, silent = true }
 
+-- stat
+
 M.parent_win = nil
 M.parent_buf = nil
+
 M.child_win = nil
 M.child_buf = nil
 
 M.job_id = nil
-M.current_file_path = nil
+M.basename = nil
+M.buftype = nil
+M.original_keymaps = {}
+
+
+
+
+-- const
 
 local backup_keys = { '<C-J>' }
-M.original_keymaps = {}
 
 M.kinds = {
     full = 1,
@@ -22,35 +31,37 @@ M.kinds = {
 
 
 M.create_win = function()
-    if M.child_win or M.child_win then
-        return nil -- used for toggle feature
-    end
-    M.backup_keymaps()
+    if M.child_win or M.child_win then return nil end
 
+    -- init parent
     M.parent_win = vim.api.nvim_get_current_win()
     M.parent_buf = vim.api.nvim_get_current_buf()
-    local buftype = vim.bo.filetype
+    M.basename   = M.get_basename(vim.api.nvim_buf_get_name(M.parent_buf)) -- file.txt
+    M.buftype    = vim.bo.filetype
 
+    M.original_keymaps = M.backup_keymaps()
+
+    -- Todo: store wraping option
     vim.api.nvim_win_set_option(M.parent_win, 'wrap', true)
     vim.cmd.diffthis()
 
+    -- init parent
     vim.api.nvim_command('botright vnew')
     M.child_win = vim.api.nvim_get_current_win()
     M.child_buf = vim.api.nvim_get_current_buf()
-    -- vim.api.nvim_buf_set_name(M.child_buf, 'Diff: ' .. M.child_buf)
     vim.api.nvim_buf_set_option(M.child_buf, 'buftype', 'nofile') -- modifiable...
-    vim.bo[M.child_buf].filetype = buftype -- lang
+    vim.bo[M.child_buf].filetype = M.buftype -- lang
     vim.api.nvim_buf_set_option(M.child_buf, 'bufhidden', 'wipe')
     vim.api.nvim_buf_set_option(M.child_buf, 'swapfile', false)
     vim.api.nvim_win_set_option(M.child_win, 'wrap', true)
     vim.cmd.diffthis()
 
-    if not M.child_win then
-        print('no M.child_win')
-    elseif vim.api.nvim_win_is_valid(M.parent_win) then
-        vim.api.nvim_set_current_win(M.parent_win)
-    else
-        print('no M.win and M.child_buf')
+
+    local is_parent = vim.api.nvim_win_is_valid(M.parent_win)
+
+    if not M.child_win  then    print('no M.child_win')
+    elseif is_parent    then    vim.api.nvim_set_current_win(M.parent_win)
+    else                        print('no M.win and M.child_buf')
     end
 
     return true
@@ -60,13 +71,21 @@ M.close_child_win = function()
     if M.child_win and vim.api.nvim_win_is_valid(M.parent_win) then
         vim.api.nvim_win_close(M.child_win, 'force')
         vim.api.nvim_set_current_win(M.parent_win)
-        vim.cmd('diffoff')
-        -- TODO: 
+        vim.cmd.diffoff()
         M.recover_keymaps()
+
+
+        M.parent_win = nil
+        M.parent_buf = nil
 
         M.child_win = nil
         M.child_buf = nil
+
         M.job_id = nil
+        M.basename = nil
+        M.buftype = nil
+        M.original_keymaps = {}
+
     else
         print('no M.win or M.child_win')
     end
@@ -77,23 +96,18 @@ M.toggle = function(kind, command)
         M.close_child_win()
         return
     end
+    print('ft: ' .. M.buftype)
 
     if not M.job_id then
         -- full = fullfile_to_child_buf: the tmpfile is all output that's we need
-        if kind == M.kinds['full'] then
-            M.full(command)
-
         -- range = range_to_child_buf: the tmpfile is just a range of output that's we need
-        elseif kind == M.kinds['range'] then
-            M.range(command)
-
         --- diff = diff_to_child_buf: the tmpfile is just a diff file that we need to generate the full output.
-        elseif kind == M.kinds['diff'] then
-            diffs = M.generate_diff(command)
-            if not M.isempty(diffs) then M.diff(diffs) end
+        if kind == M.kinds['full']      then M.full(command)
+        elseif kind == M.kinds['range'] then M.range(command)
+        elseif kind == M.kinds['diff']  then M.diff(command)
         end
     else
-        print('assert: the job_id: ' .. M.job_id .. 'should not be exist.')
+        print('assert: the job_id: ' .. M.job_id .. 'should not be exist, maybe should be wait')
     end
 end
 
@@ -154,35 +168,38 @@ M.range = function(command)
     vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, true, lines)
 end
 
-M.diff = function(diff)
+M.diff = function(cmd_diff, file_diff)
+    local dir = M.mktempDir()
+
     -- copy buffer of current file to dir.XXXX/file.txt
     local cur_lines = vim.api.nvim_buf_get_lines(M.parent_buf, 0, -1, true)
-    local bufname = vim.api.nvim_buf_get_name(M.parent_buf) -- /home/mhamdi/file.txt
-    local basename = M.basename(bufname) -- file.txt
-
-    local dir = M.mktempDir()
-    local cur_tmpfile = dir .. '/' .. basename
+    local cur_tmpfile = dir .. '/' .. M.basename
     vim.fn.writefile(cur_lines, cur_tmpfile)
 
     -- save diff table to the dir.XXXX/diff.diff
     local tmp_tmpfile = dir .. '/' .. 'diff.diff'
-    if type(diff) == 'string' then -- path
-        local tmp_lines = vim.fn.readfile(diff)
+    if file_diff then
+        local tmp_lines = vim.fn.readfile(file_diff)
         vim.fn.writefile(tmp_lines, tmp_tmpfile)
-    elseif type(diff) == 'table' then
-        vim.fn.writefile(diff, tmp_tmpfile)
+    else
+        local diffs = M.generate_diff(cmd_diff)
+
+        if M.isempty(diffs) then
+            print('no diff created')
+            M.close_child_win()
+        end
+
+        vim.fn.writefile(diffs, tmp_tmpfile)
     end
 
     -- we have /tmp/diff.XXXX/file.txt and /tmp/diff.XXXX/diff.diff.
     -- we create the new file.txt based on diff.diff using patch command.
     local child_lines
-    patch = { 'patch', cur_tmpfile, tmp_tmpfile }
-    M.job_id = vim.fn.jobstart(patch, {
-        -- cwd = '/tmp/',
+    local cmd_patch = { 'patch', cur_tmpfile, tmp_tmpfile }
+    M.job_id = vim.fn.jobstart(cmd_patch, {
         stdout_buffered = true,
-        on_stdout = function(_, _lines)
-            -- vim.print(_lines) -- @loggin
-            child_lines = vim.fn.readfile(cur_tmpfile) -- read after patch it.
+        on_stdout = function()
+            child_lines = vim.fn.readfile(cur_tmpfile) -- callback: read from file (not stdout) after patch it.
         end,
         on_stderr = M.stderr,
     })
@@ -195,9 +212,7 @@ M.diff = function(diff)
 end
 
 M.generate_diff = function(command)
-    local bufname = vim.api.nvim_buf_get_name(M.parent_buf) -- /home/mhamdi/file.txt
-    local basename = M.basename(bufname) -- file.txt
-    table.insert(command, basename)
+    table.insert(command, M.basename)
     local diffs
     local bufname = vim.api.nvim_buf_get_name(M.parent_buf) -- /home/mhamdi/file.txt
 
@@ -214,7 +229,7 @@ M.generate_diff = function(command)
     return diffs
 end
 
-M.basename = function(path)
+M.get_basename = function(path)
     if path == '/' or path == '' then
         return
     elseif vim.endswith(path, '/') then
@@ -236,16 +251,18 @@ M.isempty = function(t)
 end
 
 M.backup_keymaps = function()
-    for _, map in ipairs(vim.api.nvim_get_keymap('n')) do
+    keys = {}
+    for _, map in ipairs(vim.api.nvim_get_keymap('n')) do -- add viual mode too.
         for _, key in ipairs(backup_keys) do
             if map.lhs == key then
-                M.original_keymaps[map.lhs] = map.rhs
+                keys[map.lhs] = map.rhs
                 break
             end
         end
     end
 
     key('n', '<C-J>', ':w<cr>:diffget<cr>]c', opt)
+    return keys
 end
 
 M.recover_keymaps = function()
