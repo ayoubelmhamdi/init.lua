@@ -1,14 +1,12 @@
-function R(name) require('plenary.reload').reload_module(name) end
-
 vim.cmd([[
 
-augroup restore_pos |
-  au!
-  au BufReadPost *
-      \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-      \ |   exe "normal! g`\"zz"
-      \ | endif
-augroup end
+" augroup restore_pos |
+"   au!
+"   au BufReadPost *
+"       \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+"       \ |   exe "normal! g`\"zz"
+"       \ | endif
+" augroup end
 
 
 augroup General
@@ -132,7 +130,10 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNew' }, {
     callback = function()
         for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
             local bufname = vim.api.nvim_buf_get_name(bufnr)
-            if bufname == '' then vim.bo[bufnr].bufhidden = 'delete' end
+            if bufname == '' then 
+                vim.bo[bufnr].bufhidden = 'delete'
+                vim.bo[bufnr].filetype = 'nofile'
+            end
         end
     end,
 })
