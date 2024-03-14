@@ -24,12 +24,13 @@ local backup_keys = { '<C-J>' }
 local cmds = {
     python = {
         format = {
-            target = 'diff',
-            command = { 'ruff', 'format', '--diff' },
+            target = 'pipe',
+            command = { 'ruff', 'format', '--stdin-filename', '-' },
+            -- cwd = { 'pyproject.toml', 'ruff.toml' }, -- doesn't work yet.
         },
         check = {
-            target = 'diff',
-            command = { 'ruff', 'check', '--diff' },
+            target = 'pipe',
+            command = { 'ruff', '--fix','-e', '-n', '-', '--stdin-filename' },
         },
         cmd = {
             target = 'range',
@@ -38,10 +39,16 @@ local cmds = {
     },
 
     lua = {
+        -- format = {
+        --     target = 'diff',
+        --     command = { 'stylua', '-s', '--check', '--output-format', 'Unified'},
+        -- },
         format = {
-            target = 'diff',
-            command = { 'stylua', '-s', '--check', '--output-format', 'Unified'},
+            target = 'pipe',
+            command = { 'stylua', 'stylua', '--search-parent-directories', '-', '--stdin-filepath'}
+
         },
+
         -- check = {
         --     target = 'diff',
         --     command = { 'ruff', 'check', '--diff' },
@@ -62,7 +69,7 @@ M.create_win = function()
     -- init parent
     M.parent_win = vim.api.nvim_get_current_win()
     M.parent_buf = vim.api.nvim_get_current_buf()
-    M.basename   = M.get_basename(vim.api.nvim_buf_get_name(M.parent_buf)) -- file.txt
+    M.basename   = vim.fs.basename(vim.api.nvim_buf_get_name(M.parent_buf)) -- file.txt
 
     M.original_keymaps = M.backup_keymaps()
 
@@ -123,34 +130,47 @@ M.toggle = function(kind)
     if cmd then
         local target = cmd.target
         local command = cmd.command
-        if target and command then
+        if target then 
             if not M.create_win() then
                 M.close_child_win()
                 return
             end
 
+            -- use vim.fn.executable(command), so we need separate command to the args
+            if not command then
+                vim.notify_once('cmd or target is nil')
+            end
+
             local func = M[target]
             func(command)
         else
-            vim.notify('cmd or target is nil')
+            vim.notify_once('cmd or target is nil')
         end
     else
-        vim.notify('Invalid kind: ' .. kind)
+        vim.notify_once('Invalid kind: ' .. kind)
     end
 end
 
 
-M.full = function(command)
+M.pipe = function(command , cwd)
+    table.insert(command, M.basename)
+
     M.job_id = vim.fn.jobstart(command, {
         stdout_buffered = true,
         on_stdout = M.put_to_child_buf,
         on_stderr = M.stderr,
+        stdin = 'pipe',
+        cwd = vim.fn.getcwd(M.parent_win),
     })
 
-    if not M.job_id then
-        print('Failed to start job for command:')
-    else
+
+    if M.job_id then
         print('job_id: ' .. M.job_id)
+        local lines = vim.api.nvim_buf_get_lines(M.parent_buf, 0, -1, true)
+        vim.fn.jobsend(M.job_id, table.concat(lines, '\n'))
+        vim.fn.chanclose(M.job_id, 'stdin')
+    else
+        print('Failed to start job for command:')
     end
 end
 
@@ -259,16 +279,6 @@ M.generate_diff = function(command)
     return diffs
 end
 
-
-M.get_basename = function(path)
-    if path == '/' or path == '' then
-        return
-    elseif vim.endswith(path, '/') then
-        return path:match('^.*/([^/]*)/$')
-    else
-        return path:match('^.*/([^/]*)$')
-    end
-end
 
 -- M.join = function(...) return table.concat({ ... }, '/') end
 
