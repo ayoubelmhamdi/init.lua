@@ -1,8 +1,9 @@
 " SERACH HIGHLIGHTING
 
 hi Visual       guifg=black guibg=#ff00ff
-hi Search		guibg=#ff00ff " Last search pattern highlighting (see 'hlsearch').
-hi CurSearch	guibg=Red   guifg=Black" Used for highlighting a search pattern under the cursor
+hi Search		guibg=#ff00ff             " Last search pattern highlighting (see 'hlsearch').
+hi CurSearch	guibg=Red   guifg=Black   " highlight search pattern under the cursor
+hi WinSeparator guibg=NONE                " highlight divider (splits) between windows
 " hi IncSearch	guibg=#ff0000 " 'incsearch' highlighting; also used for the text replaced with
 
 hi Folded     guibg=Dark
