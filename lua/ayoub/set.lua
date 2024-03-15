@@ -45,7 +45,7 @@ opt.joinspaces = false
 opt.fillchars = { eob = '~' }
 -- tj end
 
-opt.cmdheight = 1
+opt.cmdheight = 0
 opt.laststatus = 3
 opt.signcolumn = 'no'
 -- set foldlevel=0 see after/plugin/vim.vim
