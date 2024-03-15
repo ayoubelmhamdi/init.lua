@@ -48,17 +48,20 @@ local cmds = {
             command = { 'stylua', 'stylua', '--search-parent-directories', '-', '--stdin-filepath'}
 
         },
-
-        -- check = {
-        --     target = 'diff',
-        --     command = { 'ruff', 'check', '--diff' },
-        -- },
-        -- cmd = {
-        --     target = 'range',
-        --     command = { 'echo', '-e', 'hello\\nworld' },
-        -- },
     },
+    markdown = {
+        format = {
+            target = 'pipe',
+            command = { 'mdformat', '-'}
 
+        },
+    },
+    sh = {
+        format = {
+            target = 'full',
+            command = { 'shfmt' },
+        },
+    },
 }
 
 
@@ -126,19 +129,21 @@ end
 
 M.toggle = function(kind)
     M.buftype = vim.bo.filetype
-    local cmd = cmds[M.buftype][kind]
+    local lang = cmds[M.buftype]
+    if not lang then print('this language is not supported yet.') return end
+    local cmd = lang[kind]
     if cmd then
         local target = cmd.target
         local command = cmd.command
         if target then 
-            if not M.create_win() then
+            if not vim.fn.executable(command[1]) then
+                vim.print(command[1] .. ' doesn\'t exist in the path')
                 M.close_child_win()
                 return
             end
-
-            -- use vim.fn.executable(command), so we need separate command to the args
-            if not command then
-                vim.notify_once('cmd or target is nil')
+            if not M.create_win() then
+                M.close_child_win()
+                return
             end
 
             local func = M[target]
@@ -152,8 +157,32 @@ M.toggle = function(kind)
 end
 
 
-M.pipe = function(command , cwd)
-    table.insert(command, M.basename)
+M.full = function(command)
+    local fname = vim.api.nvim_buf_get_name(M.parent_buf)
+    if command[#command] ~= fname then
+        table.insert(command, fname)
+    end
+
+    M.job_id = vim.fn.jobstart(command, {
+        stdout_buffered = true,
+        on_stdout = M.put_to_child_buf,
+        on_stderr = M.stderr,
+        cwd = vim.fn.getcwd(M.parent_win),
+    })
+
+    vim.fn.jobwait({ M.job_id }, 5)
+
+    if M.job_id then
+        print('job_id: ' .. M.job_id)
+    else
+        print('Failed to start job for command:')
+    end
+end
+
+M.pipe = function(command)
+    if command[#command] ~= '/dev/null' then
+        table.insert(command, '/dev/null')
+    end
 
     M.job_id = vim.fn.jobstart(command, {
         stdout_buffered = true,
@@ -198,7 +227,7 @@ M.range = function(command)
         end,
         on_stderr = M.stderr,
     })
-    vim.fn.jobwait({ M.job_id })
+    vim.fn.jobwait({ M.job_id, 5})
 
     local lines = {}
     local first = vim.api.nvim_buf_get_lines(M.parent_buf, 0, start_row, true)
@@ -253,7 +282,7 @@ M.diff = function(cmd_diff, file_diff)
         end,
         on_stderr = M.stderr,
     })
-    vim.fn.jobwait({ M.job_id })
+    vim.fn.jobwait({ M.job_id, 5})
     if not M.job_id then print('Failed to start job for command:') end
 
     M.rmtempDir(dir)
@@ -272,7 +301,7 @@ M.generate_diff = function(command)
         on_stdout = function(_, _lines) diffs = _lines end,
         on_stderr = M.stderr,
     })
-    vim.fn.jobwait({ M.job_id })
+    vim.fn.jobwait({ M.job_id, 5})
     if not M.job_id then print('Failed to start job for command:') end
     print(table.concat(diffs, '\n'))
 
@@ -326,6 +355,8 @@ M.stderr = function(_, data)
 end
 
 M.put_to_child_buf = function(_, data)
+    print('stdout')
+    table.remove(data) -- remove last line
     if data then vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, data) end
 end
 
