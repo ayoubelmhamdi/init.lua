@@ -6,7 +6,7 @@ local control = require('ayoub.control')
 
 
 key('n', '<C-f>', function() control.toggle('format') end, opt)
-key('n', '<C-c>', function() control.toggle('check') end, opt)
+key('n', '<C-s>', function() control.toggle('check') end, opt)
 key('v', '<C-f>', function() control.toggle('cmd')end, opt)
 
 key('n', '<space>r', '<cmd>lua R("vmath")<cr>', { noremap = true, silent = true })
