@@ -38,6 +38,7 @@ return {
             keys = {
                 { '<A-e>', '<cmd>lua require("dapui").eval()<CR>', mode = { 'n', 'v' }, { noremap = true, silent = true } },
             },
+            dependencies = 'nvim-neotest/nvim-nio',
             config = function()
                 vim.fn.sign_define('DapBreakpoint', { text = '🦦', texthl = '', linehl = '', numhl = '' })
 
