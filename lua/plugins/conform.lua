@@ -1,7 +1,9 @@
 return {
     'stevearc/conform.nvim',
     cmd = 'ConformInfo',
+    ft = {      'lua', 'python', 'javascript', 'css', 'html', 'yaml', 'markdown', 'sh', 'bash', 'json', 'jsonc' },
     keys = {
+        {'gq'},
         {
             '<space>fc',
             mode = { 'n', 'v' },
@@ -29,8 +31,6 @@ return {
                 python = { 'ruff_format', 'ruff_fix', 'isort' }, -- Conform will run multiple formatters sequentially
                 javascript = { { 'prettierd', 'prettier' } }, -- Use a sub-list to run only the first available formatter
                 css = { { 'prettierd', 'prettier' } },
-                less = { { 'prettierd', 'prettier' } },
-                scss = { { 'prettierd', 'prettier' } },
                 html = { { 'prettierd', 'prettier' } },
                 yaml = { { 'prettierd', 'prettier' } },
                 markdown = { 'mdformat' },
