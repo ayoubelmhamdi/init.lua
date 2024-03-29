@@ -35,7 +35,7 @@ opt.wildignore = '__pycache__'
 opt.wildignore:append({ '*.o', '*~', '*.pyc', '*pycache*' })
 opt.wildignore:append({ 'Cargo.lock', 'Cargo.Bazel.lock' })
 
-opt.pumblend = 30
+opt.pumblend = 5
 opt.wildmode = 'longest:full'
 opt.wildoptions = 'pum'
 
