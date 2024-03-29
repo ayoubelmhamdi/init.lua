@@ -98,6 +98,33 @@ return {
         --     },
         -- }
 
+        dap.adapters.lldb = {
+          type = 'server',
+          port = "${port}",
+          executable = {
+            -- CHANGE THIS to your path!
+            command = '/usr/bin/lldb-vscode',
+            args = {"--port", "${port}"},
+        
+            -- On windows you may have to uncomment this:
+            -- detached = false,
+          }
+        }
+
+        dap.configurations.c = {
+          {
+            name = "Launch file",
+            type = "lldb",
+            request = "launch",
+            program = function()
+              return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+            end,
+            args = {"srt1.srt"},
+            cwd = '${workspaceFolder}',
+            stopOnEntry = false,
+          },
+        }
+
         local keymap_restore = {} --{{{
         dap.listeners.after['event_initialized']['me'] = function()
             for _, buf in pairs(api.nvim_list_bufs()) do
