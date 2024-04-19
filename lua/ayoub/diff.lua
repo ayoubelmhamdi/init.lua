@@ -4,6 +4,7 @@ local key = vim.keymap.set
 local opt = { noremap = true, silent = true }
 
 -- stat
+M.chat_win = nil
 
 M.parent_win = nil
 M.parent_buf = nil
@@ -30,7 +31,7 @@ local cmds = {
         },
         check = {
             target = 'pipe',
-            command = { 'ruff', '--fix','-e', '-n', '-', '--stdin-filename' },
+            command = { 'ruff', 'check', '-', '--stdin-filename' },
         },
         cmd = {
             target = 'range',
@@ -62,17 +63,37 @@ local cmds = {
             command = { 'shfmt' },
         },
     },
+    c = {
+        format = {
+            target = 'pipe',
+            command = { 'clang-format' },
+        },
+    },
 }
 
 
 
 M.create_win = function()
-    if M.child_win or M.child_win then return nil end
+    if M.child_win or M.parent_win then
+        if vim.api.nvim_win_is_valid(M.child_win) and vim.api.nvim_win_is_valid(M.parent_win) then
+            vim.api.nvim_set_current_win(M.parent_win)
+            vim.api.nvim_win_close(M.child_win, 'force')
+        elseif not vim.api.nvim_win_is_valid(M.child_win) and vim.api.nvim_win_is_valid(M.parent_win) then
+            vim.api.nvim_set_current_win(M.parent_win)
+        elseif vim.api.nvim_win_is_valid(M.child_win) and not vim.api.nvim_win_is_valid(M.parent_win) then
+            vim.api.nvim_win_close(M.child_win, 'force')
+        else
+            return nil
+        end
+        M.close_child_win()
+        return nil
+    end
 
     -- init parent
     M.parent_win = vim.api.nvim_get_current_win()
     M.parent_buf = vim.api.nvim_get_current_buf()
-    M.basename   = vim.fs.basename(vim.api.nvim_buf_get_name(M.parent_buf)) -- file.txt
+    -- M.basename   = vim.fs.basename(vim.api.nvim_buf_get_name(M.parent_buf)) -- file.txt
+    M.basename   = vim.fn.expand('%') -- src/file.txt
 
     M.original_keymaps = M.backup_keymaps()
 
@@ -94,21 +115,25 @@ M.create_win = function()
 
     local is_parent = vim.api.nvim_win_is_valid(M.parent_win)
 
-    if     not M.child_win  then    print('no M.child_win')
-    elseif is_parent        then    vim.api.nvim_set_current_win(M.parent_win)
-    else                            print('no M.win and M.child_buf')
+    if not M.child_win then
+        print('no M.child_win')
+        return false
+    elseif is_parent then
+        vim.api.nvim_set_current_win(M.parent_win)
+        return true
+    else
+        print('no M.win and M.child_buf')
+        return false
     end
-
-    return true
 end
 
 M.close_child_win = function()
-    if M.child_win and vim.api.nvim_win_is_valid(M.parent_win) then
-        vim.api.nvim_win_close(M.child_win, 'force')
-        vim.api.nvim_set_current_win(M.parent_win)
+    if M.child_win and M.parent_win and vim.api.nvim_win_is_valid(M.parent_win) and vim.api.nvim_win_is_valid(M.parent_win) then
         vim.cmd.diffoff()
         M.recover_keymaps()
 
+
+        M.chat_win = nil
 
         M.parent_win = nil
         M.parent_buf = nil
@@ -128,6 +153,7 @@ end
 
 
 M.toggle = function(kind)
+    -- {{{
     M.buftype = vim.bo.filetype
     local lang = cmds[M.buftype]
     if not lang then print('this language is not supported yet.') return end
@@ -142,7 +168,7 @@ M.toggle = function(kind)
                 return
             end
             if not M.create_win() then
-                M.close_child_win()
+                -- M.close_child_win()
                 return
             end
 
@@ -154,10 +180,12 @@ M.toggle = function(kind)
     else
         vim.notify_once('Invalid kind: ' .. kind)
     end
+    -- }}}
 end
 
 
 M.full = function(command)
+    -- {{{
     local fname = vim.api.nvim_buf_get_name(M.parent_buf)
     if command[#command] ~= fname then
         table.insert(command, fname)
@@ -177,11 +205,13 @@ M.full = function(command)
     else
         print('Failed to start job for command:')
     end
+    -- }}}
 end
 
 M.pipe = function(command)
-    if command[#command] ~= '/dev/null' then
-        table.insert(command, '/dev/null')
+    -- {{{
+    if command[#command] ~= M.basename then
+        table.insert(command, M.basename)
     end
 
     M.job_id = vim.fn.jobstart(command, {
@@ -201,6 +231,7 @@ M.pipe = function(command)
     else
         print('Failed to start job for command:')
     end
+    -- }}}
 end
 
 M.range = function(command)
@@ -247,6 +278,7 @@ M.range = function(command)
 end
 
 M.diff = function(cmd_diff, file_diff)
+    -- {{{
     local dir = M.mktempDir()
 
     -- copy buffer of current file to dir.XXXX/file.txt
@@ -288,9 +320,11 @@ M.diff = function(cmd_diff, file_diff)
     M.rmtempDir(dir)
 
     vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, child_lines)
+    -- }}}
 end
 
 M.generate_diff = function(command)
+    -- {{{
     table.insert(command, M.basename)
     local diffs
     local bufname = vim.api.nvim_buf_get_name(M.parent_buf) -- /home/mhamdi/file.txt
@@ -305,12 +339,73 @@ M.generate_diff = function(command)
     if not M.job_id then print('Failed to start job for command:') end
     print(table.concat(diffs, '\n'))
 
+    -- }}}
     return diffs
 end
 
+-- ask chat using range:
+M.create_win_chat = function()
+    if M.child_win or M.parent_win or M.chat_win then
+        if vim.api.nvim_win_is_valid(M.child_win) and vim.api.nvim_win_is_valid(M.parent_win) and vim.api.nvim_win_is_valid(M.chat_win) then
+            vim.api.nvim_set_current_win(M.parent_win)
+            vim.api.nvim_win_close(M.child_win, 'force')
+        elseif not vim.api.nvim_win_is_valid(M.child_win) and vim.api.nvim_win_is_valid(M.parent_win) then
+            vim.api.nvim_set_current_win(M.parent_win)
+        elseif vim.api.nvim_win_is_valid(M.child_win) and not vim.api.nvim_win_is_valid(M.parent_win) then
+            vim.api.nvim_win_close(M.child_win, 'force')
+        else
+            return nil
+        end
+        M.close_child_win()
+        return nil
+    end
+
+    -- init parent
+    M.parent_win = vim.api.nvim_get_current_win()
+    M.parent_buf = vim.api.nvim_get_current_buf()
+    M.basename   = vim.fs.basename(vim.api.nvim_buf_get_name(M.parent_buf)) -- file.txt
+
+    M.original_keymaps = M.backup_keymaps()
+
+    -- Todo: store wraping option
+    vim.api.nvim_win_set_option(M.parent_win, 'wrap', true)
+    vim.cmd.diffthis()
+
+    -- init parent
+    vim.api.nvim_command('botright vnew')
+    M.child_win = vim.api.nvim_get_current_win()
+    M.child_buf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_buf_set_option(M.child_buf, 'buftype', 'nofile') -- modifiable...
+    vim.bo[M.child_buf].filetype = M.buftype -- lang
+    vim.api.nvim_buf_set_option(M.child_buf, 'bufhidden', 'wipe')
+    vim.api.nvim_buf_set_option(M.child_buf, 'swapfile', false)
+    vim.api.nvim_win_set_option(M.child_win, 'wrap', true)
+    vim.cmd.diffthis()
+
+
+    local is_parent = vim.api.nvim_win_is_valid(M.parent_win)
+
+    if not M.child_win then
+        print('no M.child_win')
+        return false
+    elseif is_parent then
+        vim.api.nvim_set_current_win(M.parent_win)
+        return true
+    else
+        print('no M.win and M.child_buf')
+        return false
+    end
+end
+
+
+M.chat = function ()
+    if not M.create_win() then
+        return
+    end
+end
 
 -- M.join = function(...) return table.concat({ ... }, '/') end
-
+-- {{{
 M.mktempDir = function() return uv.fs_mkdtemp('/tmp/diff_XXXXXXXXX') end
 M.rmtempDir = function(dir) vim.fn.system {'rm', '-rf', dir} end
 
@@ -359,5 +454,6 @@ M.put_to_child_buf = function(_, data)
     table.remove(data) -- remove last line
     if data then vim.api.nvim_buf_set_lines(M.child_buf, 0, -1, false, data) end
 end
+-- }}}
 
 return M
