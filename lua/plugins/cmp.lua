@@ -64,13 +64,7 @@ return {
             ['<C-d>'] = cmp.mapping.scroll_docs(-4),
             ['<C-u>'] = cmp.mapping.scroll_docs(4),
             ['<C-y>'] = cmp.mapping.abort(),
-            ['<c-e>'] = cmp.mapping(
-                cmp.mapping.confirm({
-                    behavior = cmp.ConfirmBehavior.Insert,
-                    select = true,
-                }),
-                { 'i', 'c' }
-            ),
+            ['<c-e>'] = cmp.mapping( cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true, }), { 'i', 'c' }),
             ['<c-space>'] = cmp.mapping({
                 i = cmp.mapping.complete(),
                 c = function(
@@ -83,7 +77,7 @@ return {
                     end
                 end,
             }),
-            ['<tab>'] = cmp.config.disable,
+            ['<tab>'] = cmp.mapping( cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true, }), { 'i', 'c' }),
             -- Cody completion
             ['<c-a>'] = cmp.mapping.complete({
                 config = {
