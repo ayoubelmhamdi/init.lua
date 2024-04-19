@@ -9,7 +9,7 @@ highlight  Bullet1                    guifg=#ff00ff guibg=NONE gui=bold
 highlight  Bullet2                    guifg=#ff00ff guibg=NONE gui=bold
 highlight  Bullet3                    guifg=#ff00ff guibg=NONE gui=bold
 
-lua require('ayoub.test').refresh()
+" lua require('ayoub.test').refresh()
 " augroup Headlines
 "     autocmd!
 "     autocmd InsertLeave *.md lua require('ayoub.test').refresh()
