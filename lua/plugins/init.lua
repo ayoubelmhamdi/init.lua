@@ -5,7 +5,7 @@ return {
     -- Git
     --  { 'mbbill/undotree' },
     -- { 'tpope/vim-fugitive' },
-    { 'airblade/vim-rooter', event = 'VeryLazy' },
+    -- { 'airblade/vim-rooter', event = 'VeryLazy' },
     -- Basic
     {
         'numToStr/Comment.nvim',
