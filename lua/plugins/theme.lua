@@ -3,6 +3,12 @@ return {
     -- ||
     -- ||
     {
+        "norcalli/nvim-colorizer.lua",
+        config = function()
+            require("colorizer").setup()
+        end
+    },
+    {
         'ellisonleao/gruvbox.nvim',
         config = function()
             -- Default options:
