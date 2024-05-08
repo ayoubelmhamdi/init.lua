@@ -36,16 +36,16 @@ return {
             },
         })
 
-        require('nvim-treesitter.install').prefer_git = true
-        local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-        parser_config.typst = {
-            install_info = {
-                -- url = 'https://github.com/frozolotl/tree-sitter-typst.git',
-                url = '/data/local_tmp/github_treesitters/tree-sitter-typst',
-                files = { 'src/parser.c', 'src/scanner.c' },
-                -- branch = 'main',
-            },
-            filetype = 'typst', -- if filetype does not agrees with parser name
-        }
+        -- require('nvim-treesitter.install').prefer_git = true
+        -- local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+        -- parser_config.typst = {
+        --     install_info = {
+        --         -- url = 'https://github.com/frozolotl/tree-sitter-typst.git',
+        --         url = '/data/local_tmp/github_treesitters/tree-sitter-typst',
+        --         files = { 'src/parser.c', 'src/scanner.c' },
+        --         -- branch = 'main',
+        --     },
+        --     filetype = 'typst', -- if filetype does not agrees with parser name
+        -- }
     end,
 }
