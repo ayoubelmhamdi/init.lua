@@ -1,5 +1,18 @@
+
+
+
+
 -- mini function
 M = {}
+M.REQ = function(plugin_name)
+  local status, plugin = pcall(require, plugin_name)
+  if not status then
+    vim.notify('Failed to load ' .. plugin_name .. ' plugin', vim.log.levels.ERROR)
+    return nil
+  end
+  return plugin
+end
+
 M.type_definition = function() vim.lsp.buf.type_definition() end
 
 M.workspace_symbol = function() vim.lsp.buf.workspace_symbol() end
