@@ -1,3 +1,5 @@
+hi Normal guibg=#181818
+
 " SERACH HIGHLIGHTING
 
 hi Visual       guifg=black guibg=#ff00ff
