@@ -1,19 +1,15 @@
 return {
     'mfussenegger/nvim-dap',
-    event = 'VeryLazy',
+    -- event = 'VeryLazy',
     dependencies = {
-        { 'leoluz/nvim-dap-go' },
-        {
-            'LiadOz/nvim-dap-repl-highlights',
-        },
-        {
-            'Weissle/persistent-breakpoints.nvim',
-            event = 'BufReadPost',
-            keys = {
-                { '<leader>db', "<cmd>lua require'persistent-breakpoints.api'.toggle_breakpoint()<cr>" },
-                { '<Leader>dbc', "<cmd>lua require'persistent-breakpoints.api'.set_conditional_breakpoint()<cr>" },
-            },
-        },
+        'leoluz/nvim-dap-go',
+        'LiadOz/nvim-dap-repl-highlights',
+        'LiadOz/nvim-dap-repl-highlights',
+        'Weissle/persistent-breakpoints.nvim',
+        'rcarriga/nvim-dap-ui',
+        'nvim-neotest/nvim-nio',
+        'mfussenegger/nvim-dap-python',
+
         {
             'theHamsta/nvim-dap-virtual-text',
             config = function()
@@ -23,21 +19,6 @@ return {
                     virt_text_win_col = 80,
                 })
             end,
-        },
-        { 'LiadOz/nvim-dap-repl-highlights' },
-        {
-            'rcarriga/nvim-dap-ui',
-            keys = {
-                { '<A-e>', '<cmd>lua require("dapui").eval()<CR>', mode = { 'n', 'v' }, { noremap = true, silent = true } },
-            },
-            dependencies = 'nvim-neotest/nvim-nio',
-        },
-        {
-            'mfussenegger/nvim-dap-python',
-            keys = {
-                { '<leader>dPt', function() require('dap-python').test_method() end },
-                { '<leader>dPc', function() require('dap-python').test_class() end },
-            },
         },
     },
     keys = {
@@ -52,8 +33,14 @@ return {
         { '<space>dhv', "<cmd>lua require('dap.ui.variables').visual_hover()<CR>" },
 
         { '<Leader>duf', "<cmd>lua local widgets=require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<CR>" },
+
+        { '<leader>db', "<cmd>lua require'persistent-breakpoints.api'.toggle_breakpoint()<cr>" },
+        { '<Leader>dbc', "<cmd>lua require'persistent-breakpoints.api'.set_conditional_breakpoint()<cr>" },
+
+        { '<A-e>', '<cmd>lua require("dapui").eval()<CR>', mode = { 'n', 'v' }, { noremap = true, silent = true } },
+
+        { '<leader>dPt', function() require('dap-python').test_method() end },
+        { '<leader>dPc', function() require('dap-python').test_class() end },
     },
-    config = function ()
-        require('custom.dap')
-    end
+    config = function() require('custom.dap') end,
 }

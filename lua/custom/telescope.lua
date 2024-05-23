@@ -31,10 +31,10 @@ local function git_or_find_files()
 end
 
 local opt = { noremap = true, silent = true }
-vim.keymap.set('n', '<C-p>', ':Telescope repo list<cr>', opt)
-vim.keymap.set('n', '<C-l>', git_or_find_files, opt)
-vim.keymap.set('n', '<leader>lf', ':Telescope find_files<cr>', opt)
-vim.keymap.set('n', '<leader>ls', grep_string)
+vim.keymap.set('n', '<space><C-P>', ':Telescope repo list<cr>', opt)
+vim.keymap.set('n', '<space><C-L>', git_or_find_files, opt)
+vim.keymap.set('n', '<space><C-F>', ':Telescope find_files<cr>', opt)
+vim.keymap.set('n', '<space><C-S>', grep_string)
 
 ---------------------------- TELESCOPE -----------------------------------
 

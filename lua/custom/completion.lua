@@ -9,6 +9,8 @@ local copilot_cmp = REQ('copilot_cmp')
 
 if not (cmp and lspkind and luasnip and copilot and copilot_cmp) then return end
 
+lspkind.init {}
+
 local has_words_before = function()
     if vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt' then return false end
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -49,7 +51,7 @@ local formatting = {
 }
 ---------------------------- CMP SETUP -------------------------------------
 cmp.setup({
-    snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end },
+    snippet = { expand = function(args) vim.snippet.expand(args.body) end },
     sources = cmp.config.sources({
         { name = 'copilot', group_index = 2 },
         -- { name = 'codeium' },

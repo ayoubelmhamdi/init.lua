@@ -1,5 +1,5 @@
 return {
-    -- if we don't use tiletype, the event=verylazy/lazy=true, triggle off the plugin.
+    -- if we don't use filetype, the event=verylazy/lazy=true may turn off this plugin.
     {
         'khzaw/vim-conceal',
         ft = { 'python', 'ocamel', 'ruby' },

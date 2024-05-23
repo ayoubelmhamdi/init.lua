@@ -10,6 +10,9 @@ local dap_vscode = REQ('dap.ext.vscode')
 
 if not (dap and repl and breakpoints and virtual_text and dapui and dap_python and dap_vscode) then return end
 
+local api = vim.api
+vim.fn.sign_define('DapBreakpoint', { text = '🦦', texthl = '', linehl = '', numhl = '' })
+
 repl.setup()
 dap_python.setup('python3')
 
@@ -30,8 +33,6 @@ dapui.setup({
     },
 })
 
-local api = vim.api
-vim.fn.sign_define('DapBreakpoint', { text = '🦦', texthl = '', linehl = '', numhl = '' })
 
 dap.defaults.fallback.exception_breakpoints = { 'raised' }
 dap.listeners.after.event_initialized['dapui_config'] = function() dapui.open() end
@@ -74,12 +75,12 @@ dap.listeners.after['event_initialized']['me'] = function()
             end
         end
     end
-    api.nvim_set_keymap('n', 'K', '<Cmd>lua require("dapui").eval()<CR>', { silent = true })
+    api.nvim_set_keymap('n', 'K', '<Cmd>lua require("dap.ui.widgets").hover()<CR>', { silent = true })
 end
 
 dap.listeners.after['event_terminated']['me'] = function()
     for _, keymap in pairs(keymap_restore) do
-        api.nvim_buf_set_keymap(keymap.buffer, keymap.mode, keymap.lhs, keymap.rhs, { silent = keymap.silent == 1 })
+        api.nvim_buf_set_keymap(keymap.buffer, keymap.mode, keymap.lhs, keymap.rhs, { keymap.silent == 1 })
     end
     keymap_restore = {}
 end
