@@ -4,7 +4,13 @@ local key = vim.keymap.set
 local opt = { noremap = true, silent = true }
 local control = require('ayoub.control')
 
+key("n", "<c-j>", "<C-W><C-J>")
+key("n", "<c-k>", "<C-W><C-K>")
+key("n", "<c-l>", "<C-W><C-L>")
+key("n", "<c-h>", "<C-W><C-H>")
 
+
+key('n', '<A-c>', function() control.chat('diff') end, opt)
 key('n', '<C-f>', function() control.toggle('format') end, opt)
 key('n', '<C-s>', function() control.toggle('check') end, opt)
 key('v', '<C-f>', function() control.toggle('cmd')end, opt)
@@ -13,11 +19,6 @@ key('n', '<space>r', '<cmd>lua R("vmath")<cr>', { noremap = true, silent = true 
 key('n', '<space>m', '<cmd>lua R("vmath")<cr>:lua require("vmath").print_function_info()<cr>', { noremap = true, silent = true })
 
 -- key('n', '<space>b', function() require('qbuf').copen_and_cnext() end, opt)
-
--- key('n', '<C-j>', '<cmd>cnext<CR>zz')
--- key('n', '<C-k>', '<cmd>cprev<CR>zz')
-key('n', '<C-j>', '<cmd>silent! cnext<CR>')
-key('n', '<C-k>', '<cmd>silent! cprev<CR>')
 
 -- key('n', '<C-Space>',' <cmd>lua require("ayoub.compilation").OpenQuickfix("make | redraw! |echo \\"make finished\\"")<CR>', {})
 key('i', '<TAB>', '<C-I>')
@@ -35,7 +36,6 @@ key('n', '-', '<cmd>lua require("oil").open()<cr>', opt)
 
 key({ 'n' }, '<F5>', ':echo synIDattr(synID(line("."), col("."), 1), "name")<CR>', opt)
 
-key({ 'n' }, '<cr>', ':cclose<cr>viw', opt)
 key({ 'n' }, '<esc>', '<esc>:noh<cr>', opt)
 
 key({ 'n', 'v' }, 'j', 'gj', opt)
@@ -176,10 +176,6 @@ key('t', '<C-Right>', '<C-\\><C-N>:vertical resize +2<cr>', opt)
 key('n', '<C-Q><C-Q>', ':noautocmd q<cr>', opt)
 key('n', '<Space>w', ':w<cr>', opt)
 
-key('n', '>', 'v>', opt)
-key('n', '<', 'v<', opt)
-key('v', '>', '>gv', opt)
-key('v', '<', '<gv', opt)
 
 key('i', '<A-a>', '<Right>', opt)
 key('i', '<A-i>', '<Left>', opt)
@@ -228,6 +224,39 @@ key('n', '<C-q><C-q>', ':bd<cr>', opt)
 
 key('n', 'gt', 'viW"dy:tabnew <c-r>d<cr>', opt)
 
--- need zz in the last moving
--- k({ 'n', 'v' }, '<C-U>', '<C-Y><C-Y><C-Y><C-Y><C-Y><C-Y>', opt)
--- k({ 'n', 'v' }, '<C-D>', '<C-E><C-E><C-E><C-E><C-E><C-E>', opt)
+key('n', '<C-J>', function()
+    local keys = {}
+    local qflist = vim.fn.getqflist()
+
+    if not vim.tbl_isempty(qflist) then
+        return '<cmd>silent! cnext<CR>'
+    else
+        return '<C-W><C-J>'
+    end
+end, { expr = true })
+key('n', '<C-K>', function()
+    local keys = {}
+    local qflist = vim.fn.getqflist()
+
+    if not vim.tbl_isempty(qflist) then
+        return '<cmd>silent! cprev<CR>'
+    else
+        return '<C-W><C-K>'
+    end
+end, { expr = true })
+
+
+
+key('n', '<CR>', function()
+    local qflist = false
+    for _, win in ipairs(vim.fn.getwininfo()) do
+        if win.quickfix == 1 then qflist = true end
+    end
+
+    local enter = 'viw'
+    if qflist then enter = ':cclose<CR>viw' end
+    if vim.opt.hlsearch:get() then vim.cmd.nohl() end
+
+    return enter
+end, { expr = true })
+
