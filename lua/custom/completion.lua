@@ -4,10 +4,6 @@ local REQ = require('ayoub.mini_functions').REQ
 local cmp = REQ('cmp')
 local lspkind = REQ('lspkind')
 local luasnip = REQ('luasnip')
-local copilot = REQ('copilot')
-local copilot_cmp = REQ('copilot_cmp')
-
-if not (cmp and lspkind and luasnip and copilot and copilot_cmp) then return end
 
 lspkind.init {}
 
@@ -16,23 +12,6 @@ local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match('^%s*$') == nil
 end
-
-local sorting = {
-    priority_weight = 2,
-    comparators = {
-        require('copilot_cmp.comparators').prioritize,
-        cmp.config.compare.offset,
-        -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
-        cmp.config.compare.exact,
-        cmp.config.compare.score,
-        cmp.config.compare.recently_used,
-        cmp.config.compare.locality,
-        cmp.config.compare.kind,
-        cmp.config.compare.sort_text,
-        cmp.config.compare.length,
-        cmp.config.compare.order,
-    },
-}
 
 local formatting = {
     format = lspkind.cmp_format({
@@ -53,7 +32,7 @@ local formatting = {
 cmp.setup({
     snippet = { expand = function(args) vim.snippet.expand(args.body) end },
     sources = cmp.config.sources({
-        { name = 'copilot', group_index = 2 },
+        -- { name = 'copilot', group_index = 2 },
         -- { name = 'codeium' },
         { name = 'path' },
         { name = 'nvim_lsp_signature_help' },
@@ -73,7 +52,6 @@ cmp.setup({
         -- end),
     },
     formatting = formatting,
-    sorting = sorting,
     window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
@@ -86,8 +64,8 @@ cmp.setup({
 
 ----------------------------   AI    -------------------------------------
 
-copilot.setup()
-copilot_cmp.setup()
+-- copilot.setup()
+-- copilot_cmp.setup()
 
 ----------------------------   DAP   -------------------------------------
 
