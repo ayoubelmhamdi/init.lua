@@ -2,6 +2,8 @@ local REQ = require('ayoub.mini_functions').REQ
 local conform = REQ('conform')
 if not conform then return end
 
+-- 1--
+-- 1--
 
 require('conform.formatters.shfmt').args = { '-i', '4', '-filename', '$FILENAME' }
 conform.setup({
@@ -17,5 +19,9 @@ conform.setup({
         bash = { 'shfmt', 'shellcheck' },
         json = { 'fixjson', 'jq' },
         jsonc = { 'fixjson', 'jq' },
+        javascriptreact = { { 'prettied', 'prettier', 'eslint_c' } },
+        typescriptreact = { { 'prettied', 'prettier', 'eslint_c' } },
+        javascript = { { 'prettied', 'prettier', 'eslint_c' } },
+        typescript = { { 'prettied', 'prettier', 'eslint_c' } },
     },
 })
