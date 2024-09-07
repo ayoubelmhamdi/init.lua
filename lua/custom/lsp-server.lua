@@ -188,6 +188,12 @@ lspconfig.lua_ls.setup({
         },
     },
 })
+
+lspconfig.tsserver.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
 --------------------------------------------------------------------------------------------
 
 require('ayoub.lsp-options').toggleLsp()
@@ -214,5 +220,7 @@ require('flutter-tools').setup({
         },
     },
 })
+
+
 
 require('telescope').load_extension('flutter')
