@@ -88,14 +88,14 @@ vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave' }, {
 --     end,
 -- })
 
-vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-    pattern = { 'dwm.c', 'nn.h' },
-    group = vim.api.nvim_create_augroup('Cmain', {}),
-    callback = function()
-        vim.cmd('make | redraw! |echo "make finished"')
-        vim.cmd('silent! !ctags -f tags dwm.c config.def.h &')
-    end,
-})
+-- vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+--     pattern = { 'dwm.c', 'nn.h' },
+--     group = vim.api.nvim_create_augroup('Cmain', {}),
+--     callback = function()
+--         vim.cmd('make | redraw! |echo "make finished"')
+--         vim.cmd('silent! !ctags -f tags dwm.c config.def.h &')
+--     end,
+-- })
 
 
 -- highlight text on yank
