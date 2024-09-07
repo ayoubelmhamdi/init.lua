@@ -4,6 +4,12 @@ local key = vim.keymap.set
 local opt = { noremap = true, silent = true }
 local control = require('ayoub.control')
 
+key("n", ">", ">>")
+key("n", "<", "<<")
+
+key("v", ">", ">gv")
+key("v", "<", "<gv")
+
 key("n", "<c-j>", "<C-W><C-J>")
 key("n", "<c-k>", "<C-W><C-K>")
 key("n", "<c-l>", "<C-W><C-L>")
@@ -29,7 +35,7 @@ key('i', '<C-]>', '<C-X><C-]>', opt)
 key('i', '<C-F>', '<C-X><C-F>', opt)
 key('i', '<C-D>', '<C-X><C-D>', opt)
 
-key('n', '<C-Space>', ':new | term ./dwm<CR>', {})
+-- key('n', '<C-Space>', ':new | term ./dwm<CR>', {})
 
 key('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
 key('n', '-', '<cmd>lua require("oil").open()<cr>', opt)
