@@ -11,12 +11,13 @@ if not (telescope and builtin and actions) then return end
 
 ----------------------------- MAPPING ------------------------------------
 
-local find_command = { 'rg', '-g', '!.git', '-g', '!node_modules', '-g', '!package-lock.json', '-g', '!yarn.lock', '--hidden', '--no-ignore-global', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column' }
+local find_command = {'-g', '!.git', '-g', '!node_modules', '-g', '!package-lock.json', '-g', '!yarn.lock', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--no-ignore'}
+
 
 local function grep_string()
     builtin.grep_string({
-        find_command = find_command,
-        ignore_case = true,
+        use_regex=true,
+        additional_args=find_command,
         search = vim.fn.input('Grep > '),
     })
 end
