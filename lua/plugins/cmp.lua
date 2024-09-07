@@ -16,12 +16,12 @@ return {
         --     'Exafunction/codeium.nvim',
         --     config = function() require('codeium').setup({}) end,
         -- },
-        {
-            "zbirenbaum/copilot-cmp",
-            dependencies = {'zbirenbaum/copilot.lua'},
-            event = { "InsertEnter", "LspAttach" },
-            fix_pairs = true,
-        },
+        -- {
+        --     "zbirenbaum/copilot-cmp",
+        --     dependencies = {'zbirenbaum/copilot.lua'},
+        --     event = { "InsertEnter", "LspAttach" },
+        --     fix_pairs = true,
+        -- },
     },
     priority = 1,
     config = function()
