@@ -13,7 +13,7 @@ hi SignColumn guibg=#202020
 hi FoldColumn guibg=#202020
 
 hi Normal guibg=#181818
-hi StatusLine guifg=#181818 
+"hi StatusLine guifg=#181818 
 
 hi String                   gui=bold
 hi @variable                gui=bold
