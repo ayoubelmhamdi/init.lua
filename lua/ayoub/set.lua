@@ -20,6 +20,9 @@ vim.g.markdown_fenced_languages = {
     'c',
     'rust',
 }
+
+vim.o.sessionoptions = "buffers,curdir"
+
 -- opt.makeprg = './build.sh'
 opt.completeopt = { 'menuone' }
 vim.opt.scrolloff = 1
