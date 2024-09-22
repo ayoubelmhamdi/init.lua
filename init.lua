@@ -21,5 +21,5 @@ if not ok then
   return
 end
 
-vim.api.nvim_create_user_command('Rg', function() rg_module.main() end, { nargs = '?', desc = 'Search using Rg (ripgrep)' })
-vim.api.nvim_create_user_command('Rge', function() rg_module.main(true) end, { nargs = '?', desc = 'Search using Rg (ripgrep)' })
+vim.api.nvim_create_user_command('Rg', function(opts) rg_module.main(false, opts.args) end, { nargs = '?', desc = 'Search using Rg (ripgrep)' })
+vim.api.nvim_create_user_command('Rge', function(opts) rg_module.main(true, opts.args) end, { nargs = '?', desc = 'Search using Rg (ripgrep)' })

@@ -44,13 +44,12 @@ M.execute_rg = function(pattern, ExtMode)
 end
 
 
-M.main = function(ExtMode)
+M.main = function(ExtMode, pattern)
     if not vim.fn.executable('rg') == 1 then
         print("Rg (ripgrep) is not available. Please install it.")
         return
     end
 
-    local pattern = vim.fn.input('Grep > ')
     if pattern == '' then
         print("No pattern provided. Exiting.")
         return
