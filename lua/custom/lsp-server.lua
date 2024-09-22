@@ -189,7 +189,7 @@ lspconfig.lua_ls.setup({
     },
 })
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
