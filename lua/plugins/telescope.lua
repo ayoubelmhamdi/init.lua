@@ -8,5 +8,5 @@ return {
         'cljoly/telescope-repo.nvim',
         { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
-    config = function() require('custom.telescope') end,
+    -- config = function() require('custom.telescope') end,
 }
