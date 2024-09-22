@@ -14,3 +14,12 @@ vim.g.loaded_2html_plugin = 0
 vim.g.loaded_netrwPlugin = 0
 vim.g.loaded_spec = 0
 vim.g.loaded_syncolor = 0
+
+local ok, rg_module = pcall(require, 'ayoub.rg')
+if not ok then
+  vim.api.nvim_err_writeln("Failed to load the Rg module")
+  return
+end
+
+vim.api.nvim_create_user_command('Rg', function() rg_module.main() end, { nargs = '?', desc = 'Search using Rg (ripgrep)' })
+vim.api.nvim_create_user_command('Rge', function() rg_module.main(true) end, { nargs = '?', desc = 'Search using Rg (ripgrep)' })
