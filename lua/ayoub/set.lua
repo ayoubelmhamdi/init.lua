@@ -84,15 +84,21 @@ opt.expandtab = true
 
 opt.wrap = false
 
-local tmp_undo = ''
+local tmp_dir = ''
 if os.getenv('TMPDIR') then
-    tmp_undo = os.getenv('TMPDIR') .. '/nvim/undodir'
+    tmp_dir = os.getenv('TMPDIR')
 else
-    tmp_undo = '/tmp/nvim/undodir'
+    tmp_dir = '/tmp'
 end
-opt.swapfile = false
-opt.backup = false
-opt.undodir = tmp_undo -- try to use TMPDIR for termux also
+
+
+opt.dir= tmp_dir .. '/nvim/swapfiles'
+opt.swapfile = true
+
+opt.backupdir= tmp_dir .. '/nvim/backups'
+opt.backup = true
+
+opt.undodir = tmp_dir .. '/nvim/undodir' -- try to use TMPDIR for termux also
 opt.undofile = true
 
 opt.hlsearch = true
