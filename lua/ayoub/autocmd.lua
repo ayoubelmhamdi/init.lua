@@ -137,3 +137,11 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNew' }, {
         end
     end,
 })
+
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    vim.opt.bex = "-" .. vim.fn.strftime("%Y%m%d-%H:%M:%S") .. "~"
+  end,
+})
