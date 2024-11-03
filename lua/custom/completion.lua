@@ -30,7 +30,7 @@ local formatting = {
 }
 ---------------------------- CMP SETUP -------------------------------------
 cmp.setup({
-    snippet = { expand = function(args) vim.snippet.expand(args.body) end },
+    snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
     sources = cmp.config.sources({
         -- { name = 'copilot', group_index = 2 },
         -- { name = 'codeium' },
