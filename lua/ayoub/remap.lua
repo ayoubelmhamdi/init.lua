@@ -4,16 +4,19 @@ local key = vim.keymap.set
 local opt = { noremap = true, silent = true }
 local control = require('ayoub.control')
 
-key("n", ">", ">>")
-key("n", "<", "<<")
+key("i", "<C-E>", "<C-Y>", opt)
+key("i", "<C-Y>", "<C-E>", opt)
 
-key("v", ">", ">gv")
-key("v", "<", "<gv")
+key("n", ">", ">>", opt)
+key("n", "<", "<<", opt)
 
-key("n", "<c-j>", "<C-W><C-J>")
-key("n", "<c-k>", "<C-W><C-K>")
-key("n", "<c-l>", "<C-W><C-L>")
-key("n", "<c-h>", "<C-W><C-H>")
+key("v", ">", ">gv", opt)
+key("v", "<", "<gv", opt)
+
+key("n", "<c-j>", "<C-W><C-J>", opt)
+key("n", "<c-k>", "<C-W><C-K>", opt)
+key("n", "<c-l>", "<C-W><C-L>", opt)
+key("n", "<c-h>", "<C-W><C-H>", opt)
 
 
 key('n', '<A-c>', function() control.chat('diff') end, opt)
@@ -21,23 +24,23 @@ key('n', '<C-f>', function() control.toggle('format') end, opt)
 key('n', '<C-s>', function() control.toggle('check') end, opt)
 key('v', '<C-f>', function() control.toggle('cmd')end, opt)
 
-key('n', '<space>r', '<cmd>lua R("vmath")<cr>', { noremap = true, silent = true })
-key('n', '<space>m', '<cmd>lua R("vmath")<cr>:lua require("vmath").print_function_info()<cr>', { noremap = true, silent = true })
+key('n', '<space>r', '<cmd>lua R("vmath")<cr>', opt)
+key('n', '<space>m', '<cmd>lua R("vmath")<cr>:lua require("vmath").print_function_info()<cr>', opt)
 
 -- key('n', '<space>b', function() require('qbuf').copen_and_cnext() end, opt)
 
 -- key('n', '<C-Space>',' <cmd>lua require("ayoub.compilation").OpenQuickfix("make | redraw! |echo \\"make finished\\"")<CR>', {})
 key('i', '<TAB>', '<C-I>')
 key({ 'i', 'n' }, '<A-d>', ':t.<CR>', opt)
-key('i', '<C-L>', '<C-X><C-L>', opt)
-key('i', '<C-I>', '<C-X><C-I>', opt)
-key('i', '<C-]>', '<C-X><C-]>', opt)
-key('i', '<C-F>', '<C-X><C-F>', opt)
-key('i', '<C-D>', '<C-X><C-D>', opt)
+-- key('i', '<C-L>', '<C-X><C-L>', opt)
+-- key('i', '<C-I>', '<C-X><C-I>', opt)
+-- key('i', '<C-]>', '<C-X><C-]>', opt)
+-- key('i', '<C-F>', '<C-X><C-F>', opt)
+-- key('i', '<C-D>', '<C-X><C-D>', opt)
 
 -- key('n', '<C-Space>', ':new | term ./dwm<CR>', {})
 
-key('n', '<space><space>', ':TSPlaygroundToggle<cr>', {})
+key('n', '<space><space>', ':TSPlaygroundToggle<cr>', opt)
 key('n', '-', '<cmd>lua require("oil").open()<cr>', opt)
 
 key({ 'n' }, '<F5>', ':echo synIDattr(synID(line("."), col("."), 1), "name")<CR>', opt)
@@ -55,44 +58,44 @@ key('n', '<leader>zm', ':TZAtaraxis<CR>', opt)
 
 key({ 'n', 'v' }, '<A-@>', ':%s#@@@#\\r#g<CR>', opt)
 
-key({ 'n', 'v' }, ',tp', '<cmd>lua  require("ayoub.te_prompt_picker").preview_files()<CR>')
+key({ 'n', 'v' }, ',tp', '<cmd>lua  require("ayoub.te_prompt_picker").preview_files()<CR>', opt)
 
-key({ 'n', 'v' }, ',ae', '<cmd>lua require("ayoub.chat").main("client-embedding")<CR>Gzz')
-key({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>Gzz')
-key({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>Gzz')
-key({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>Gzz')
+key({ 'n', 'v' }, ',ae', '<cmd>lua require("ayoub.chat").main("client-embedding")<CR>Gzz', opt)
+key({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>Gzz', opt)
+key({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>Gzz', opt)
+key({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>Gzz', opt)
 
--- key({ 'n', 'v' }, '<A-1>', ':tabnext 1<CR>')
--- key({ 'n', 'v' }, '<A-2>', ':tabnext 2<CR>')
--- key({ 'n', 'v' }, '<A-3>', ':tabnext 3<CR>')
--- key({ 'n', 'v' }, '<A-4>', ':tabnext 4<CR>')
--- key({ 'n', 'v' }, '<A-5>', ':tabnext 5<CR>')
--- key({ 'n', 'v' }, '<A-6>', ':tabnext 6<CR>')
--- key({ 'n', 'v' }, '<A-7>', ':tabnext 7<CR>')
--- key({ 'n', 'v' }, '<A-8>', ':tabnext 8<CR>')
--- key({ 'n', 'v' }, '<A-7>', ':tabnext 9<CR>')
+-- key({ 'n', 'v' }, '<A-1>', ':tabnext 1<CR>', opt)
+-- key({ 'n', 'v' }, '<A-2>', ':tabnext 2<CR>', opt)
+-- key({ 'n', 'v' }, '<A-3>', ':tabnext 3<CR>', opt)
+-- key({ 'n', 'v' }, '<A-4>', ':tabnext 4<CR>', opt)
+-- key({ 'n', 'v' }, '<A-5>', ':tabnext 5<CR>', opt)
+-- key({ 'n', 'v' }, '<A-6>', ':tabnext 6<CR>', opt)
+-- key({ 'n', 'v' }, '<A-7>', ':tabnext 7<CR>', opt)
+-- key({ 'n', 'v' }, '<A-8>', ':tabnext 8<CR>', opt)
+-- key({ 'n', 'v' }, '<A-7>', ':tabnext 9<CR>', opt)
 
-key('v', 'J', ":m '>+1<CR>gv=gv")
-key('v', 'K', ":m '<-2<CR>gv=gv")
+key('v', 'J', ":m '>+1<CR>gv=gv", opt)
+key('v', 'K', ":m '<-2<CR>gv=gv", opt)
 
-key('n', 'J', 'mzJ`z')
-key({ 'n', 'v' }, '<C-d>', '<C-d>zz')
-key({ 'n', 'v' }, '<C-u>', '<C-u>zz')
-key({ 'n', 'v' }, 'n', 'nzzzv')
-key({ 'n', 'v' }, 'N', 'Nzzzv')
+key('n', 'J', 'mzJ`z', opt)
+key({ 'n', 'v' }, '<C-d>', '<C-d>zz', opt)
+key({ 'n', 'v' }, '<C-u>', '<C-u>zz', opt)
+key({ 'n', 'v' }, 'n', 'nzzzv', opt)
+key({ 'n', 'v' }, 'N', 'Nzzzv', opt)
 
--- k('n', ',p', '"dp')
--- k('v', ',y', '"dy')
+-- k('n', ',p', '"dp', opt)
+-- k('v', ',y', '"dy', opt)
 
 -- This is going to get me cancelled
-key('i', '<C-c>', '<Esc>')
+key('i', '<C-c>', '<Esc>', opt)
 
-key('n', 'Q', '<nop>')
+key('n', 'Q', '<nop>', opt)
 
-key('n', '<leader>k', '<cmd>lnext<CR>zz')
-key('n', '<leader>j', '<cmd>lprev<CR>zz')
+key('n', '<leader>k', '<cmd>lnext<CR>zz', opt)
+key('n', '<leader>j', '<cmd>lprev<CR>zz', opt)
 
-key('n', '<A-s>', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>')
+key('n', '<A-s>', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', opt)
 key('n', '<leader>x', '<cmd>!chmod +x %<CR>', opt)
 
 -- k(
