@@ -41,13 +41,10 @@ return {
             },
             keymap = {
                 preset = 'default',
-                -- show, hide, accept, select_and_accept, select_prev, select_next, show_documentation, hide_documentation,
-                --   scroll_documentation_up, scroll_documentation_down, snippet_forward, snippet_backward, fallback
-
-                ['<C-Y>'] = { 'hide' },
-                ['<C-E>'] = { 'select_and_accept' },
-                ['<C-J>'] = { 'snippet_forward' },
-                ['<C-K>'] = { 'snippet_backward' },
+                ['<C-y>'] = { 'hide' },
+                ['<C-e>'] = { 'select_and_accept' },
+                ['<C-j>'] = { 'snippet_forward' },
+                ['<C-k>'] = { 'snippet_backward' },
             },
             nerd_font_variant = 'normal',
             -- accept = { auto_brackets = { enabled = true } }
