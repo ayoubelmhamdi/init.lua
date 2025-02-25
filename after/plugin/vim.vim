@@ -11,7 +11,8 @@ set foldmethod=marker
 set foldlevel=0
 set foldcolumn=1
 
-set fillchars=eob:⏺,fold:\ 
+" set fillchars=eob:⏺,fold:\ 
+set fillchars=eob:.,fold:\ 
 
 " nnoremap <F6> :exec 'r !'.getline('.')<cr> " {{{
 " }}}
