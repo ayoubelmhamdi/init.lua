@@ -3,7 +3,7 @@ return {
     cmd = 'ConformInfo',
     ft = {      'lua', 'python', 'javascript', 'css', 'html', 'yaml', 'markdown', 'sh', 'bash', 'json', 'jsonc' },
     keys = {
-        {'gq'},
+        -- {'gq'},
         {
             '<space>fc',
             mode = { 'n', 'v' },
@@ -18,10 +18,11 @@ return {
             end,
         },
     },
-    init = function()
-        -- If you want the formatexpr (like gq), here is the place to set it
-        vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-    end,
+    -- doesn't work as we expected, when we formatter not exist to failed, gq not work.
+    -- init = function()
+    --     -- If you want the formatexpr (like gq), here is the place to set it
+    --     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+    -- end,
 
     config = function()
         require('custom.conform')
