@@ -15,6 +15,24 @@ vim.fn.sign_define('DapBreakpoint', { text = '🦦', texthl = '', linehl = '', n
 
 repl.setup()
 dap_python.setup('python3')
+-- local dap = require('dap')
+-- dap.adapters.python = {
+--   type = 'executable',
+--   command = 'python',
+--   args = { '-m', 'debugpy.adapter' },
+-- }
+
+-- dap.configurations.python = {
+--   {
+--     type = 'python',
+--     request = 'launch',
+--     name = 'Launch server.py',
+--     program = '${file}',
+--     args = {},
+--     justMyCode = true,
+--   },
+-- }
+-- ---
 
 breakpoints.setup({ load_breakpoints_event = { 'BufReadPost' } })
 virtual_text.setup({
