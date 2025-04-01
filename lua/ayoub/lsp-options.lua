@@ -60,7 +60,7 @@ vim.g.isLspStart = true
 M.toggleLsp = function()
     -- if server is slow the vim.cmd('LspStart/LspStop')does not work yet.
     if vim.g.isLspStart then
-        vim.lsp.stop_client(vim.lsp.get_active_clients())
+        vim.lsp.stop_client(vim.lsp.get_clients())
         vim.g.isLspStart = false
     else
         vim.cmd('LspStart')
