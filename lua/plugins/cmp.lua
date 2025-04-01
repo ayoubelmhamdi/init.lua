@@ -40,6 +40,7 @@ return {
                 "Exafunction/codeium.nvim",
                 dependencies = {
                     "saghen/blink.compat",
+                    'hrsh7th/nvim-cmp',
                     opts = { enable_events = true }
                 },
 
@@ -49,12 +50,12 @@ return {
                     vim.g.codeium_idle_delay = 1500
                 end,
                 config = function()
-                    -- require('codeium').setup({})
-                    -- vim.keymap.set("i", "<A-;>", function() return vim.fn["codeium#Accept"]() end, { expr = true, silent = true })
-                    -- vim.keymap.set("i", "<A-;>", function() return vim.fn['codeium#CycleCompletions'](1)  end, { expr = true, silent = true })
-                    -- vim.keymap.set("i", "<A-;>", function() return  vim.fn["codeium#Accept"]()  end, { expr = true, silent = true })
+                    require('codeium').setup({})
+                    -- how to use <C-g> to enable completion.
+                    -- setup: we need to install: "Exafunction/codeium.nvim", "saghen/blink.compat", 'hrsh7th/nvim-cmp'.
+                    -- and require.setup()
+                    -- and use source cmp -> comat -> blink: `codeium = { name = "codeium", module = "blink.compat.source" }`
                 end,
-
             },
             -- 'giuxtaposition/blink-cmp-copilot',
             -- {
