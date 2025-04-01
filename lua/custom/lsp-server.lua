@@ -30,7 +30,7 @@ lspconfig.pyright.setup({
 --     editor_version = 'vim',
 --   },
 -- }
-lspconfig.ruff_lsp.setup({
+lspconfig.ruff.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = function(client, bufnr)
@@ -73,16 +73,16 @@ lspconfig.ruff_lsp.setup({
     --
 })
 
-lspconfig.typst_lsp.setup({
+lspconfig.tinymist.setup({
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
     filetype = { 'typ' },
-    cmd = { 'typst-lsp5' },
-    settings = {
-        exportPdf = 'onSave', -- Choose onType, onSave or never.
-        -- serverPath = '', -- Normally, there is no need to uncomment it.
-    },
+    -- cmd = { 'typst-lsp5' },
+    -- settings = {
+    --     exportPdf = 'onSave', -- Choose onType, onSave or never.
+    --     -- serverPath = '', -- Normally, there is no need to uncomment it.
+    -- },
 })
 
 -- -- clangd server setup
