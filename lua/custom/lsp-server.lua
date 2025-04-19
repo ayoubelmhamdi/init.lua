@@ -166,28 +166,28 @@ if false then
     })
 end
 
-lspconfig.lua_ls.setup({
-    handlers = handlers,
-    capabilities = capabilities,
-    on_attach = on_attach,
-    flags = { debounce_text_changes = 150 },
-    settings = {
-        Lua = {
-            completion = {
-                callSnippet = 'Replace',
-            },
-            diagnostics = {
-                globals = { 'vim' },
-            },
-            workspace = {
-                checkThirdParty = false, -- FIX the sumneko need config
-                -- Make the server await for loading Neovim runtime files
-                maxPreload = 1000,
-                preloadFileSize = 500,
-            },
-        },
-    },
-})
+-- lspconfig.lua_ls.setup({
+--     handlers = handlers,
+--     capabilities = capabilities,
+--     on_attach = on_attach,
+--     flags = { debounce_text_changes = 150 },
+--     settings = {
+--         Lua = {
+--             completion = {
+--                 callSnippet = 'Replace',
+--             },
+--             diagnostics = {
+--                 globals = { 'vim' },
+--             },
+--             workspace = {
+--                 checkThirdParty = false, -- FIX the sumneko need config
+--                 -- Make the server await for loading Neovim runtime files
+--                 maxPreload = 1000,
+--                 preloadFileSize = 500,
+--             },
+--         },
+--     },
+-- })
 
 lspconfig.ts_ls.setup({
     handlers = handlers,
