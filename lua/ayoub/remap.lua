@@ -269,3 +269,5 @@ key('n', '<CR>', function()
     return enter
 end, { expr = true })
 
+
+key('n', '<F4>', ':%s#\\<<c-r><c-w>\\>#<c-r><c-w>#gc<c-f>$F#i', opt)
