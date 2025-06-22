@@ -194,6 +194,14 @@ lspconfig.ts_ls.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
+
+lspconfig.bashls.setup({
+    handlers = handlers,
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+
+
 --------------------------------------------------------------------------------------------
 
 require('ayoub.lsp-options').toggleLsp()

@@ -1,5 +1,7 @@
 local opt = vim.opt
 
+opt.diffopt:append("inline:word")
+
 vim.g.loaded_matchparen = 1
 vim.g.mapleader = ' '
 vim.g.markdown_fenced_languages = { 'html', 'python', 'bash', 'sh' }

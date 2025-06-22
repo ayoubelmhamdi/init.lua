@@ -22,12 +22,12 @@ augroup Help
 augroup END
 
 
-augroup quickfix
-    autocmd!
-    autocmd QuickFixCmdPost [^l]* execute "normal! zz" | cwindow
-    autocmd QuickFixCmdPost    l* execute "normal! zz" | lwindow
-    autocmd FileType qf,jf nnoremap <buffer> <CR> <CR>:cclose<CR>
-augroup END
+" augroup quickfix
+"     autocmd!
+"     autocmd QuickFixCmdPost [^l]*  cwindow
+"     autocmd QuickFixCmdPost    l*  lwindow
+"     autocmd FileType qf,jf nnoremap <buffer> <CR> <CR>:cclose<CR>
+" augroup END
 
 ]])
 

@@ -40,7 +40,8 @@ key({ 'i', 'n' }, '<A-d>', ':t.<CR>', opt)
 
 -- key('n', '<C-Space>', ':new | term ./dwm<CR>', {})
 
-key('n', '<space><space>', ':TSPlaygroundToggle<cr>', opt)
+-- key('n', '<space><space>', ':TSPlaygroundToggle<cr>', opt)
+key('n', '<space><space>', ':restart<cr>', opt)
 key('n', '-', '<cmd>lua require("oil").open()<cr>', opt)
 
 key({ 'n' }, '<F5>', ':echo synIDattr(synID(line("."), col("."), 1), "name")<CR>', opt)
@@ -60,11 +61,6 @@ key({ 'n', 'v' }, '<A-@>', ':%s#@@@#\\r#g<CR>', opt)
 
 key({ 'n', 'v' }, ',tp', '<cmd>lua  require("ayoub.te_prompt_picker").preview_files()<CR>', opt)
 
-key({ 'n', 'v' }, ',ae', '<cmd>lua require("ayoub.chat").main("client-embedding")<CR>Gzz', opt)
-key({ 'n', 'v' }, ',ao', '<cmd>lua require("ayoub.chat").main("GPT3")<CR>Gzz', opt)
-key({ 'n', 'v' }, ',am', '<cmd>lua require("ayoub.chat").main("Bing")<CR>Gzz', opt)
-key({ 'n', 'v' }, ',ag', '<cmd>lua require("ayoub.chat").main("Bard")<CR>Gzz', opt)
-
 -- key({ 'n', 'v' }, '<A-1>', ':tabnext 1<CR>', opt)
 -- key({ 'n', 'v' }, '<A-2>', ':tabnext 2<CR>', opt)
 -- key({ 'n', 'v' }, '<A-3>', ':tabnext 3<CR>', opt)
@@ -79,10 +75,10 @@ key('v', 'J', ":m '>+1<CR>gv=gv", opt)
 key('v', 'K', ":m '<-2<CR>gv=gv", opt)
 
 key('n', 'J', 'mzJ`z', opt)
-key({ 'n', 'v' }, '<C-d>', '<C-d>zz', opt)
-key({ 'n', 'v' }, '<C-u>', '<C-u>zz', opt)
-key({ 'n', 'v' }, 'n', 'nzzzv', opt)
-key({ 'n', 'v' }, 'N', 'Nzzzv', opt)
+-- key({ 'n', 'v' }, '<C-d>', '<C-d>zz', opt)
+-- key({ 'n', 'v' }, '<C-u>', '<C-u>zz', opt)
+-- key({ 'n', 'v' }, 'n', 'nzzzv', opt)
+-- key({ 'n', 'v' }, 'N', 'Nzzzv', opt)
 
 -- k('n', ',p', '"dp', opt)
 -- k('v', ',y', '"dy', opt)
@@ -92,8 +88,8 @@ key('i', '<C-c>', '<Esc>', opt)
 
 key('n', 'Q', '<nop>', opt)
 
-key('n', '<leader>k', '<cmd>lnext<CR>zz', opt)
-key('n', '<leader>j', '<cmd>lprev<CR>zz', opt)
+key('n', '<leader>k', '<cmd>lnext<CR>', opt)
+key('n', '<leader>j', '<cmd>lprev<CR>', opt)
 
 key('n', '<A-s>', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', opt)
 key('n', '<leader>x', '<cmd>!chmod +x %<CR>', opt)
