@@ -29,6 +29,11 @@ augroup END
 "     autocmd FileType qf,jf nnoremap <buffer> <CR> <CR>:cclose<CR>
 " augroup END
 
+augroup quickfix
+    autocmd!
+    autocmd FileType qf,jf setlocal wrap linebreak nobuflisted
+augroup END
+
 ]])
 
 
