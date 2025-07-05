@@ -205,7 +205,9 @@ command! WQ wq
 command! Wqa wqa
 command! WQa wqa
 command! WQA wqa
+command! -nargs=+ Grep execute 'silent grep! <args>' | copen
 ]])
+
 --command! MyGdb let g:termdebug_wide = 10 | packadd termdebug | Termdebug
 
 key('n', '<F7>', ':FloatermToggle<cr>', opt)
@@ -252,18 +254,18 @@ end, { expr = true })
 
 
 
-key('n', '<CR>', function()
-    local qflist = false
-    for _, win in ipairs(vim.fn.getwininfo()) do
-        if win.quickfix == 1 then qflist = true end
-    end
+-- key('n', '<CR>', function()
+--     local qflist = false
+--     for _, win in ipairs(vim.fn.getwininfo()) do
+--         if win.quickfix == 1 then qflist = true end
+--     end
 
-    local enter = 'viw'
-    if qflist then enter = ':cclose<CR>viw' end
-    if vim.opt.hlsearch:get() then vim.cmd.nohl() end
+--     local enter = 'viw'
+--     if qflist then enter = ':cclose<CR>viw' end
+--     if vim.opt.hlsearch:get() then vim.cmd.nohl() end
 
-    return enter
-end, { expr = true })
+--     return enter
+-- end, { expr = true })
 
 
 key('n', '<F4>', ':%s#\\<<c-r><c-w>\\>#<c-r><c-w>#gc<c-f>$F#i', opt)
