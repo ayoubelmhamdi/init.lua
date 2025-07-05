@@ -11,8 +11,16 @@ local dap_vscode = REQ('dap.ext.vscode')
 if not (dap and repl and breakpoints and virtual_text and dapui and dap_python and dap_vscode) then return end
 
 local api = vim.api
-vim.fn.sign_define('DapBreakpoint', { text = '🦦', texthl = '', linehl = '', numhl = '' })
+		vim.api.nvim_set_hl(0, "DapStoppedHl", { fg = "#98BB6C", bg = "#2A2A2A", bold = true })
+		vim.api.nvim_set_hl(0, "DapStoppedLineHl", { bg = "#204028", bold = true })
+		vim.fn.sign_define( "DapStopped", { text = "", texthl = "DapStoppedHl", linehl = "DapStoppedLineHl", numhl = "" })
+		vim.fn.sign_define("DapBreakpoint", { text = "🦦", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+		vim.fn.sign_define( "DapBreakpointCondition", { text = "", texthl = "DiagnosticSignWarn", linehl = "", numhl = "" })
+		vim.fn.sign_define( "DapBreakpointRejected", { text = "", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+		vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DiagnosticSignInfo", linehl = "", numhl = "" })
 
+
+-- need to :TSInstall dap_repl
 repl.setup()
 dap_python.setup('python3')
 -- local dap = require('dap')
@@ -80,6 +88,53 @@ dap.configurations.c = {
         stopOnEntry = false,
     },
 }
+
+
+--[[
+-- Customize breakpoint signs
+
+		dap.listeners.after.event_initialized["dapui_config"] = function()
+			require("dapui").open()
+		end
+
+		dap.listeners.before.event_terminated["dapui_config"] = function()
+			-- Commented to prevent DAP UI from closing when unit tests finish
+			require("dapui").close()
+		end
+
+		dap.listeners.before.event_exited["dapui_config"] = function()
+			-- Commented to prevent DAP UI from closing when unit tests finish
+			require("dapui").close()
+		end
+]]
+
+
+		local BASH_DEBUG_ADAPTER_BIN = vim.fn.stdpath("data") .. "/mason/packages/bash-debug-adapter/bash-debug-adapter"
+		local BASHDB_DIR = vim.fn.stdpath("data") .. "/mason/packages/bash-debug-adapter/extension/bashdb_dir"
+
+		dap.adapters.sh = {
+			type = "executable",
+			command = BASH_DEBUG_ADAPTER_BIN,
+		}
+		dap.configurations.sh = {
+			{
+				name = "Launch Bash debugger",
+				type = "sh",
+				request = "launch",
+				program = "${file}",
+				cwd = "${fileDirname}",
+				pathBashdb = BASHDB_DIR .. "/bashdb",
+				pathBashdbLib = BASHDB_DIR,
+				pathBash = "bash",
+				pathCat = "cat",
+				pathMkfifo = "mkfifo",
+				pathPkill = "pkill",
+				env = {},
+				args = {'bin/jobs-queue'},
+				-- showDebugOutput = true,
+				-- trace = true,
+			},
+		}
 
 -- Map K to hover while session is active.
 local keymap_restore = {}
