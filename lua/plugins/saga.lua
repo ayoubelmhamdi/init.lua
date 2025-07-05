@@ -1,6 +1,8 @@
 return {
-    'glepnir/lspsaga.nvim',
+    -- 'glepnir/lspsaga.nvim',
+    'leeguooooo/lspsaga.nvim',
     event = 'LspAttach',
+    branch = 'fix-client-method-deprecations',
     dependencies = {
         -- { 'nvim-tree/nvim-web-devicons' },
         { 'nvim-treesitter/nvim-treesitter' },
