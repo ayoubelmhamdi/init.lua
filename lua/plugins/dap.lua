@@ -4,7 +4,6 @@ return {
     dependencies = {
         'leoluz/nvim-dap-go',
         'LiadOz/nvim-dap-repl-highlights',
-        'LiadOz/nvim-dap-repl-highlights',
         'Weissle/persistent-breakpoints.nvim',
         'rcarriga/nvim-dap-ui',
         'nvim-neotest/nvim-nio',
