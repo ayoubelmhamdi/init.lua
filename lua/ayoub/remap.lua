@@ -46,7 +46,6 @@ key('n', '-', '<cmd>lua require("oil").open()<cr>', opt)
 
 key({ 'n' }, '<F5>', ':echo synIDattr(synID(line("."), col("."), 1), "name")<CR>', opt)
 
-key({ 'n' }, '<esc>', '<esc>:noh<cr>', opt)
 
 key({ 'n', 'v' }, 'j', 'gj', opt)
 key({ 'n', 'v' }, 'k', 'gk', opt)
@@ -131,7 +130,6 @@ key('n', ',oq', ':OverseerQuickAction<cr>', opt)
 key('n', ',ov', ':OverseerQuickAction open vsplit<cr>', opt)
 key('n', ',ow', ':OverseerQuickAction watch<cr>', opt)
 
-key('n', 'q:', ':q', opt)
 
 key('n', '<Space>fs', ':Telescope current_buffer_fuzzy_find<cr>', opt)
 key('n', '<Space>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opt)
@@ -223,7 +221,18 @@ key('t', '<F7>', '<c-\\><c-n>:FloatermToggle<cr>', opt)
 --autocmd BufEnter *.tex setlocal spell spelllang=fr
 
 -- Clears hlsearch after doing a search, otherwise just does normal <CR> stuff
-key('n', '<expr>', '<CR> {-> v:hlsearch ? ":nohl\\<CR>":"\\<CR>"}()', opt)
+-- key({ 'n' }, '<esc>', '<esc>:noh<cr>', opt)
+-- key('n', '<expr>', '<CR> {-> v:hlsearch ? ":nohl\\<CR>":"\\<CR>"}()', opt)
+vim.cmd [[
+    nnoremap n n:set cursorline<CR>
+    nnoremap N N:set cursorline<CR>
+    nnoremap * *:set cursorline<CR>
+    nnoremap # #:set cursorline<CR>
+    nnoremap g* g*:set cursorline<CR>
+    nnoremap g# g#:set cursorline<CR>
+    nnoremap <silent> <Esc> :nohlsearch<CR>:set nocursorline<CR>
+    nnoremap <silent> <expr> <CR> v:hlsearch ? ":nohl\<CR>:setlocal nocursorline\<CR>" : "\<CR>"
+]]
 
 -- grep hightlite
 key('n', '<leader>sh', '<cmd>TSHighlightCapturesUnderCursor<CR>', opt)
@@ -254,18 +263,18 @@ end, { expr = true })
 
 
 
--- key('n', '<CR>', function()
---     local qflist = false
---     for _, win in ipairs(vim.fn.getwininfo()) do
---         if win.quickfix == 1 then qflist = true end
---     end
+key('n', '<CR>', function()
+    local qflist = false
+    for _, win in ipairs(vim.fn.getwininfo()) do
+        if win.quickfix == 1 then qflist = true end
+    end
 
---     local enter = 'viw'
---     if qflist then enter = ':cclose<CR>viw' end
---     if vim.opt.hlsearch:get() then vim.cmd.nohl() end
+    local enter = 'viw'
+    if qflist then enter = ':cclose<CR>viw' end
+    if vim.opt.hlsearch:get() then vim.cmd.nohl() end
 
---     return enter
--- end, { expr = true })
+    return enter
+end, { expr = true })
 
 
 key('n', '<F4>', ':%s#\\<<c-r><c-w>\\>#<c-r><c-w>#gc<c-f>$F#i', opt)
