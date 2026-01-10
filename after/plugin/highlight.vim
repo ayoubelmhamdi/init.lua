@@ -1,4 +1,6 @@
 hi Normal guibg=#181818
+hi CursorLine guibg=#303030
+
 
 " SERACH HIGHLIGHTING
 
