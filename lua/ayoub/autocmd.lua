@@ -34,6 +34,13 @@ augroup quickfix
     autocmd FileType qf,jf setlocal wrap linebreak nobuflisted
 augroup END
 
+
+augroup SearchCursorLine
+  autocmd!
+  autocmd CmdlineEnter /,\?,: set cursorline
+  autocmd CmdlineLeave /,\?,: if !v:hlsearch | set nocursorline | endif
+augroup END
+
 ]])
 
 
