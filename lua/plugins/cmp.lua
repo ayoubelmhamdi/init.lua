@@ -10,22 +10,22 @@ return {
         --2: NOTE:
         --2  I use vim.print to get the  curl/wget url to download the binary manually, and i should use chmod +x 
         --2     wget https://supermaven-public.s3.amazonaws.com/sm-agent/v2/8/linux-musl/x86_64/sm-agent $HOME/.supermaven/binary/v20/linux-x86_64
-        {
-            "supermaven-inc/supermaven-nvim",
-            dependencies ={
-                "huijiro/blink-cmp-supermaven",
-                "hrsh7th/nvim-cmp", 
-            },
-            opts = {
-				disable_inline_completion = true, -- disables inline completion for use with cmp
-				disable_keymaps = false, -- disables built in keymaps for more manual control with blink.cmp
-                keymaps = {
-                    accept_suggestion = nil,
-                    clear_suggestion = nil,
-                    accept_word = "<C-f>",
-                }
-            },
-        },
+        --3{
+        --3    "supermaven-inc/supermaven-nvim",
+        --3    dependencies ={
+        --3        "huijiro/blink-cmp-supermaven",
+        --3        "hrsh7th/nvim-cmp", 
+        --3    },
+        --3    opts = {
+		--3		disable_inline_completion = false, -- disables inline completion for use with cmp
+		--3		disable_keymaps = false, -- disables built in keymaps for more manual control with blink.cmp
+        --3        keymaps = {
+        --3            accept_suggestion = nil,
+        --3            clear_suggestion = nil,
+        --3            accept_word = "<C-f>",
+        --3        }
+        --3    },
+        --3},
         --1 NOTE:
         --1    this plugin, doesnt work as we expected. it's cruial for me to
         --1    use `menu.auto_show = false`, so ghost_text from blink.cmp and
@@ -101,7 +101,7 @@ return {
         snippets = { preset = 'luasnip' },
         cmdline = {
             -- keymap = {},
-            enabled = true,
+        enabled = true,
             completion = {
                 menu = { auto_show = true },
                 ghost_text = { enabled = true },
@@ -112,8 +112,8 @@ return {
             preset = 'default',
             ['<C-y>'] = { 'hide' },
             ['<C-e>'] = { 'select_and_accept' },
-            -- ['<C-j>'] = { 'snippet_forward' },
-            -- ['<C-k>'] = { 'snippet_backward' },
+            ['<C-j>'] = { 'snippet_forward' },
+            ['<C-k>'] = { 'snippet_backward' },
 			['<C-n>'] = { 'select_next', 'fallback' },
 			['<C-p>'] = { 'select_prev', 'fallback' },
             ['<C-l>'] = { 'snippet_forward' },
@@ -131,7 +131,7 @@ return {
             },
             ghost_text = {
                 show_with_menu = false,
-                enabled = true
+                enabled = false -- use llm ghost because plugins is bullshit, its cant rralize one suggestion at one time.
             },
             documentation = {
                 auto_show = false,
@@ -142,9 +142,8 @@ return {
             },
         }, -- end completion
         sources = {
-            -- 'copilot', 'omni',
-            -- default = { 'lsp', 'path', 'snippets', 'buffer', 'dictionary', 'cmdline', 'codeium' },
-            default = { 'lsp','supermaven', 'path', 'snippets', 'buffer', 'dictionary', 'cmdline' },
+            -- 'copilot', 'omni', 'codeium'
+            default = { 'lsp','path', 'snippets', 'buffer', 'dictionary', 'cmdline' },
             providers = {
                 lsp = {
                     name = 'LSP',
@@ -186,11 +185,11 @@ return {
                 --     score_offset = 100,
                 --     async = true,
                 -- },
-				supermaven = {
-					name = "supermaven",
-					module = "blink-cmp-supermaven",
-					async = true,
-				},
+				-- supermaven = {
+				-- 	name = "supermaven",
+				-- 	module = "blink-cmp-supermaven",
+				-- 	async = true,
+				-- },
                 dictionary = {
                     module = 'blink-cmp-dictionary',
                     name = 'Dict',
