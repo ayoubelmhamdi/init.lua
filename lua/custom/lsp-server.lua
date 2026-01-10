@@ -89,13 +89,13 @@ lspconfig.tinymist.setup({
 local clangd_capabilities = capabilities
 clangd_capabilities.offsetEncoding = 'utf-8'
 
-lspconfig.clangd.setup({
-    handlers = handlers,
-    capabilities = clangd_capabilities,
-    on_attach = on_attach,
-    single_file_support = true,
-    filetype = { 'c', 'cpp' },
-})
+-- lspconfig.clangd.setup({
+--     handlers = handlers,
+--     capabilities = clangd_capabilities,
+--     on_attach = on_attach,
+--     single_file_support = true,
+--     filetype = { 'c', 'cpp' },
+-- })
 
 if false then
     -- lspconfig.ltex.setup { cmd = { '/home/mhamdi/.cache/ltex-ls-15.2.0/bin/ltex-ls' } }
