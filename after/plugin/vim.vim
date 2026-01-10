@@ -6,8 +6,8 @@ function! MyFoldText()
     return linetext . '⏺⏺⏺ +' . nl
 endfunction
 
-set foldtext=MyFoldText()
-set foldmethod=marker
+" set foldtext=MyFoldText()
+" set foldmethod=marker
 set foldlevel=0
 set foldcolumn=1
 
