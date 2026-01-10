@@ -137,4 +137,3 @@ telescope.setup({
 
 telescope.load_extension('fzf')
 telescope.load_extension('repo')
-telescope.load_extension('harpoon')
