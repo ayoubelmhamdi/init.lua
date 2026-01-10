@@ -39,11 +39,10 @@ M.on_attach = function(client, bufnr)
     vim.keymap.set('n', ',th', require('telescope.builtin').help_tags, bufopts)
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    -- overwrite by lspsaga
-    -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    -- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-    -- vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
     -- vim.keymap.set('n', '<space>ca', require('ayoub.code_action').MyCodeActions, bufopts)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
