@@ -1,3 +1,5 @@
+_G.conceal_langs = _G.conceal_langs or {}
+
 local M = {}
 
 
