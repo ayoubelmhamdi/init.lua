@@ -49,13 +49,20 @@ function M.setup(opts)
     end,
   })
 
-  vim.api.nvim_create_autocmd("WinEnter", {
+  vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
     group = group,
     callback = function()
       local buf = vim.api.nvim_get_current_buf()
       if conceal_active[buf] then
         vim.wo.conceallevel = 2
         vim.wo.concealcursor = "nv"
+        local ft = vim.bo.filetype
+        local n = (_G.conceal_langs or {})[ft] or 0
+        if n > 0 then
+          vim.cmd("silent! syntax clear HidePrefix")
+          local dots = string.rep(".", n)
+          vim.cmd(string.format([[syntax match HidePrefix /^%s/ conceal cchar=+]], dots))
+        end
       end
     end,
   })
@@ -77,7 +84,7 @@ function M.toggle()
   local buf = vim.api.nvim_get_current_buf()
 
   if conceal_active[buf] then
-    vim.cmd("syntax clear HidePrefix")
+    vim.cmd("silent! syntax clear HidePrefix")
     vim.wo.conceallevel = 0
     conceal_active[buf] = nil
   else
@@ -86,6 +93,7 @@ function M.toggle()
       vim.notify("No conceal width for filetype: " .. (vim.bo.filetype or "none"), vim.log.levels.WARN)
       return
     end
+    vim.cmd("silent! syntax clear HidePrefix")
     local dots = string.rep(".", n)
     vim.cmd(string.format([[syntax match HidePrefix /^%s/ conceal cchar=+]], dots))
     vim.wo.conceallevel = 2
@@ -104,13 +112,14 @@ function M.toggle_side_comments(enable)
       vim.notify("No conceal width for filetype: " .. (vim.bo.filetype or "none"), vim.log.levels.WARN)
       return
     end
+    vim.cmd("silent! syntax clear HidePrefix")
     local dots = string.rep(".", n)
     vim.cmd(string.format([[syntax match HidePrefix /^%s/ conceal cchar=+]], dots))
     vim.wo.conceallevel = 2
     vim.wo.concealcursor = "nv"
     conceal_active[buf] = true
   else
-    vim.cmd("syntax clear HidePrefix")
+    vim.cmd("silent! syntax clear HidePrefix")
     vim.wo.conceallevel = 0
     conceal_active[buf] = nil
   end
