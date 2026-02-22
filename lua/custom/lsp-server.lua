@@ -41,11 +41,16 @@ lspconfig.ruff.setup({
         settings = {
             organizeImports = false,
             fixAll = false,
-            -- Any extra CLI arguments for `ruff` go here.
-            args = { '--ignore=E501' },
+            lint = {
+                ignore = { 
+                    "E702", -- multiple-statements-on-one-line-semicolon
+                    "E501", -- line-too-long
+                    "E703", -- useless-semicolon
+                },
+            },
         },
     },
-    --
+
     commands = {
         RuffAutofix = {
             function()
@@ -70,7 +75,7 @@ lspconfig.ruff.setup({
             description = 'Ruff: Format imports',
         },
     },
-    --
+
 })
 
 lspconfig.tinymist.setup({
