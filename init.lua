@@ -1,3 +1,5 @@
+-- vim.opt.runtimepath:append('/home/mhamdi/.local/share/nvim-ayoub/lazy/pyrola.nvim')
+-- vim.g.python3_host_prog = "/tmp/new_4/venv/bin/python3"
 require('ayoub.set')
 require('ayoub.remap')
 require('ayoub.autocmd')
@@ -25,3 +27,13 @@ vim.api.nvim_create_user_command('Rg', function(opts) rg_module.main(false, opts
 vim.api.nvim_create_user_command('Rge', function(opts) rg_module.main(true, opts.args) end, { nargs = '?', desc = 'Search using Rg (ripgrep)' })
 
 vim.cmd('set exrc')
+
+
+local conceal = require("custom.side-comments")
+
+_G.conceal_langs.python = 38
+
+conceal.setup({
+  go = 12,
+  c = 16,
+})
