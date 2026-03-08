@@ -17,8 +17,10 @@ M.handlers = {
     --     update_in_insert = false,
     --     virtual_text = true,
     -- }),
-    ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' }),
-    ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' }),
+
+    ['textDocument/hover'] = function() vim.lsp.buf.hover { border = 'rounded' } end,
+    ['textDocument/signatureHelp'] = function() vim.lsp.buf.signature_help { border = 'rounded' } end
+
 }
 
 M.on_attach = function(client, bufnr)
@@ -59,8 +61,12 @@ vim.g.isLspStart = true
 M.toggleLsp = function()
     -- if server is slow the vim.cmd('LspStart/LspStop')does not work yet.
     if vim.g.isLspStart then
-        vim.lsp.stop_client(vim.lsp.get_clients())
+        local client_id = vim.lsp.get_client_by_id()
+        if client_id then
+            vim.lsp.Client:stop(true)
+        end
         vim.g.isLspStart = false
+
     else
         vim.cmd('LspStart')
         vim.g.isLspStart = true
