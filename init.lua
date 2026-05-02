@@ -29,11 +29,11 @@ vim.api.nvim_create_user_command('Rge', function(opts) rg_module.main(true, opts
 vim.cmd('set exrc')
 
 
-local conceal = require("custom.side-comments")
-
-_G.conceal_langs.python = 38
-
-conceal.setup({
-  go = 12,
-  c = 16,
-})
+--1local conceal = require("custom.side-comments")
+--1
+--1_G.conceal_langs.python = 38
+--1
+--1conceal.setup({
+--1  go = 12,
+--1  c = 16,
+--1})
