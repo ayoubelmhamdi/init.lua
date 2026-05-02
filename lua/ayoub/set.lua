@@ -31,7 +31,7 @@ vim.opt.scrolloff = 1
 
 -- opt.cursorline = true
 opt.shiftround = true
-opt.timeoutlen = 300 -- time to wait for a mapped sequence to complete (in milliseconds)
+opt.timeoutlen = 1000 -- time to wait for a mapped sequence to complete (in milliseconds)
 opt.path:append('**','src') -- search down into subfolders
 opt.breakindent = true -- visually wrap lines
 
