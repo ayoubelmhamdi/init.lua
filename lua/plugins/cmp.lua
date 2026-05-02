@@ -1,6 +1,6 @@
 return {
     'saghen/blink.cmp',
-    -- version = 'v1.*',
+    version = 'v1.*',
     -- version = '*',
     build = 'cargo build --release',
     lazy = false, -- lazy loading handled internally
