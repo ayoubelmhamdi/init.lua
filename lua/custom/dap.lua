@@ -23,6 +23,14 @@ local api = vim.api
 -- need to :TSInstall dap_repl
 repl.setup()
 dap_python.setup('python3')
+table.insert(dap.configurations.python, {
+  type = 'python',
+  request = 'launch',
+  name = 'Launch file (all code)',
+  program = '${file}',
+  console = 'integratedTerminal',
+  justMyCode = false,
+})
 -- local dap = require('dap')
 -- dap.adapters.python = {
 --   type = 'executable',
@@ -62,7 +70,7 @@ dapui.setup({
 dap.defaults.fallback.exception_breakpoints = { 'raised' }
 dap.listeners.after.event_initialized['dapui_config'] = function() dapui.open() end
 
-dap_vscode.load_launchjs()
+-- dap_vscode.load_launchjs()
 
 dap.adapters.lldb = {
     type = 'server',
