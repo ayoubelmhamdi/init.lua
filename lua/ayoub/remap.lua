@@ -193,9 +193,12 @@ key('v', '<silent>', '<A-k>:MoveBlock(-1)<CR>', opt)
 vim.cmd([[
 command! W w
 command! Q q
+command! -bang Q quit<bang>
 
 command! Qa qa
 command! QA qa
+command! -bang Qa quitall<bang>
+command! -bang QA quitall<bang>
 
 command! Wq wq
 command! WQ wq
@@ -203,6 +206,10 @@ command! WQ wq
 command! Wqa wqa
 command! WQa wqa
 command! WQA wqa
+command! Waq wqa
+command! Wqa wqa
+
+
 command! -nargs=+ Grep execute 'silent grep! <args>' | copen
 ]])
 
