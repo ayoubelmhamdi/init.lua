@@ -103,7 +103,10 @@ clangd_capabilities.offsetEncoding = { 'utf-8' }
 -- if we dont want to use hardcoed why, the root directories should be given using callback,
 -- the root is very usefull to set the "--compile-commands-dir=" .. root
 -- this usefull lo index external c files from the file compile_commands.json
+-- NOTE: nil at at startup vim.lsp.get_clients({ bufnr = 0 })[1].config.root_dir
+
 vim.api.nvim_create_autocmd("FileType", {
+    -- pattern = { "ckkk" },
     pattern = { "c", "cpp", "cc" },
     callback = function(args)
         local root = vim.fs.root(args.buf, {
@@ -128,7 +131,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
         vim.lsp.start({
             name = "clangd",
-
             cmd = {
                 "clangd",
                 "--background-index",
@@ -144,10 +146,15 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 
+
+
+
+
 -- if we want to hard codded the compile-commands-dir manually we can us this:
 -- vim.lsp.config('clangd', {
 --     cmd = {
 --         "clangd",
+--         "--background-index",
 --         "--compile-commands-dir=/data/projects/c/raylib-projects/foo"
 --     },
 --     handlers = handlers,
@@ -157,6 +164,11 @@ vim.api.nvim_create_autocmd("FileType", {
 --     filetype = { 'c', 'cpp', 'cc' },
 -- })
 -- vim.lsp.enable('clangd')
+
+
+
+
+
 
 if false then
     -- lspconfig.ltex.setup { cmd = { '/home/mhamdi/.cache/ltex-ls-15.2.0/bin/ltex-ls' } }
