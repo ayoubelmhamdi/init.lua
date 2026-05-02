@@ -4,18 +4,19 @@ local on_attach = require('ayoub.lsp-options').on_attach
 local handlers = require('ayoub.lsp-options').handlers
 local capabilities = require('ayoub.lsp-options').capabilities
 
--- lspconfig.grammarly.setup {
+-- vim.lsp.config('grammarly, {
 --   handlers = handlers,
 --   on_attach = on_attach,
 --   capabilities = capabilities,
 --   init_options = { clientId = 'client_BaDkMgx4X19X9UxxYRCXZo' },
--- }
+-- })
 
-lspconfig.pyright.setup({
+vim.lsp.config('pyright', {
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
 })
+vim.lsp.enable('pyright')
 
 -- lspconfig.pylyzer.setup {
 --   handlers = handlers,
@@ -30,7 +31,8 @@ lspconfig.pyright.setup({
 --     editor_version = 'vim',
 --   },
 -- }
-lspconfig.ruff.setup({
+
+vim.lsp.config('ruff', {
     handlers = handlers,
     capabilities = capabilities,
     on_attach = function(client, bufnr)
@@ -78,7 +80,9 @@ lspconfig.ruff.setup({
 
 })
 
-lspconfig.tinymist.setup({
+vim.lsp.enable('ruff')
+
+vim.lsp.config('tinymist', {
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
@@ -89,25 +93,77 @@ lspconfig.tinymist.setup({
     --     -- serverPath = '', -- Normally, there is no need to uncomment it.
     -- },
 })
+vim.lsp.enable('tinymist')
 
--- -- clangd server setup
-local clangd_capabilities = capabilities
-clangd_capabilities.offsetEncoding = 'utf-8'
 
--- lspconfig.clangd.setup({
+-- clangd server setup to use it with external c library like raylib put in another root directory.
+local clangd_capabilities = vim.deepcopy(capabilities or {})
+clangd_capabilities.offsetEncoding = { 'utf-8' }
+
+-- if we dont want to use hardcoed why, the root directories should be given using callback,
+-- the root is very usefull to set the "--compile-commands-dir=" .. root
+-- this usefull lo index external c files from the file compile_commands.json
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "c", "cpp", "cc" },
+    callback = function(args)
+        local root = vim.fs.root(args.buf, {
+            "compile_commands.json",
+            "compile_flags.txt",
+            ".clangd",
+            ".git",
+        })
+
+        if not root then
+            root = vim.fn.getcwd()
+        end
+
+        local clients = vim.lsp.get_clients({
+            name = "clangd",
+            bufnr = args.buf,
+        })
+
+        if #clients > 0 then
+            return
+        end
+
+        vim.lsp.start({
+            name = "clangd",
+
+            cmd = {
+                "clangd",
+                "--background-index",
+                "--compile-commands-dir=" .. root,
+            },
+
+            root_dir = root,
+            handlers = handlers,
+            capabilities = clangd_capabilities,
+            on_attach = on_attach,
+        })
+    end,
+})
+
+
+-- if we want to hard codded the compile-commands-dir manually we can us this:
+-- vim.lsp.config('clangd', {
+--     cmd = {
+--         "clangd",
+--         "--compile-commands-dir=/data/projects/c/raylib-projects/foo"
+--     },
 --     handlers = handlers,
 --     capabilities = clangd_capabilities,
 --     on_attach = on_attach,
 --     single_file_support = true,
---     filetype = { 'c', 'cpp' },
+--     filetype = { 'c', 'cpp', 'cc' },
 -- })
+-- vim.lsp.enable('clangd')
 
 if false then
     -- lspconfig.ltex.setup { cmd = { '/home/mhamdi/.cache/ltex-ls-15.2.0/bin/ltex-ls' } }
     -- ltex: open source Grammar
     -- s.getenv("HOME")
     local lang = os.getenv('PROJECT_LANG') or 'en'
-    lspconfig.ltex.setup({
+    vim.lsp.config('ltex', {
         handlers = handlers,
         capabilities = capabilities,
         filetypes = { 'text', 'plaintex', 'tex', 'bib', 'markdown', 'typst' },
@@ -171,7 +227,7 @@ if false then
     })
 end
 
--- lspconfig.lua_ls.setup({
+-- vim.lsp.config('lua_ls', {
 --     handlers = handlers,
 --     capabilities = capabilities,
 --     on_attach = on_attach,
@@ -193,19 +249,23 @@ end
 --         },
 --     },
 -- })
+-- vim.lsp.enable('lua_ls')
 
-lspconfig.ts_ls.setup({
+vim.lsp.config('ts_ls', {
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
 })
 
-lspconfig.bashls.setup({
+vim.lsp.enable('ts_ls')
+
+vim.lsp.config('bashls', {
     handlers = handlers,
     capabilities = capabilities,
     on_attach = on_attach,
 })
 
+vim.lsp.enable('bashls')
 
 --------------------------------------------------------------------------------------------
 
