@@ -41,6 +41,12 @@ augroup SearchCursorLine
   autocmd CmdlineLeave /,\?,: if !v:hlsearch | set nocursorline | endif
 augroup END
 
+
+augroup geant4_mac
+  autocmd!
+  autocmd BufRead,BufNewFile *.mac setfiletype bash
+augroup END
+
 ]])
 
 
