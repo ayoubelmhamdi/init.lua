@@ -4,8 +4,13 @@ local key = vim.keymap.set
 local opt = { noremap = true, silent = true }
 local control = require('ayoub.control')
 
-key("i", "<C-E>", "<C-Y>", opt)
-key("i", "<C-Y>", "<C-E>", opt)
+-- new keymap for test
+key({"n", "v"}, "<M-w>", "wh", opt)
+-- key("n", "<M-w>", "wh", opt)
+
+-- TODO: command mode need's this aliases too to be like emacs terminal mode.
+key({"i"}, "<C-E>", "<C-Y>", opt)
+key({"i"}, "<C-Y>", "<C-E>", opt)
 
 key("n", ">", ">>", opt)
 key("n", "<", "<<", opt)
