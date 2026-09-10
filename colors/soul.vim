@@ -3,48 +3,47 @@
 set background=dark
 highlight clear
 
-if exists("syntax_on")
+if exists('syntax_on')
   syntax reset
 endif
 
-let g:colors_name = "soul"
+let g:colors_name = 'soul'
+
 
 " ============================================================
 " Palette
 " ============================================================
 
-let s:bg       = '#101010'
-let s:bg2      = '#181818'
-let s:bg3      = '#242424'
+let s:bg0    = '#101010'
+let s:bg1    = '#181818'
+let s:bg2    = '#282828'
+let s:bg3    = '#453d41'
 
-let s:fg       = '#d8d8d8'
-let s:muted    = '#707070'
+let s:fg     = '#e4e4e4'
+let s:white  = '#ffffff'
 
-let s:red      = '#ff0101'
-let s:orange   = '#ff8700'
-let s:yellow   = '#ffd75f'
-let s:green    = '#5fd75f'
-let s:cyan     = '#5fd7d7'
-let s:blue     = '#5f87ff'
-let s:purple   = '#af5fff'
-let s:pink     = '#ff5faf'
+let s:red    = '#f43841'
+let s:green  = '#73d936'
+let s:yellow = '#ffdd33'
+let s:brown  = '#cc8c3c'
 
-" ============================================================
-" Helper
-" ============================================================
+let s:blue   = '#96a6c8'
+let s:purple = '#9e95c7'
+let s:muted  = '#565f73'
+
 
 function! s:hi(group, fg, bg, attr)
   let l:cmd = 'highlight ' . a:group
 
-  if a:fg !=# ''
+  if !empty(a:fg)
     let l:cmd .= ' guifg=' . a:fg
   endif
 
-  if a:bg !=# ''
+  if !empty(a:bg)
     let l:cmd .= ' guibg=' . a:bg
   endif
 
-  if a:attr !=# ''
+  if !empty(a:attr)
     let l:cmd .= ' gui=' . a:attr
   else
     let l:cmd .= ' gui=NONE'
@@ -53,131 +52,105 @@ function! s:hi(group, fg, bg, attr)
   execute l:cmd
 endfunction
 
-" ============================================================
-" Neovim UI
-" ============================================================
-
-call s:hi('Normal',       s:fg,    s:bg,  '')
-call s:hi('NormalFloat',  s:fg,    s:bg2, '')
-call s:hi('FloatBorder',  s:muted, s:bg2, '')
-
-call s:hi('CursorLine',   '',      s:bg2, '')
-call s:hi('CursorColumn', '',      s:bg2, '')
-call s:hi('ColorColumn',  '',      s:bg2, '')
-
-call s:hi('LineNr',       s:muted, s:bg,  '')
-call s:hi('CursorLineNr', s:yellow,s:bg,  'bold')
-
-call s:hi('Visual',       '',      s:bg3, '')
-call s:hi('Search',       s:bg,    s:yellow, 'bold')
-call s:hi('IncSearch',    s:bg,    s:orange, 'bold')
-
-call s:hi('StatusLine',   s:fg,    s:bg3, 'bold')
-call s:hi('StatusLineNC', s:muted, s:bg2, '')
-
-call s:hi('WinSeparator', s:bg3,   s:bg, '')
-call s:hi('VertSplit',    s:bg3,   s:bg, '')
-
-call s:hi('Pmenu',        s:fg,    s:bg2, '')
-call s:hi('PmenuSel',     s:bg,    s:blue, 'bold')
-
-call s:hi('MatchParen',   s:yellow,s:bg3, 'bold')
-call s:hi('NonText',      s:muted, s:bg, '')
-call s:hi('Whitespace',   s:bg3,   s:bg, '')
-
-call s:hi('ErrorMsg',     s:red,   s:bg, 'bold')
-call s:hi('WarningMsg',   s:yellow,s:bg, 'bold')
 
 " ============================================================
-" Traditional Vim syntax groups
-" Useful as fallback when Tree-sitter isn't active.
+" Editor UI
 " ============================================================
 
-call s:hi('Comment',      s:muted,  '', 'italic')
+call s:hi('Normal',        s:fg,     s:bg1, '')
+call s:hi('NormalNC',      s:fg,     s:bg1, '')
+call s:hi('NormalFloat',   s:fg,     s:bg2, '')
+call s:hi('FloatBorder',   s:muted,  '',    '')
+
+call s:hi('ColorColumn',   '',       s:bg3, '')
+call s:hi('CursorLine',    '',       s:bg2, '')
+call s:hi('CursorColumn',  '',       s:bg3, '')
+
+call s:hi('LineNr',        s:muted,  '',    '')
+call s:hi('CursorLineNr',  s:yellow, '',    'bold')
+
+call s:hi('StatusLine',    s:white,  s:bg2, '')
+call s:hi('StatusLineNC',  s:muted,  s:bg2, '')
+
+call s:hi('WinSeparator',  s:bg3,    '',    '')
+call s:hi('Visual',        '',       s:bg3, '')
+
+call s:hi('Pmenu',         s:fg,     s:bg2, '')
+call s:hi('PmenuSel',      s:white,  s:bg3, '')
+
+call s:hi('Search',        s:bg1,    s:yellow, '')
+call s:hi('IncSearch',     s:bg1,    s:white,  '')
+
+call s:hi('MatchParen',    s:white,  s:purple, 'bold')
+
+call s:hi('DiffAdd',       s:green,  '', '')
+call s:hi('DiffChange',    s:yellow, '', '')
+call s:hi('DiffDelete',    s:red,    '', '')
+
+call s:hi('DiagnosticError', s:red,    '', '')
+call s:hi('DiagnosticWarn',  s:yellow, '', '')
+call s:hi('DiagnosticInfo',  s:blue,   '', '')
+call s:hi('DiagnosticHint',  s:purple, '', '')
+
+
+" ============================================================
+" Classic Vim syntax
+" ============================================================
+
+call s:hi('Comment',      s:brown,  '', 'italic')
 call s:hi('String',       s:green,  '', '')
 call s:hi('Character',    s:green,  '', '')
-call s:hi('Number',       s:orange, '', '')
-call s:hi('Boolean',      s:orange, '', '')
-call s:hi('Float',        s:orange, '', '')
+call s:hi('Number',       s:purple, '', '')
+call s:hi('Boolean',      s:yellow, '', 'bold')
 
 call s:hi('Identifier',   s:fg,     '', '')
 call s:hi('Function',     s:blue,   '', '')
 
-call s:hi('Statement',    s:red,    '', '')
-call s:hi('Conditional',  s:red,    '', '')
-call s:hi('Repeat',       s:red,    '', '')
-call s:hi('Keyword',      s:red,    '', '')
-call s:hi('Exception',    s:red,    '', '')
+call s:hi('Statement',    s:yellow, '', '')
+call s:hi('Keyword',      s:yellow, '', 'bold')
+call s:hi('Conditional',  s:yellow, '', 'bold')
+call s:hi('Repeat',       s:yellow, '', 'bold')
 
-call s:hi('Type',         s:cyan,   '', '')
-call s:hi('Structure',    s:cyan,   '', '')
-call s:hi('Typedef',      s:cyan,   '', '')
+call s:hi('Type',         s:purple, '', '')
+call s:hi('Operator',     s:fg,     '', '')
+call s:hi('Delimiter',    s:fg,     '', '')
 
-call s:hi('Constant',     s:orange, '', '')
-call s:hi('Operator',     s:pink,   '', '')
-call s:hi('Special',      s:purple, '', '')
-call s:hi('Delimiter',    s:muted,  '', '')
 
 " ============================================================
 " Tree-sitter
 " ============================================================
 
-call s:hi('@comment',                 s:muted,  '', 'italic')
+highlight! link @comment Comment
 
-call s:hi('@string',                  s:green,  '', '')
-call s:hi('@string.escape',           s:yellow, '', '')
-call s:hi('@character',               s:green,  '', '')
+highlight! link @string String
+highlight! link @character Character
 
-call s:hi('@number',                  s:orange, '', '')
-call s:hi('@number.float',            s:orange, '', '')
-call s:hi('@boolean',                 s:orange, '', '')
+highlight! link @number Number
+highlight! link @float Number
+highlight! link @boolean Boolean
 
-call s:hi('@keyword',                 s:red,    '', '')
-call s:hi('@keyword.function',        s:red,    '', '')
-call s:hi('@keyword.return',          s:red,    '', '')
-call s:hi('@keyword.conditional',     s:red,    '', '')
-call s:hi('@keyword.repeat',          s:red,    '', '')
-call s:hi('@keyword.import',          s:purple, '', '')
-call s:hi('@keyword.exception',       s:red,    '', '')
+highlight! link @function Function
+highlight! link @function.call Function
+highlight! link @method Function
+highlight! link @constructor Function
 
-call s:hi('@function',                s:blue,   '', '')
-call s:hi('@function.call',           s:blue,   '', '')
-call s:hi('@function.method',         s:blue,   '', '')
-call s:hi('@function.method.call',    s:blue,   '', '')
-call s:hi('@function.builtin',        s:cyan,   '', '')
+highlight! link @variable Identifier
+highlight! link @parameter Identifier
 
-call s:hi('@variable',                s:fg,     '', '')
-call s:hi('@variable.builtin',        s:purple, '', '')
-call s:hi('@variable.parameter',      s:yellow, '', '')
+highlight! link @keyword Keyword
+highlight! link @conditional Conditional
+highlight! link @repeat Repeat
 
-call s:hi('@property',                s:cyan,   '', '')
-call s:hi('@field',                   s:cyan,   '', '')
+highlight! link @type Type
+highlight! link @operator Operator
+highlight! link @punctuation.delimiter Delimiter
 
-call s:hi('@type',                    s:cyan,   '', '')
-call s:hi('@type.builtin',            s:cyan,   '', 'bold')
+call s:hi('@function.builtin',  s:yellow, '', '')
+call s:hi('@variable.builtin',  s:yellow, '', '')
+call s:hi('@type.builtin',      s:yellow, '', '')
+call s:hi('@constant.builtin',  s:yellow, '', '')
 
-call s:hi('@constant',                s:orange, '', '')
-call s:hi('@constant.builtin',        s:orange, '', 'bold')
-
-call s:hi('@operator',                s:pink,   '', '')
-call s:hi('@punctuation.delimiter',   s:muted,  '', '')
-call s:hi('@punctuation.bracket',     s:muted,  '', '')
-call s:hi('@punctuation.special',     s:purple, '', '')
-
-call s:hi('@constructor',             s:yellow, '', '')
-call s:hi('@attribute',               s:purple, '', '')
-call s:hi('@label',                   s:yellow, '', '')
-
-" ============================================================
-" Diagnostics
-" ============================================================
-
-call s:hi('DiagnosticError', s:red,    '', '')
-call s:hi('DiagnosticWarn',  s:yellow, '', '')
-call s:hi('DiagnosticInfo',  s:blue,   '', '')
-call s:hi('DiagnosticHint',  s:cyan,   '', '')
-
-highlight! link DiagnosticUnderlineError DiagnosticError
-highlight! link DiagnosticUnderlineWarn  DiagnosticWarn
-highlight! link DiagnosticUnderlineInfo  DiagnosticInfo
-highlight! link DiagnosticUnderlineHint  DiagnosticHint
+call s:hi('@field',             s:blue,   '', '')
+call s:hi('@property',          s:muted,  '', '')
+call s:hi('@punctuation.bracket', s:purple, '', '')
+call s:hi('@punctuation.special', s:brown,  '', '')
