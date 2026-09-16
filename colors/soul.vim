@@ -98,23 +98,25 @@ call s:hi('DiagnosticHint',  s:purple, '', '')
 " ============================================================
 
 call s:hi('Comment',      s:brown,  '', 'italic')
-call s:hi('String',       s:green,  '', '')
-call s:hi('Character',    s:green,  '', '')
-call s:hi('Number',       s:purple, '', '')
+call s:hi('String',       s:green,  '', 'bold')
+call s:hi('Character',    s:green,  '', 'bold')
+call s:hi('Number',       s:purple, '', 'bold')
 call s:hi('Boolean',      s:yellow, '', 'bold')
 
-call s:hi('Identifier',   s:fg,     '', '')
-call s:hi('Function',     s:blue,   '', '')
+call s:hi('Identifier',   s:purple, '', 'bold')
+call s:hi('Function',     s:yellow, '', 'bold')
 
-call s:hi('Statement',    s:yellow, '', '')
+call s:hi('Statement',    s:yellow, '', 'bold')
 call s:hi('Keyword',      s:yellow, '', 'bold')
 call s:hi('Conditional',  s:yellow, '', 'bold')
 call s:hi('Repeat',       s:yellow, '', 'bold')
 
-call s:hi('Type',         s:purple, '', '')
-call s:hi('Operator',     s:fg,     '', '')
-call s:hi('Delimiter',    s:fg,     '', '')
+call s:hi('Type',         s:purple, '', 'bold')
+call s:hi('Operator',     s:fg,     '', 'bold')
+call s:hi('Delimiter',    s:fg,     '', 'bold')
 
+""" testing ...
+call s:hi('PreProc', s:yellow, '', 'bold')
 
 " ============================================================
 " Tree-sitter
@@ -144,6 +146,9 @@ highlight! link @repeat Repeat
 highlight! link @type Type
 highlight! link @operator Operator
 highlight! link @punctuation.delimiter Delimiter
+
+highlight! link @include PreProc
+highlight! link @keyword.import PreProc
 
 call s:hi('@function.builtin',  s:yellow, '', '')
 call s:hi('@variable.builtin',  s:yellow, '', '')
