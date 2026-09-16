@@ -8,7 +8,7 @@ local gruber = REQ('gruber-darker')
 if
     not (
         indents -- always load indentscope
-        and gruber
+        -- and gruber
         -- and gruvbox
         -- and github
     )
@@ -74,27 +74,27 @@ indents.setup({
 --     },
 -- })
 
-gruber.setup({
-    bold = true,
-    invert = {
-        signs = false,
-        tabline = false,
-        visual = false,
-    },
-    italic = {
-        strings = false,
-        comments = false,
-        operators = false,
-        folds = false,
-    },
-    undercurl = true,
-    underline = true,
-})
+-- gruber.setup({
+--     bold = true,
+--     invert = {
+--         signs = false,
+--         tabline = false,
+--         visual = false,
+--     },
+--     italic = {
+--         strings = false,
+--         comments = false,
+--         operators = false,
+--         folds = false,
+--     },
+--     undercurl = true,
+--     underline = true,
+-- })
 
-vim.cmd.colorscheme('gruber-darker')
--- vim.cmd.colorscheme 'edge'
--- vim.cmd.colorscheme 'github_light'
+-- vim.cmd.colorscheme('gruber-darker')
+-- -- vim.cmd.colorscheme 'edge'
+-- -- vim.cmd.colorscheme 'github_light'
 
-if vim.fn.filereadable('/tmp/day') == 1 then
-    vim.cmd.colorscheme('gruber-darker')
-end
+-- if vim.fn.filereadable('/tmp/day') == 1 then
+--     vim.cmd.colorscheme('gruber-darker')
+-- end
