@@ -78,7 +78,10 @@ key({ 'n', 'v' }, ',tp', '<cmd>lua  require("ayoub.te_prompt_picker").preview_fi
 key('v', 'J', ":m '>+1<CR>gv=gv", opt)
 key('v', 'K', ":m '<-2<CR>gv=gv", opt)
 
-key('n', 'J', 'mzJ`z', opt)
+-- key('n', 'J', 'mzJ`z', opt)
+key("n", "J", function()
+    vim.cmd("normal! mz" .. vim.v.count1 .. "J`z")
+end)
 -- key({ 'n', 'v' }, '<C-d>', '<C-d>zz', opt)
 -- key({ 'n', 'v' }, '<C-u>', '<C-u>zz', opt)
 -- key({ 'n', 'v' }, 'n', 'nzzzv', opt)
