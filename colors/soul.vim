@@ -100,10 +100,10 @@ call s:hi('DiagnosticHint',  s:purple, '', '')
 call s:hi('Comment',      s:brown,  '', '')
 call s:hi('String',       s:green,  '', '')
 call s:hi('Character',    s:green,  '', 'bold')
-call s:hi('Number',       s:purple, '', 'bold')
+call s:hi('Number',       s:fg,     '', 'bold')
 call s:hi('Boolean',      s:yellow, '', 'bold')
 
-call s:hi('Identifier',   s:purple, '', 'bold')
+call s:hi('Identifier',   s:fg,     '', 'bold')
 call s:hi('Function',     s:blue, '',   'bold')
 
 call s:hi('Statement',    s:yellow, '', 'bold')
