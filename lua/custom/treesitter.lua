@@ -3,6 +3,8 @@ local REQ = require('ayoub.mini_functions').REQ
 local config = REQ('nvim-treesitter')
 if not (config) then return end
 
+pcall(vim.treesitter.start)
+
 config.setup({
     ensure_installed = { 'markdown', 'markdown_inline', 'javascript', 'typescript', 'c', 'python', 'lua', 'rust', 'bash', 'cpp', 'dart', 'gitcommit', 'html', 'json', 'latex', 'query', 'vimdoc', 'xml', 'yaml' },
 

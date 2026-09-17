@@ -13,6 +13,5 @@ return {
     --
     config = function()
         require('custom.treesitter')
-        vim.treesitter.start()
     end,
 }
