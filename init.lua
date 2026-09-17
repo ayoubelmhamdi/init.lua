@@ -37,3 +37,5 @@ vim.cmd('set exrc')
 --1  go = 12,
 --1  c = 16,
 --1})
+
+vim.cmd[[colorscheme soul]]
